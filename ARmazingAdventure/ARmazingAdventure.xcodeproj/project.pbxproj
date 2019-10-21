@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4EAEE61F235E3A170041EBDF /* art.scnassets in Resources */ = {isa = PBXBuildFile; fileRef = 4EAEE61E235E3A170041EBDF /* art.scnassets */; };
 		DB6B716E235D1F94003276B2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB6B716D235D1F94003276B2 /* AppDelegate.swift */; };
 		DB6B7170235D1F94003276B2 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB6B716F235D1F94003276B2 /* ViewController.swift */; };
 		DB6B7172235D1F94003276B2 /* Experience.rcproject in Sources */ = {isa = PBXBuildFile; fileRef = DB6B7171235D1F94003276B2 /* Experience.rcproject */; };
@@ -35,6 +36,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		4EAEE61E235E3A170041EBDF /* art.scnassets */ = {isa = PBXFileReference; lastKnownFileType = wrapper.scnassets; path = art.scnassets; sourceTree = "<group>"; };
 		DB6B716A235D1F94003276B2 /* ARmazingAdventure.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ARmazingAdventure.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DB6B716D235D1F94003276B2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		DB6B716F235D1F94003276B2 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -79,6 +81,7 @@
 		DB6B7161235D1F94003276B2 = {
 			isa = PBXGroup;
 			children = (
+				4EAEE61E235E3A170041EBDF /* art.scnassets */,
 				DB6B716C235D1F94003276B2 /* ARmazingAdventure */,
 				DB6B7183235D1F96003276B2 /* ARmazingAdventureTests */,
 				DB6B718E235D1F96003276B2 /* ARmazingAdventureUITests */,
@@ -233,6 +236,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				DB6B717A235D1F96003276B2 /* LaunchScreen.storyboard in Resources */,
+				4EAEE61F235E3A170041EBDF /* art.scnassets in Resources */,
 				DB6B7177235D1F96003276B2 /* Assets.xcassets in Resources */,
 				DB6B7175235D1F94003276B2 /* Main.storyboard in Resources */,
 			);
@@ -435,13 +439,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = SV27XKG48Y;
+				DEVELOPMENT_TEAM = GZ35BADVLU;
 				INFOPLIST_FILE = ARmazingAdventure/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.exampleGame.ARmazingAdventure;
+				PRODUCT_BUNDLE_IDENTIFIER = com.shuji.chen.ARmazingAdventure;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -453,13 +457,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = SV27XKG48Y;
+				DEVELOPMENT_TEAM = GZ35BADVLU;
 				INFOPLIST_FILE = ARmazingAdventure/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.exampleGame.ARmazingAdventure;
+				PRODUCT_BUNDLE_IDENTIFIER = com.shuji.chen.ARmazingAdventure;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
