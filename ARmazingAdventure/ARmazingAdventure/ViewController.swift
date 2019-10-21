@@ -44,7 +44,7 @@ class ViewController: UIViewController {
     func setUpBox(size: Size, position: Position)
     {
         let box = SCNBox(width: CGFloat(size.width), height: CGFloat(size.height), length: CGFloat(size.length), chamferRadius: 0)
-        let colours = [UIColor.purple, .blue, .red, .black, .orange, .yellow]
+        let colours = [UIColor.black, .black, .black, .black, .gray, .black]
         
         box.materials = colours.map({ (colour) -> SCNMaterial in let material = SCNMaterial()
                     material.diffuse.contents = colour
@@ -74,15 +74,48 @@ class ViewController: UIViewController {
         //init position
         var location = Position(xCoord: x, yCoord: y, zCoord: z, cRad: c)
         
-        for i in 1...10
+        
+        let mazeMap = [
+                        [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,1],
+                        [1,0,0,0,0,0,1,1,0,0,0,1,0,0,1,3,0,1,0,1],
+                        [1,0,1,1,1,0,6,1,0,1,0,0,0,1,1,1,0,1,0,1],
+                        [1,0,0,0,1,1,1,1,0,1,1,0,1,1,0,1,0,1,0,1],
+                        [1,0,1,0,0,0,0,0,0,1,0,0,0,0,0,1,0,1,0,1],
+                        [1,0,1,1,1,1,0,1,0,1,1,0,1,1,1,1,0,1,0,1],
+                        [1,0,0,0,0,1,0,1,0,1,0,0,0,0,0,0,0,1,0,1],
+                        [1,0,1,1,0,1,0,1,0,1,1,0,1,1,0,1,1,1,0,1],
+                        [1,3,1,0,0,1,0,1,0,0,0,0,0,1,0,0,0,1,0,1],
+                        [1,1,1,0,1,1,1,1,1,1,1,1,1,1,0,1,0,1,0,1],
+                        [1,0,1,0,1,0,0,1,0,1,0,0,0,1,0,1,0,1,0,1],
+                        [1,0,0,0,0,0,1,1,0,0,0,1,1,1,0,1,0,0,0,1],
+                        [1,0,1,1,1,0,1,0,0,1,0,0,0,1,3,1,1,1,0,1],
+                        [1,0,0,0,1,1,1,1,0,1,1,1,0,1,1,1,0,0,0,1],
+                        [1,0,1,0,0,0,0,0,0,1,0,0,0,0,0,1,0,1,0,1],
+                        [1,0,1,1,1,1,0,1,0,1,0,1,1,1,1,1,0,1,1,1],
+                        [1,0,0,0,0,1,0,1,0,1,0,1,0,1,0,0,0,1,3,1],
+                        [1,0,1,1,0,1,0,1,0,0,0,0,0,1,0,1,1,1,0,1],
+                        [1,0,1,3,0,1,0,1,0,1,0,1,0,0,0,0,0,0,0,1],
+                        [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]]
+        
+        let NUMROW = 20
+        let NUMCOL = 20
+        
+        for i in 0...NUMROW-1
         {
-            location = Position(xCoord: x, yCoord: y, zCoord: z, cRad: c)
-            setUpBox(size: dimensions, position: location)
-            
-            x += 0.01
-            
-            print(location.xCoord)
-            
+            for j in 0...NUMCOL-1
+            {
+                let row = mazeMap[i]
+                let flag = row[j]
+                
+                if flag == 1
+                {
+                    location = Position(xCoord: x, yCoord: y, zCoord: z, cRad: c)
+                    setUpBox(size: dimensions, position: location)
+                }
+                x += 0.01
+            }
+            x -= 0.2
+            z += 0.01
         }
     }
     
