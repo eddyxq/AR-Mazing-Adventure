@@ -1,71 +1,72 @@
-//
-//  ViewController.swift
-//  ARmazingAdventure
-//
-//  Created by Muhammad Saadan on 2019-10-20.
-//  Copyright © 2019 Muhammad Saadan. All rights reserved.
-//
-
 import UIKit
 import RealityKit
 import ARKit
 import SceneKit
 
-class ViewController: UIViewController {
-    
+class ViewController: UIViewController
+{
     @IBOutlet var arView: ARView!
-    
     @IBOutlet var ARCanvas: ARSCNView!
-    override func viewDidLoad() {
+    
+    //runs once each time view is loaded
+    override func viewDidLoad()
+    {
         super.viewDidLoad()
+        
+        //create maze
+        setUpMaze()
         
         // Load the "Box" scene from the "Experience" Reality File
         //let boxAnchor = try! Experience.loadBox()
         
         // Add the box anchor to the scene
         //arView.scene.anchors.append(boxAnchor)
-        
-        setUpMaze()
-        
     }
     
-    override func viewWillAppear(_ animated: Bool) {
+    override func viewWillAppear(_ animated: Bool)
+    {
         super.viewWillAppear(animated)
         let config = ARWorldTrackingConfiguration()
         ARCanvas.session.run(config)
     }
-    override func viewWillDisappear(_ animated: Bool) {
+    
+    override func viewWillDisappear(_ animated: Bool)
+    {
         super.viewWillDisappear(animated)
         ARCanvas.session.pause()
     }
     
-   
-    
+    //creates a box
     func setUpBox(size: Size, position: Position)
     {
         let box = SCNBox(width: CGFloat(size.width), height: CGFloat(size.height), length: CGFloat(size.length), chamferRadius: 0)
-        let colours = [UIColor.black, .black, .black, .black, .gray, .black]
         
-        box.materials = colours.map({ (colour) -> SCNMaterial in let material = SCNMaterial()
-                    material.diffuse.contents = colour
-            return material})
+        //wall textures
+        let imageMaterial1 = SCNMaterial()
+        let wallImage1 = UIImage(named: "wall")
+        imageMaterial1.diffuse.contents = wallImage1
         
+        let imageMaterial2 = SCNMaterial()
+        let wallImage2 = UIImage(named: "darkWall")
+        imageMaterial2.diffuse.contents = wallImage2
+        //apply skins
+        box.materials = [imageMaterial2, imageMaterial2, imageMaterial2, imageMaterial2, imageMaterial1, imageMaterial2]
+        //add box to scene
         let boxNode = SCNNode(geometry: box)
         boxNode.position = SCNVector3(CGFloat(position.xCoord), CGFloat(position.yCoord), CGFloat(position.zCoord))
         ARCanvas.scene.rootNode.addChildNode(boxNode)
-        //-0.1, -0.15, -0.03
     }
     
+    //create a maze
     func setUpMaze()
     {
         //dimensions of a box
         let WIDTH = 0.01
-        let HEIGHT = 0.01
+        let HEIGHT = 0.02
         let LENGTH = 0.01
         //init dimensions
         let dimensions = Size(width: WIDTH, height: HEIGHT, length: LENGTH)
             
-        
         //position of first box
         var x = -0.1
         var y = -0.15
@@ -74,7 +75,7 @@ class ViewController: UIViewController {
         //init position
         var location = Position(xCoord: x, yCoord: y, zCoord: z, cRad: c)
         
-        
+        //hard coded maze
         let mazeMap = [
                         [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,1],
                         [1,0,0,0,0,0,1,1,0,0,0,1,0,0,1,3,0,1,0,1],
@@ -97,6 +98,7 @@ class ViewController: UIViewController {
                         [1,0,1,3,0,1,0,1,0,1,0,1,0,0,0,0,0,0,0,1],
                         [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]]
         
+        //maze size 20x20
         let NUMROW = 20
         let NUMCOL = 20
         
@@ -119,12 +121,14 @@ class ViewController: UIViewController {
         }
     }
     
+    //size of each box
     struct Size{
         var width = 0.0
         var height = 0.0
         var length = 0.0
     }
     
+    //position of each box
     struct Position{
         var xCoord = 0.0
         var yCoord = 0.0
