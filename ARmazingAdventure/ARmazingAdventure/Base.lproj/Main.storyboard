@@ -1,22 +1,62 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15400" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
-    <device id="retina6_1" orientation="portrait" appearance="light"/>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15504" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="piv-Am-WE7">
+    <device id="retina6_5" orientation="landscape" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15404"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15508"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
+        <!--View Controller-->
+        <scene sceneID="IdV-52-uNv">
+            <objects>
+                <viewController id="piv-Am-WE7" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="1wm-eR-ElM">
+                        <rect key="frame" x="0.0" y="0.0" width="896" height="414"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <arscnView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Nib-Mu-Aij">
+                                <rect key="frame" x="44" y="0.0" width="808" height="393"/>
+                            </arscnView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Fqf-cE-d3q" userLabel="UIView">
+                                <rect key="frame" x="144" y="25" width="608" height="343"/>
+                                <subviews>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="title" translatesAutoresizingMaskIntoConstraints="NO" id="4Oc-Wk-JeY">
+                                        <rect key="frame" x="119" y="32" width="371" height="120"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    </imageView>
+                                </subviews>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="kfW-it-NIk" firstAttribute="bottom" secondItem="Fqf-cE-d3q" secondAttribute="bottom" constant="25" id="5cq-5E-w1N"/>
+                            <constraint firstItem="Nib-Mu-Aij" firstAttribute="leading" secondItem="kfW-it-NIk" secondAttribute="leading" id="JTi-I6-Q2q"/>
+                            <constraint firstItem="Fqf-cE-d3q" firstAttribute="leading" secondItem="kfW-it-NIk" secondAttribute="leading" constant="100" id="LF7-0U-xcN"/>
+                            <constraint firstItem="kfW-it-NIk" firstAttribute="trailing" secondItem="Fqf-cE-d3q" secondAttribute="trailing" constant="100" id="P7x-jo-JNE"/>
+                            <constraint firstItem="Nib-Mu-Aij" firstAttribute="top" secondItem="kfW-it-NIk" secondAttribute="top" id="aBe-be-vmW"/>
+                            <constraint firstItem="kfW-it-NIk" firstAttribute="trailing" secondItem="Nib-Mu-Aij" secondAttribute="trailing" id="g0w-TL-5h8"/>
+                            <constraint firstItem="kfW-it-NIk" firstAttribute="bottom" secondItem="Nib-Mu-Aij" secondAttribute="bottom" id="hTF-ge-988"/>
+                            <constraint firstItem="Fqf-cE-d3q" firstAttribute="top" secondItem="kfW-it-NIk" secondAttribute="top" constant="25" id="zWm-U7-fln"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="kfW-it-NIk"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Zuh-2l-Ch5" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-778.125" y="131.8840579710145"/>
+        </scene>
         <!--ARView-->
         <scene sceneID="tne-QT-ifu">
             <objects>
                 <viewController id="BYZ-38-t0r" userLabel="ARView" customClass="ViewController" customModule="ARmazingAdventure" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Y6D-8r-5nc">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="896" height="414"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <arscnView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qRL-3N-FWy">
-                                <rect key="frame" x="0.0" y="44" width="414" height="818"/>
+                                <rect key="frame" x="44" y="0.0" width="808" height="393"/>
                             </arscnView>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
@@ -34,7 +74,10 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="138" y="134"/>
+            <point key="canvasLocation" x="137.27678571428569" y="133.33333333333334"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="title" width="540" height="176"/>
+    </resources>
 </document>
