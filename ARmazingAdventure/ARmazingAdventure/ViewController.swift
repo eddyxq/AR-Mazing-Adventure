@@ -8,6 +8,9 @@ class ViewController: UIViewController
     @IBOutlet var arView: ARView!
     @IBOutlet var ARCanvas: ARSCNView!
     
+    var animations = [String: CAAnimation]()
+    var idle: Bool = true
+    
     //runs once each time view is loaded
     override func viewDidLoad()
     {
@@ -15,7 +18,6 @@ class ViewController: UIViewController
         
         //create maze
         setUpMaze()
-        
         // Load the "Box" scene from the "Experience" Reality File
         //let boxAnchor = try! Experience.loadBox()
         
@@ -36,6 +38,54 @@ class ViewController: UIViewController
         ARCanvas.session.pause()
     }
     
+    // MARK: animations
+    // creates a player character model with its animations
+    func loadPlayerAnimations(position: Position){
+        //load the character in the idle animation
+        let idleScene = SCNScene(named: "art.scnassets/characters/player/IdleFixed.dae")!
+        
+        // Set up parent node of all animation models
+        let node = SCNNode()
+        
+        //Add all the child nodes to the parent node
+        for child in idleScene.rootNode.childNodes{
+            node.addChildNode(child)
+        }
+        node.position = SCNVector3(CGFloat(position.xCoord), CGFloat(position.yCoord), CGFloat(position.zCoord))
+        //size of the player model
+        node.scale = SCNVector3(0.00005, 0.00005, 0.00005)
+        ARCanvas.scene.rootNode.addChildNode(node)
+        //TODO: load more animations if available
+        
+    }
+    
+    func loadAnimation(withKey: String, sceneName: String, animationIdentifier: String){
+        let sceneURL = Bundle.main.url(forResource: sceneName, withExtension: "dae")
+        let sceneSource = SCNSceneSource(url: sceneURL!, options: nil)
+        
+        if let animationObject = sceneSource?.entryWithIdentifier(animationIdentifier, withClass: CAAnimation.self){
+            //The animation will only play once
+            animationObject.repeatCount = 1
+            //To create smooth transitions between animations
+            animationObject.fadeInDuration = CGFloat(1)
+            animationObject.fadeOutDuration = CGFloat(0.5)
+            
+            //Store the animation for later use
+            animations[withKey] = animationObject
+        }
+    }
+    
+    func playAnimation(key: String){
+        // Add the animation to start playing it right away
+        ARCanvas.scene.rootNode.addAnimation(animations[key]!, forKey: key)
+    }
+    
+    func stopAnimation(key: String){
+        // Stop the animation with a smooth transition
+        ARCanvas.scene.rootNode.removeAnimation(forKey: key, blendOutDuration: CGFloat(0.5))
+    }
+    
+    //MARK: maze map setup
     //creates a box
     func setUpBox(size: Size, position: Position)
     {
@@ -74,10 +124,10 @@ class ViewController: UIViewController
         var c = 0.0
         //init position
         var location = Position(xCoord: x, yCoord: y, zCoord: z, cRad: c)
-        
+        var playerLocation = Position(xCoord: x, yCoord: y, zCoord: z, cRad: c)
         //hard coded maze
         let mazeMap = [
-                        [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,1],
+                        [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2,1],
                         [1,0,0,0,0,0,1,1,0,0,0,1,0,0,1,3,0,1,0,1],
                         [1,0,1,1,1,0,6,1,0,1,0,0,0,1,1,1,0,1,0,1],
                         [1,0,0,0,1,1,1,1,0,1,1,0,1,1,0,1,0,1,0,1],
@@ -113,6 +163,12 @@ class ViewController: UIViewController
                 {
                     location = Position(xCoord: x, yCoord: y, zCoord: z, cRad: c)
                     setUpBox(size: dimensions, position: location)
+                // player initial position
+                }else if flag == 2
+                {
+                    playerLocation = Position(xCoord: x, yCoord: y, zCoord: z, cRad: c)
+                    loadPlayerAnimations(position: playerLocation)
+                    
                 }
                 x += 0.01
             }
