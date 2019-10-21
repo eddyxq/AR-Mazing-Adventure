@@ -18,7 +18,6 @@ class ViewController: UIViewController
         
         //create maze
         setUpMaze()
-        
         //adds arrow pad to screen
         createGamepad()
     }
@@ -36,7 +35,7 @@ class ViewController: UIViewController
         ARCanvas.session.pause()
     }
     
-    // MARK: animations
+    // MARK: animations & models
     // creates a player character model with its animations
     func loadPlayerAnimations(position: Position)
     {
