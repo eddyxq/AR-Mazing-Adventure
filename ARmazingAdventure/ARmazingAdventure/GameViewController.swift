@@ -52,7 +52,7 @@ class ViewController: UIViewController
         }
         node.position = SCNVector3(CGFloat(position.xCoord), CGFloat(position.yCoord), CGFloat(position.zCoord))
         //size of the player model
-        node.scale = SCNVector3(0.00005, 0.00005, 0.00005)
+        node.scale = SCNVector3(0.00018, 0.00018, 0.00018)
         ARCanvas.scene.rootNode.addChildNode(node)
         //TODO: load more animations if available
         
@@ -110,23 +110,23 @@ class ViewController: UIViewController
     func setUpMaze()
     {
         //dimensions of a box
-        let WIDTH = 0.01
-        let HEIGHT = 0.02
-        let LENGTH = 0.01
+        let WIDTH = 0.02
+        let HEIGHT = 0.04
+        let LENGTH = 0.02
         //init dimensions
         let dimensions = Size(width: WIDTH, height: HEIGHT, length: LENGTH)
             
         //position of first box
-        var x = -0.1
-        var y = -0.15
-        var z = -0.03
-        var c = 0.0
+        var x = 0.0
+        var y = 0.0
+        var z = 0.0
+        let c = 0.0
         //init position
         var location = Position(xCoord: x, yCoord: y, zCoord: z, cRad: c)
         var playerLocation = Position(xCoord: x, yCoord: y, zCoord: z, cRad: c)
         //hard coded maze
         let mazeMap = [
-                        [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2,1],
+                        [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,1],
                         [1,0,0,0,0,0,1,1,0,0,0,1,0,0,1,3,0,1,0,1],
                         [1,0,1,1,1,0,6,1,0,1,0,0,0,1,1,1,0,1,0,1],
                         [1,0,0,0,1,1,1,1,0,1,1,0,1,1,0,1,0,1,0,1],
@@ -145,7 +145,7 @@ class ViewController: UIViewController
                         [1,0,0,0,0,1,0,1,0,1,0,1,0,1,0,0,0,1,3,1],
                         [1,0,1,1,0,1,0,1,0,0,0,0,0,1,0,1,1,1,0,1],
                         [1,0,1,3,0,1,0,1,0,1,0,1,0,0,0,0,0,0,0,1],
-                        [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]]
+                        [1,2,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]]
         
         //maze size 20x20
         let NUMROW = 20
@@ -158,6 +158,11 @@ class ViewController: UIViewController
                 let row = mazeMap[i]
                 let flag = row[j]
                 
+                //creates maze floor
+                y = -0.04
+                location = Position(xCoord: x, yCoord: y, zCoord: z, cRad: c)
+                setUpBox(size: dimensions, position: location)
+                y = 0.0
                 if flag == 1
                 {
                     location = Position(xCoord: x, yCoord: y, zCoord: z, cRad: c)
@@ -165,14 +170,14 @@ class ViewController: UIViewController
                 // player initial position
                 }else if flag == 2
                 {
-                    playerLocation = Position(xCoord: x, yCoord: y, zCoord: z, cRad: c)
+                    playerLocation = Position(xCoord: x, yCoord: y-0.02, zCoord: z, cRad: c)
                     loadPlayerAnimations(position: playerLocation)
                     
                 }
-                x += 0.01
+                x += 0.02
             }
-            x -= 0.2
-            z += 0.01
+            x -= 0.4
+            z += 0.02
         }
     }
     
