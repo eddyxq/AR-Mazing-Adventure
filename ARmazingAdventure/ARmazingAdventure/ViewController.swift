@@ -18,11 +18,9 @@ class ViewController: UIViewController
         
         //create maze
         setUpMaze()
-        // Load the "Box" scene from the "Experience" Reality File
-        //let boxAnchor = try! Experience.loadBox()
         
-        // Add the box anchor to the scene
-        //arView.scene.anchors.append(boxAnchor)
+        //adds arrow pad to screen
+        createGamepad()
     }
     
     override func viewWillAppear(_ animated: Bool)
@@ -40,7 +38,8 @@ class ViewController: UIViewController
     
     // MARK: animations
     // creates a player character model with its animations
-    func loadPlayerAnimations(position: Position){
+    func loadPlayerAnimations(position: Position)
+    {
         //load the character in the idle animation
         let idleScene = SCNScene(named: "art.scnassets/characters/player/IdleFixed.dae")!
         
@@ -48,7 +47,8 @@ class ViewController: UIViewController
         let node = SCNNode()
         
         //Add all the child nodes to the parent node
-        for child in idleScene.rootNode.childNodes{
+        for child in idleScene.rootNode.childNodes
+        {
             node.addChildNode(child)
         }
         node.position = SCNVector3(CGFloat(position.xCoord), CGFloat(position.yCoord), CGFloat(position.zCoord))
@@ -75,12 +75,14 @@ class ViewController: UIViewController
         }
     }
     
-    func playAnimation(key: String){
+    func playAnimation(key: String)
+    {
         // Add the animation to start playing it right away
         ARCanvas.scene.rootNode.addAnimation(animations[key]!, forKey: key)
     }
     
-    func stopAnimation(key: String){
+    func stopAnimation(key: String)
+    {
         // Stop the animation with a smooth transition
         ARCanvas.scene.rootNode.removeAnimation(forKey: key, blendOutDuration: CGFloat(0.5))
     }
@@ -164,19 +166,23 @@ class ViewController: UIViewController
                 location = Position(xCoord: x, yCoord: y, zCoord: z, cRad: c)
                 setUpBox(size: dimensions, position: location)
                 y = 0.0
+                
+                //show wall or player depending on flag value
                 if flag == 1
                 {
                     location = Position(xCoord: x, yCoord: y, zCoord: z, cRad: c)
                     setUpBox(size: dimensions, position: location)
                 // player initial position
-                }else if flag == 2
+                }
+                else if flag == 2
                 {
                     playerLocation = Position(xCoord: x, yCoord: y-0.02, zCoord: z, cRad: c)
                     loadPlayerAnimations(position: playerLocation)
-                    
                 }
+                //increment each block so it lines up horizontally
                 x += 0.02
             }
+            //line up blocks on a new row
             x -= 0.4
             z += 0.02
         }
@@ -195,5 +201,70 @@ class ViewController: UIViewController
         var yCoord = 0.0
         var zCoord = 0.0
         var cRad = 0.0
+    }
+    
+    //creates 4 buttons 
+    func createGamepad()
+    {
+        let buttonX = 150
+        let buttonY = 350
+        let buttonWidth = 100
+        let buttonHeight = 50
+
+        //right arrow
+        let rightButton = UIButton(type: .system)
+        let rightArrow = UIImage(named: "rightArrow")
+        rightButton.setImage(rightArrow, for: .normal)
+        rightButton.addTarget(self, action: #selector(rightButtonClicked), for: .touchUpInside)
+
+        rightButton.frame = CGRect(x: buttonX, y: buttonY, width: buttonWidth, height: buttonHeight)
+
+        self.view.addSubview(rightButton)
+        
+        //left arrow
+        let leftButton = UIButton(type: .system)
+        let leftArrow = UIImage(named: "leftArrow")
+        leftButton.setImage(leftArrow, for: .normal)
+        leftButton.addTarget(self, action: #selector(leftButtonClicked), for: .touchUpInside)
+
+        leftButton.frame = CGRect(x: buttonX-100, y: buttonY, width: buttonWidth, height: buttonHeight)
+
+        self.view.addSubview(leftButton)
+        
+        //up arrow
+        let upButton = UIButton(type: .system)
+        let upArrow = UIImage(named: "upArrow")
+        upButton.setImage(upArrow, for: .normal)
+        upButton.addTarget(self, action: #selector(upButtonClicked), for: .touchUpInside)
+
+        upButton.frame = CGRect(x: buttonX-50, y: buttonY-50, width: buttonWidth, height: buttonHeight)
+
+        self.view.addSubview(upButton)
+        
+        //down arrow
+        let downButton = UIButton(type: .system)
+        let downArrow = UIImage(named: "downArrow")
+        downButton.setImage(downArrow, for: .normal)
+        downButton.addTarget(self, action: #selector(downButtonClicked), for: .touchUpInside)
+
+        downButton.frame = CGRect(x: buttonX-50, y: buttonY+50, width: buttonWidth, height: buttonHeight)
+
+        self.view.addSubview(downButton)
+    }
+    //right button logic
+    @objc func rightButtonClicked(sender : UIButton){
+        //logic
+    }
+    //left button logic
+    @objc func leftButtonClicked(sender : UIButton){
+        //logic
+    }
+    //up button logic
+    @objc func upButtonClicked(sender : UIButton){
+        //logic
+    }
+    //down button logic
+    @objc func downButtonClicked(sender : UIButton){
+        //logic
     }
 }
