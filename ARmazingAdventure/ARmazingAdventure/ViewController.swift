@@ -3,6 +3,8 @@ import RealityKit
 import ARKit
 import SceneKit
 
+//var detectedPlanes: [String : SCNNode] = [:]
+
 class ViewController: UIViewController
 {
     @IBOutlet var arView: ARView!
@@ -13,23 +15,64 @@ class ViewController: UIViewController
     var idle: Bool = true
     let charNode = SCNNode()
     
+    var mazePlaced = false
+    
     //runs once each time view is loaded
     override func viewDidLoad()
     {
         super.viewDidLoad()
         
         //create maze
-        setUpMaze()
+        //setUpMaze() Moved to when we click on detected horizontal plane
+
+        addTapGestureToSceneView()
+        
         //adds arrow pad to screen
         createGamepad()
-        ARCanvas.delegate = self as? ARSCNViewDelegate
+        ARCanvas.delegate = self as ARSCNViewDelegate
+        
     }
     
     override func viewWillAppear(_ animated: Bool)
     {
         super.viewWillAppear(animated)
+        
         let config = ARWorldTrackingConfiguration()
+        config.planeDetection = .horizontal
+
         ARCanvas.session.run(config)
+        
+        ARCanvas.delegate = self
+        ARCanvas.debugOptions = [ARSCNDebugOptions.showFeaturePoints]
+    }
+    
+    @objc func addMazeToSceneView(withGestureRecognizer recognizer: UIGestureRecognizer)
+    {
+        if mazePlaced == false
+        {
+
+        let tapLocation = recognizer.location(in: ARCanvas)
+        let hitTestResults = ARCanvas.hitTest(tapLocation, types: .existingPlaneUsingExtent)
+
+        guard let hitTestResult = hitTestResults.first else { return }
+        let translation = hitTestResult.worldTransform.translation
+        let x = Double(translation.x)
+        let y = Double(translation.y)
+        let z = Double(translation.z)
+        
+        let location = Position(xCoord: x, yCoord: y, zCoord: z, cRad: 0.0)
+        
+        setUpMaze(position: location)
+        mazePlaced = true
+        }
+    }
+    
+    
+    func addTapGestureToSceneView()
+    {
+         let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(ViewController.addMazeToSceneView(withGestureRecognizer:)))
+            ARCanvas.addGestureRecognizer(tapGestureRecognizer)
+        
     }
     
     override func viewWillDisappear(_ animated: Bool)
@@ -39,61 +82,62 @@ class ViewController: UIViewController
     }
     // MARK: Buttons & Controlls
     //creates 4 buttons
-      func createGamepad()
-      {
-          let buttonX = 150
-          let buttonY = 350
-          let buttonWidth = 100
-          let buttonHeight = 50
+    func createGamepad()
+    {
+      let buttonX = 150
+      let buttonY = 350
+      let buttonWidth = 100
+      let buttonHeight = 50
 
-          //right arrow
-          let rightButton = UIButton(type: .system)
-          let rightArrow = UIImage(named: "rightArrow")
-          rightButton.setImage(rightArrow, for: .normal)
-          rightButton.addTarget(self, action: #selector(rightButtonClicked), for: .touchUpInside)
+      //right arrow
+      let rightButton = UIButton(type: .system)
+      let rightArrow = UIImage(named: "rightArrow")
+      rightButton.setImage(rightArrow, for: .normal)
+      rightButton.addTarget(self, action: #selector(rightButtonClicked), for: .touchUpInside)
 
-          rightButton.frame = CGRect(x: buttonX, y: buttonY, width: buttonWidth, height: buttonHeight)
+      rightButton.frame = CGRect(x: buttonX, y: buttonY, width: buttonWidth, height: buttonHeight)
 
-          self.view.addSubview(rightButton)
+      self.view.addSubview(rightButton)
 
-          //left arrow
-          let leftButton = UIButton(type: .system)
-          let leftArrow = UIImage(named: "leftArrow")
-          leftButton.setImage(leftArrow, for: .normal)
-          leftButton.addTarget(self, action: #selector(leftButtonClicked), for: .touchUpInside)
+      //left arrow
+      let leftButton = UIButton(type: .system)
+      let leftArrow = UIImage(named: "leftArrow")
+      leftButton.setImage(leftArrow, for: .normal)
+      leftButton.addTarget(self, action: #selector(leftButtonClicked), for: .touchUpInside)
 
-          leftButton.frame = CGRect(x: buttonX-100, y: buttonY, width: buttonWidth, height: buttonHeight)
+      leftButton.frame = CGRect(x: buttonX-100, y: buttonY, width: buttonWidth, height: buttonHeight)
 
-          self.view.addSubview(leftButton)
+      self.view.addSubview(leftButton)
 
-          //up arrow
-          let upButton = UIButton(type: .system)
-          let upArrow = UIImage(named: "upArrow")
-          upButton.setImage(upArrow, for: .normal)
-          upButton.addTarget(self, action: #selector(upButtonClicked), for: .touchUpInside)
+      //up arrow
+      let upButton = UIButton(type: .system)
+      let upArrow = UIImage(named: "upArrow")
+      upButton.setImage(upArrow, for: .normal)
+      upButton.addTarget(self, action: #selector(upButtonClicked), for: .touchUpInside)
 
-          upButton.frame = CGRect(x: buttonX-50, y: buttonY-50, width: buttonWidth, height: buttonHeight)
+      upButton.frame = CGRect(x: buttonX-50, y: buttonY-50, width: buttonWidth, height: buttonHeight)
 
-          self.view.addSubview(upButton)
+      self.view.addSubview(upButton)
 
-          //down arrow
-          let downButton = UIButton(type: .system)
-          let downArrow = UIImage(named: "downArrow")
-          downButton.setImage(downArrow, for: .normal)
-          downButton.addTarget(self, action: #selector(downButtonClicked), for: .touchUpInside)
+      //down arrow
+      let downButton = UIButton(type: .system)
+      let downArrow = UIImage(named: "downArrow")
+      downButton.setImage(downArrow, for: .normal)
+      downButton.addTarget(self, action: #selector(downButtonClicked), for: .touchUpInside)
 
-          downButton.frame = CGRect(x: buttonX-50, y: buttonY+50, width: buttonWidth, height: buttonHeight)
+      downButton.frame = CGRect(x: buttonX-50, y: buttonY+50, width: buttonWidth, height: buttonHeight)
 
-          self.view.addSubview(downButton)
-      }
-      //right button logic
-      @objc func rightButtonClicked(sender : UIButton){
-          let turnAction = SCNAction.rotateBy(x: 0, y: .pi/2, z: 0, duration: 0.5)
-          charNode.runAction(turnAction)
-          let walkAction = SCNAction.moveBy(x: 0.02, y: 0, z: 0, duration: 1.5)
-          playAnimation(key: "walking")
-          charNode.runAction(walkAction)
-      }
+      self.view.addSubview(downButton)
+    }
+    //right button logic
+    @objc func rightButtonClicked(sender : UIButton)
+    {
+      let turnAction = SCNAction.rotateBy(x: 0, y: .pi/2, z: 0, duration: 0.5)
+      charNode.runAction(turnAction)
+      let walkAction = SCNAction.moveBy(x: 0.02, y: 0, z: 0, duration: 1.5)
+      playAnimation(key: "walking")
+      charNode.runAction(walkAction)
+    }
       //left button logic
       @objc func leftButtonClicked(sender : UIButton){
           let turnAction = SCNAction.rotateBy(x: 0, y: -(.pi/2), z: 0, duration: 0.5)
@@ -192,7 +236,7 @@ class ViewController: UIViewController
     }
     
     //create a maze
-    func setUpMaze()
+    func setUpMaze(position: Position)
     {
         //dimensions of a box
         let WIDTH = 0.02
@@ -202,9 +246,9 @@ class ViewController: UIViewController
         let dimensions = Size(width: WIDTH, height: HEIGHT, length: LENGTH)
             
         //position of first box
-        var x = 0.0
-        var y = 0.0
-        var z = 0.0
+        var x = position.xCoord - 0.11
+        var y = position.yCoord + 0.06
+        var z = position.zCoord - 0.11
         let c = 0.0
         //init position
         var location = Position(xCoord: x, yCoord: y, zCoord: z, cRad: c)
@@ -244,10 +288,10 @@ class ViewController: UIViewController
                 let flag = row[j]
                 
                 //creates maze floor
-                y = -0.04
+                y -= 0.04
                 location = Position(xCoord: x, yCoord: y, zCoord: z, cRad: c)
                 setUpBox(size: dimensions, position: location)
-                y = 0.0
+                y += 0.04
                 
                 //show wall or player depending on flag value
                 if flag == 1
@@ -287,8 +331,59 @@ class ViewController: UIViewController
 
 }
 
-//extension ViewController: ARSCNViewDelegate{
-//    func renderer(_ renderer: SCNSceneRenderer, didApplyAnimationsAtTime: TimeInterval){
-//        setUpMaze()
-//    }
-//}
+extension ViewController: ARSCNViewDelegate {
+    func renderer(_ renderer: SCNSceneRenderer, didAdd node: SCNNode, for anchor: ARAnchor) {
+        // 1
+        guard let planeAnchor = anchor as? ARPlaneAnchor else { return }
+        
+        // 2
+        let width = CGFloat(planeAnchor.extent.x)
+        let height = CGFloat(planeAnchor.extent.z)
+        let plane = SCNPlane(width: width, height: height)
+        
+        // 3
+        plane.materials.first?.diffuse.contents = UIColor(red: 90/255, green: 200/255, blue: 250/255, alpha: 0.50)
+        
+        // 4
+        let planeNode = SCNNode(geometry: plane)
+        
+        // 5
+        let x = CGFloat(planeAnchor.center.x)
+        let y = CGFloat(planeAnchor.center.y)
+        let z = CGFloat(planeAnchor.center.z)
+        planeNode.position = SCNVector3(x,y,z)
+        planeNode.eulerAngles.x = -.pi / 2
+        
+        // 6
+        node.addChildNode(planeNode)
+    }
+    
+    func renderer(_ renderer: SCNSceneRenderer, didUpdate node: SCNNode, for anchor: ARAnchor) {
+        // 1
+        guard let planeAnchor = anchor as?  ARPlaneAnchor,
+            let planeNode = node.childNodes.first,
+            let plane = planeNode.geometry as? SCNPlane
+            else { return }
+        
+        // 2
+        let width = CGFloat(planeAnchor.extent.x)
+        let height = CGFloat(planeAnchor.extent.z)
+        plane.width = width
+        plane.height = height
+        
+        // 3
+        let x = CGFloat(planeAnchor.center.x)
+        let y = CGFloat(planeAnchor.center.y)
+        let z = CGFloat(planeAnchor.center.z)
+        planeNode.position = SCNVector3(x, y, z)
+    }
+}
+
+extension float4x4
+{
+    var translation: simd_float3
+    {
+        let translation = self.columns.3
+        return simd_float3(translation.x, translation.y, translation.z)
+    }
+}
