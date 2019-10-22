@@ -3,76 +3,102 @@ import RealityKit
 import ARKit
 import SceneKit
 
-//var detectedPlanes: [String : SCNNode] = [:]
-
 class ViewController: UIViewController
 {
+    //size of each box
+    struct Size
+    {
+        var width = 0.0
+        var height = 0.0
+        var length = 0.0
+    }
+    
+    //position of each box
+    struct Position
+    {
+        var xCoord = 0.0
+        var yCoord = 0.0
+        var zCoord = 0.0
+        var cRad = 0.0
+    }
+    
     @IBOutlet var arView: ARView!
     @IBOutlet var ARCanvas: ARSCNView!
-    
     
     var animations = [String: CAAnimation]()
     var idle: Bool = true
     let charNode = SCNNode()
-    
+    //true when user has placed the maze on surface
     var mazePlaced = false
     
-    //runs once each time view is loaded
     override func viewDidLoad()
     {
         super.viewDidLoad()
         
-        //create maze
-        //setUpMaze() Moved to when we click on detected horizontal plane
-
+        //enables user to tap detected plane for maze placement
         addTapGestureToSceneView()
         
         //adds arrow pad to screen
         createGamepad()
-        ARCanvas.delegate = self as ARSCNViewDelegate
-        
     }
     
     override func viewWillAppear(_ animated: Bool)
     {
         super.viewWillAppear(animated)
         
+        //setting scene to AR
         let config = ARWorldTrackingConfiguration()
+        
+        //search for horizontal planes
         config.planeDetection = .horizontal
 
+        //apply configurations
         ARCanvas.session.run(config)
         
+        //display the detected plane
         ARCanvas.delegate = self
+        
+        //shows the feature points
         ARCanvas.debugOptions = [ARSCNDebugOptions.showFeaturePoints]
     }
     
     @objc func addMazeToSceneView(withGestureRecognizer recognizer: UIGestureRecognizer)
     {
+        //adds maze only if it has not been placed
         if mazePlaced == false
         {
+            //disable plane detection by resetting configurations
+            let configuration = ARWorldTrackingConfiguration()
+            ARCanvas.session.run(configuration)
+            
+            //get coordinates of where user tapped
+            let tapLocation = recognizer.location(in: ARCanvas)
+            let hitTestResults = ARCanvas.hitTest(tapLocation, types: .existingPlaneUsingExtent)
 
-        let tapLocation = recognizer.location(in: ARCanvas)
-        let hitTestResults = ARCanvas.hitTest(tapLocation, types: .existingPlaneUsingExtent)
-
-        guard let hitTestResult = hitTestResults.first else { return }
-        let translation = hitTestResult.worldTransform.translation
-        let x = Double(translation.x)
-        let y = Double(translation.y)
-        let z = Double(translation.z)
-        
-        let location = Position(xCoord: x, yCoord: y, zCoord: z, cRad: 0.0)
-        
-        setUpMaze(position: location)
-        mazePlaced = true
+            //if tapped on plane, translate tapped location to plane coordinates
+            guard let hitTestResult = hitTestResults.first else { return }
+            let translation = hitTestResult.worldTransform.translation
+            let x = Double(translation.x)
+            let y = Double(translation.y)
+            let z = Double(translation.z)
+            
+            //spawn maze on location
+            let location = Position(xCoord: x, yCoord: y, zCoord: z, cRad: 0.0)
+            setUpMaze(position: location)
+            
+            //flip flag to true so you cannot spawn multiple mazes
+            mazePlaced = true
+            
+            //hide plane and feature points
+            self.ARCanvas.debugOptions = []
         }
     }
     
-    
+    //accepts tap input for placing maze
     func addTapGestureToSceneView()
     {
          let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(ViewController.addMazeToSceneView(withGestureRecognizer:)))
             ARCanvas.addGestureRecognizer(tapGestureRecognizer)
-        
     }
     
     override func viewWillDisappear(_ animated: Bool)
@@ -246,9 +272,9 @@ class ViewController: UIViewController
         let dimensions = Size(width: WIDTH, height: HEIGHT, length: LENGTH)
             
         //position of first box
-        var x = position.xCoord - 0.11
+        var x = position.xCoord - 0.14
         var y = position.yCoord + 0.06
-        var z = position.zCoord - 0.11
+        var z = position.zCoord - 0.14
         let c = 0.0
         //init position
         var location = Position(xCoord: x, yCoord: y, zCoord: z, cRad: c)
@@ -313,65 +339,49 @@ class ViewController: UIViewController
             z += 0.02
         }
     }
-    
-    //size of each box
-    struct Size{
-        var width = 0.0
-        var height = 0.0
-        var length = 0.0
-    }
-    
-    //position of each box
-    struct Position{
-        var xCoord = 0.0
-        var yCoord = 0.0
-        var zCoord = 0.0
-        var cRad = 0.0
-    }
-
 }
 
-extension ViewController: ARSCNViewDelegate {
-    func renderer(_ renderer: SCNSceneRenderer, didAdd node: SCNNode, for anchor: ARAnchor) {
-        // 1
+extension ViewController: ARSCNViewDelegate
+{
+    func renderer(_ renderer: SCNSceneRenderer, didAdd node: SCNNode, for anchor: ARAnchor)
+    {
+        //unwrap anchor as ARPlaneAnchor
         guard let planeAnchor = anchor as? ARPlaneAnchor else { return }
         
-        // 2
+        //extract surface of SCNPlane
         let width = CGFloat(planeAnchor.extent.x)
         let height = CGFloat(planeAnchor.extent.z)
         let plane = SCNPlane(width: width, height: height)
         
-        // 3
-        plane.materials.first?.diffuse.contents = UIColor(red: 90/255, green: 200/255, blue: 250/255, alpha: 0.50)
-        
-        // 4
+        //set plane color
+        plane.materials.first?.diffuse.contents = UIColor(red: 0/255, green: 204/255, blue: 14/255, alpha: 0.0)
         let planeNode = SCNNode(geometry: plane)
         
-        // 5
+        //get anchor coordinates for the plane node position
         let x = CGFloat(planeAnchor.center.x)
         let y = CGFloat(planeAnchor.center.y)
         let z = CGFloat(planeAnchor.center.z)
         planeNode.position = SCNVector3(x,y,z)
         planeNode.eulerAngles.x = -.pi / 2
         
-        // 6
         node.addChildNode(planeNode)
     }
     
-    func renderer(_ renderer: SCNSceneRenderer, didUpdate node: SCNNode, for anchor: ARAnchor) {
-        // 1
+    func renderer(_ renderer: SCNSceneRenderer, didUpdate node: SCNNode, for anchor: ARAnchor)
+    {
+        //render plane
         guard let planeAnchor = anchor as?  ARPlaneAnchor,
-            let planeNode = node.childNodes.first,
-            let plane = planeNode.geometry as? SCNPlane
-            else { return }
+        let planeNode = node.childNodes.first,
+        let plane = planeNode.geometry as? SCNPlane
+        else { return }
         
-        // 2
+        //update plane dimensions
         let width = CGFloat(planeAnchor.extent.x)
         let height = CGFloat(planeAnchor.extent.z)
         plane.width = width
         plane.height = height
         
-        // 3
+        //update position of plane
         let x = CGFloat(planeAnchor.center.x)
         let y = CGFloat(planeAnchor.center.y)
         let z = CGFloat(planeAnchor.center.z)
@@ -379,6 +389,7 @@ extension ViewController: ARSCNViewDelegate {
     }
 }
 
+//converts worldTransform value to simd_float3 for access to position
 extension float4x4
 {
     var translation: simd_float3
