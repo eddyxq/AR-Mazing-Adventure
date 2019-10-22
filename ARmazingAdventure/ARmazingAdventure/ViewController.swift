@@ -111,7 +111,7 @@ class ViewController: UIViewController
     func createGamepad()
     {
       let buttonX = 150
-      let buttonY = 350
+      let buttonY = 250
       let buttonWidth = 100
       let buttonHeight = 50
 
