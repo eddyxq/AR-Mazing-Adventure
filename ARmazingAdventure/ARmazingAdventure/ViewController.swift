@@ -8,8 +8,10 @@ class ViewController: UIViewController
     @IBOutlet var arView: ARView!
     @IBOutlet var ARCanvas: ARSCNView!
     
+    
     var animations = [String: CAAnimation]()
     var idle: Bool = true
+    let charNode = SCNNode()
     
     //runs once each time view is loaded
     override func viewDidLoad()
@@ -20,6 +22,7 @@ class ViewController: UIViewController
         setUpMaze()
         //adds arrow pad to screen
         createGamepad()
+        ARCanvas.delegate = self as? ARSCNViewDelegate
     }
     
     override func viewWillAppear(_ animated: Bool)
@@ -34,28 +37,108 @@ class ViewController: UIViewController
         super.viewWillDisappear(animated)
         ARCanvas.session.pause()
     }
+    // MARK: Buttons & Controlls
+    //creates 4 buttons
+      func createGamepad()
+      {
+          let buttonX = 150
+          let buttonY = 350
+          let buttonWidth = 100
+          let buttonHeight = 50
+
+          //right arrow
+          let rightButton = UIButton(type: .system)
+          let rightArrow = UIImage(named: "rightArrow")
+          rightButton.setImage(rightArrow, for: .normal)
+          rightButton.addTarget(self, action: #selector(rightButtonClicked), for: .touchUpInside)
+
+          rightButton.frame = CGRect(x: buttonX, y: buttonY, width: buttonWidth, height: buttonHeight)
+
+          self.view.addSubview(rightButton)
+
+          //left arrow
+          let leftButton = UIButton(type: .system)
+          let leftArrow = UIImage(named: "leftArrow")
+          leftButton.setImage(leftArrow, for: .normal)
+          leftButton.addTarget(self, action: #selector(leftButtonClicked), for: .touchUpInside)
+
+          leftButton.frame = CGRect(x: buttonX-100, y: buttonY, width: buttonWidth, height: buttonHeight)
+
+          self.view.addSubview(leftButton)
+
+          //up arrow
+          let upButton = UIButton(type: .system)
+          let upArrow = UIImage(named: "upArrow")
+          upButton.setImage(upArrow, for: .normal)
+          upButton.addTarget(self, action: #selector(upButtonClicked), for: .touchUpInside)
+
+          upButton.frame = CGRect(x: buttonX-50, y: buttonY-50, width: buttonWidth, height: buttonHeight)
+
+          self.view.addSubview(upButton)
+
+          //down arrow
+          let downButton = UIButton(type: .system)
+          let downArrow = UIImage(named: "downArrow")
+          downButton.setImage(downArrow, for: .normal)
+          downButton.addTarget(self, action: #selector(downButtonClicked), for: .touchUpInside)
+
+          downButton.frame = CGRect(x: buttonX-50, y: buttonY+50, width: buttonWidth, height: buttonHeight)
+
+          self.view.addSubview(downButton)
+      }
+      //right button logic
+      @objc func rightButtonClicked(sender : UIButton){
+          let turnAction = SCNAction.rotateBy(x: 0, y: .pi/2, z: 0, duration: 0.5)
+          charNode.runAction(turnAction)
+          let walkAction = SCNAction.moveBy(x: 0.02, y: 0, z: 0, duration: 1.5)
+          playAnimation(key: "walking")
+          charNode.runAction(walkAction)
+      }
+      //left button logic
+      @objc func leftButtonClicked(sender : UIButton){
+          let turnAction = SCNAction.rotateBy(x: 0, y: -(.pi/2), z: 0, duration: 0.5)
+          charNode.runAction(turnAction)
+          let walkAction = SCNAction.moveBy(x: -0.02, y: 0, z: 0, duration: 1.5)
+          playAnimation(key: "walking")
+          charNode.runAction(walkAction)
+      }
+      //up button logic
+      @objc func upButtonClicked(sender : UIButton){
+          let walkAction = SCNAction.moveBy(x: 0, y: 0, z: -0.02, duration: 1.5)
+          playAnimation(key: "walking")
+          charNode.runAction(walkAction)
+      }
+      //down button logic
+      @objc func downButtonClicked(sender : UIButton){
+          let walkAction = SCNAction.moveBy(x: 0, y: 0, z: 0.02, duration: 1.5)
+          playAnimation(key: "walkBack")
+          charNode.runAction(walkAction)
+      }
     
-    // MARK: animations & models
+    // MARK: Animations & Models
     // creates a player character model with its animations
     func loadPlayerAnimations(position: Position)
     {
-        //load the character in the idle animation
+        // Load the character in the idle animation
         let idleScene = SCNScene(named: "art.scnassets/characters/player/IdleFixed.dae")!
         
         // Set up parent node of all animation models
-        let node = SCNNode()
+        //let node = SCNNode()
         
-        //Add all the child nodes to the parent node
+        // Add all the child nodes to the parent node
         for child in idleScene.rootNode.childNodes
         {
-            node.addChildNode(child)
+            charNode.addChildNode(child)
         }
-        node.position = SCNVector3(CGFloat(position.xCoord), CGFloat(position.yCoord), CGFloat(position.zCoord))
+        charNode.position = SCNVector3(CGFloat(position.xCoord), CGFloat(position.yCoord), CGFloat(position.zCoord))
         //size of the player model
-        node.scale = SCNVector3(0.00018, 0.00018, 0.00018)
-        ARCanvas.scene.rootNode.addChildNode(node)
+        charNode.scale = SCNVector3(0.00018, 0.00018, 0.00018)
+        // Rotating the character by 180 degrees
+        charNode.rotation = SCNVector4Make(0, 1, 0, .pi)
+        ARCanvas.scene.rootNode.addChildNode(charNode)
         //TODO: load more animations if available
-        
+        loadAnimation(withKey: "walking", sceneName: "art.scnassets/characters/player/WalkFixed", animationIdentifier: "WalkFixed-1")
+        loadAnimation(withKey: "walkBack", sceneName: "art.scnassets/characters/player/WalkBackFixed", animationIdentifier: "WalkBackFixed-1")
     }
     
     func loadAnimation(withKey: String, sceneName: String, animationIdentifier: String){
@@ -201,69 +284,11 @@ class ViewController: UIViewController
         var zCoord = 0.0
         var cRad = 0.0
     }
-    
-    //creates 4 buttons 
-    func createGamepad()
-    {
-        let buttonX = 150
-        let buttonY = 350
-        let buttonWidth = 100
-        let buttonHeight = 50
 
-        //right arrow
-        let rightButton = UIButton(type: .system)
-        let rightArrow = UIImage(named: "rightArrow")
-        rightButton.setImage(rightArrow, for: .normal)
-        rightButton.addTarget(self, action: #selector(rightButtonClicked), for: .touchUpInside)
-
-        rightButton.frame = CGRect(x: buttonX, y: buttonY, width: buttonWidth, height: buttonHeight)
-
-        self.view.addSubview(rightButton)
-        
-        //left arrow
-        let leftButton = UIButton(type: .system)
-        let leftArrow = UIImage(named: "leftArrow")
-        leftButton.setImage(leftArrow, for: .normal)
-        leftButton.addTarget(self, action: #selector(leftButtonClicked), for: .touchUpInside)
-
-        leftButton.frame = CGRect(x: buttonX-100, y: buttonY, width: buttonWidth, height: buttonHeight)
-
-        self.view.addSubview(leftButton)
-        
-        //up arrow
-        let upButton = UIButton(type: .system)
-        let upArrow = UIImage(named: "upArrow")
-        upButton.setImage(upArrow, for: .normal)
-        upButton.addTarget(self, action: #selector(upButtonClicked), for: .touchUpInside)
-
-        upButton.frame = CGRect(x: buttonX-50, y: buttonY-50, width: buttonWidth, height: buttonHeight)
-
-        self.view.addSubview(upButton)
-        
-        //down arrow
-        let downButton = UIButton(type: .system)
-        let downArrow = UIImage(named: "downArrow")
-        downButton.setImage(downArrow, for: .normal)
-        downButton.addTarget(self, action: #selector(downButtonClicked), for: .touchUpInside)
-
-        downButton.frame = CGRect(x: buttonX-50, y: buttonY+50, width: buttonWidth, height: buttonHeight)
-
-        self.view.addSubview(downButton)
-    }
-    //right button logic
-    @objc func rightButtonClicked(sender : UIButton){
-        //logic
-    }
-    //left button logic
-    @objc func leftButtonClicked(sender : UIButton){
-        //logic
-    }
-    //up button logic
-    @objc func upButtonClicked(sender : UIButton){
-        //logic
-    }
-    //down button logic
-    @objc func downButtonClicked(sender : UIButton){
-        //logic
-    }
 }
+
+//extension ViewController: ARSCNViewDelegate{
+//    func renderer(_ renderer: SCNSceneRenderer, didApplyAnimationsAtTime: TimeInterval){
+//        setUpMaze()
+//    }
+//}

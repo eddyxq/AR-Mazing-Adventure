@@ -222,16 +222,45 @@
                         <subviews>
                             <arscnView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qRL-3N-FWy">
                                 <rect key="frame" x="0.0" y="0.0" width="1366" height="1004"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="320" id="q0D-iA-Uz6"/>
+                                </constraints>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="q0D-iA-Uz6"/>
+                                    </mask>
+                                </variation>
+                                <variation key="widthClass=compact">
+                                    <mask key="constraints">
+                                        <exclude reference="q0D-iA-Uz6"/>
+                                    </mask>
+                                </variation>
                             </arscnView>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
-                            <constraint firstItem="qRL-3N-FWy" firstAttribute="leading" secondItem="8tF-Gl-g5H" secondAttribute="leading" id="QWs-9G-F2p"/>
-                            <constraint firstItem="8tF-Gl-g5H" firstAttribute="trailing" secondItem="qRL-3N-FWy" secondAttribute="trailing" id="hcU-vB-N6z"/>
-                            <constraint firstItem="qRL-3N-FWy" firstAttribute="top" secondItem="8tF-Gl-g5H" secondAttribute="top" id="tNQ-C5-1xo"/>
-                            <constraint firstItem="8tF-Gl-g5H" firstAttribute="bottom" secondItem="qRL-3N-FWy" secondAttribute="bottom" id="xiv-vh-HXq"/>
+                            <constraint firstItem="qRL-3N-FWy" firstAttribute="bottom" secondItem="8tF-Gl-g5H" secondAttribute="bottom" id="CaO-6O-GvM"/>
+                            <constraint firstItem="qRL-3N-FWy" firstAttribute="bottom" secondItem="8tF-Gl-g5H" secondAttribute="bottom" id="QPw-EL-njf"/>
+                            <constraint firstItem="qRL-3N-FWy" firstAttribute="top" secondItem="8tF-Gl-g5H" secondAttribute="top" id="keU-Zx-QjB"/>
+                            <constraint firstItem="qRL-3N-FWy" firstAttribute="leading" secondItem="8tF-Gl-g5H" secondAttribute="leading" id="mdy-e1-LA6"/>
+                            <constraint firstItem="qRL-3N-FWy" firstAttribute="top" secondItem="8tF-Gl-g5H" secondAttribute="top" id="mgw-o5-K4K"/>
+                            <constraint firstItem="qRL-3N-FWy" firstAttribute="trailing" secondItem="8tF-Gl-g5H" secondAttribute="trailing" id="xLj-Ag-1xn"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="8tF-Gl-g5H"/>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="CaO-6O-GvM"/>
+                                <exclude reference="keU-Zx-QjB"/>
+                            </mask>
+                        </variation>
+                        <variation key="widthClass=compact">
+                            <mask key="constraints">
+                                <include reference="CaO-6O-GvM"/>
+                                <exclude reference="QPw-EL-njf"/>
+                                <include reference="keU-Zx-QjB"/>
+                                <exclude reference="mgw-o5-K4K"/>
+                            </mask>
+                        </variation>
                     </view>
                     <navigationItem key="navigationItem" id="2hM-Pl-VQO"/>
                     <connections>
@@ -240,7 +269,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="137.27678571428569" y="133.33333333333334"/>
+            <point key="canvasLocation" x="136.69950738916256" y="132"/>
         </scene>
     </scenes>
     <resources>
