@@ -30,7 +30,6 @@ class ViewController: UIViewController
     let charNode = SCNNode()
     //true when user has placed the maze on surface
     var mazePlaced = false
-    
     // Player directions
     enum playerDirection: String{
         case up
@@ -239,23 +238,27 @@ class ViewController: UIViewController
     //right button logic
     @objc func rightButtonClicked(sender : UIButton)
     {
+          sender.preventRepeatedPresses()
           turnRight(direction: currentPlayerDirection)
           let turnAction = SCNAction.rotateBy(x: 0, y: .pi/2, z: 0, duration: 0.5)
           charNode.runAction(turnAction)
     }
       //left button logic
       @objc func leftButtonClicked(sender : UIButton){
+          sender.preventRepeatedPresses()
           turnLeft(direction: currentPlayerDirection)
           let turnAction = SCNAction.rotateBy(x: 0, y: -(.pi/2), z: 0, duration: 0.5)
           charNode.runAction(turnAction)
       }
       //up button logic
       @objc func upButtonClicked(sender : UIButton){
+          sender.preventRepeatedPresses()
           playAnimation(key: "walking")
           charNode.runAction(moveForward(direction: currentPlayerDirection))
       }
       //down button logic
       @objc func downButtonClicked(sender : UIButton){
+          sender.preventRepeatedPresses()
           playAnimation(key: "walkBack")
           charNode.runAction(moveBackward(direction: currentPlayerDirection))
       }
@@ -471,5 +474,14 @@ extension float4x4
     {
         let translation = self.columns.3
         return simd_float3(translation.x, translation.y, translation.z)
+    }
+}
+
+extension UIButton {
+    func preventRepeatedPresses(inNext seconds: Double = 1) {
+        self.isUserInteractionEnabled = false
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + seconds) {
+            self.isUserInteractionEnabled = true
+        }
     }
 }
