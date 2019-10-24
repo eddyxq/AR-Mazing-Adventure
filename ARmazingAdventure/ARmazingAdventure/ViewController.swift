@@ -31,6 +31,85 @@ class ViewController: UIViewController
     //true when user has placed the maze on surface
     var mazePlaced = false
     
+    // Player directions
+    enum playerDirection: String{
+        case up
+        case down
+        case left
+        case right
+        
+        func direction() -> String{
+            return self.rawValue
+        }
+    }
+    // The direction player is current facing.
+    // Default: Up
+    var currentPlayerDirection = playerDirection.up.direction()
+    
+    func turnLeft(direction: String){
+        switch direction{
+            case "up":
+                currentPlayerDirection = playerDirection.left.direction()
+            case "down":
+                currentPlayerDirection = playerDirection.right.direction()
+            case "left":
+                currentPlayerDirection = playerDirection.down.direction()
+            case "right":
+                currentPlayerDirection = playerDirection.up.direction()
+        default:
+            break
+        }
+    }
+    
+    func turnRight(direction: String){
+        switch direction{
+            case "up":
+                currentPlayerDirection = playerDirection.right.direction()
+            case "down":
+                currentPlayerDirection = playerDirection.left.direction()
+            case "left":
+                currentPlayerDirection = playerDirection.up.direction()
+            case "right":
+                currentPlayerDirection = playerDirection.down.direction()
+        default:
+            break
+        }
+    }
+    
+    func moveForward(direction: String) -> SCNAction{
+        var walkAction = SCNAction()
+        switch direction {
+        case "up":
+            walkAction = SCNAction.moveBy(x: 0, y: 0, z: -0.02, duration: 1.5)
+        case "down":
+            walkAction = SCNAction.moveBy(x: 0, y: 0, z: 0.02, duration: 1.5)
+        case "left":
+            walkAction = SCNAction.moveBy(x: -0.02, y: 0, z: 0, duration: 1.5)
+        case "right":
+            walkAction = SCNAction.moveBy(x: 0.02, y: 0, z: 0, duration: 1.5)
+        default:
+            break
+        }
+        return walkAction
+    }
+    
+    func moveBackward(direction: String) -> SCNAction{
+        var walkAction = SCNAction()
+        switch direction {
+        case "up":
+            walkAction = SCNAction.moveBy(x: 0, y: 0, z: 0.02, duration: 1.5)
+        case "down":
+            walkAction = SCNAction.moveBy(x: 0, y: 0, z: -0.02, duration: 1.5)
+        case "left":
+            walkAction = SCNAction.moveBy(x: 0.02, y: 0, z: 0, duration: 1.5)
+        case "right":
+            walkAction = SCNAction.moveBy(x: -0.02, y: 0, z: 0, duration: 1.5)
+        default:
+            break
+        }
+        return walkAction
+    }
+    
     override func viewDidLoad()
     {
         super.viewDidLoad()
@@ -155,34 +234,30 @@ class ViewController: UIViewController
 
       self.view.addSubview(downButton)
     }
+    // MARK: Arrow Button Logics
+    
     //right button logic
     @objc func rightButtonClicked(sender : UIButton)
     {
-      let turnAction = SCNAction.rotateBy(x: 0, y: .pi/2, z: 0, duration: 0.5)
-      charNode.runAction(turnAction)
-      let walkAction = SCNAction.moveBy(x: 0.02, y: 0, z: 0, duration: 1.5)
-      playAnimation(key: "walking")
-      charNode.runAction(walkAction)
+          turnRight(direction: currentPlayerDirection)
+          let turnAction = SCNAction.rotateBy(x: 0, y: .pi/2, z: 0, duration: 0.5)
+          charNode.runAction(turnAction)
     }
       //left button logic
       @objc func leftButtonClicked(sender : UIButton){
+          turnLeft(direction: currentPlayerDirection)
           let turnAction = SCNAction.rotateBy(x: 0, y: -(.pi/2), z: 0, duration: 0.5)
           charNode.runAction(turnAction)
-          let walkAction = SCNAction.moveBy(x: -0.02, y: 0, z: 0, duration: 1.5)
-          playAnimation(key: "walking")
-          charNode.runAction(walkAction)
       }
       //up button logic
       @objc func upButtonClicked(sender : UIButton){
-          let walkAction = SCNAction.moveBy(x: 0, y: 0, z: -0.02, duration: 1.5)
           playAnimation(key: "walking")
-          charNode.runAction(walkAction)
+          charNode.runAction(moveForward(direction: currentPlayerDirection))
       }
       //down button logic
       @objc func downButtonClicked(sender : UIButton){
-          let walkAction = SCNAction.moveBy(x: 0, y: 0, z: 0.02, duration: 1.5)
           playAnimation(key: "walkBack")
-          charNode.runAction(walkAction)
+          charNode.runAction(moveBackward(direction: currentPlayerDirection))
       }
     
     // MARK: Animations & Models
@@ -239,7 +314,7 @@ class ViewController: UIViewController
         ARCanvas.scene.rootNode.removeAnimation(forKey: key, blendOutDuration: CGFloat(0.5))
     }
     
-    //MARK: maze map setup
+    //MARK: Maze Map Setup
     //creates a box
     func setUpBox(size: Size, position: Position)
     {

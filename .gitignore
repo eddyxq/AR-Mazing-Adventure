@@ -1,3 +1,4 @@
 
+*.xcuserstate
 ARmazingAdventure/.DS_Store
-ARmazingAdventure/ARmazingAdventure.xcodeproj/project.xcworkspace/xcuserdata/shujichen.xcuserdatad/UserInterfaceState.xcuserstate
+*.xcuserstate
