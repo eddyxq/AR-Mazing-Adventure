@@ -25,9 +25,13 @@ class ViewController: UIViewController
     @IBOutlet var arView: ARView!
     @IBOutlet var ARCanvas: ARSCNView!
     
+    var wall = SCNBox()
+    var wallNode = SCNNode()
     var animations = [String: CAAnimation]()
     var idle: Bool = true
     let charNode = SCNNode()
+    var mazeWallNode = SCNNode()
+    var mazeFloorNode = SCNNode()
     //true when user has placed the maze on surface
     var mazePlaced = false
     // Player directions
@@ -79,7 +83,7 @@ class ViewController: UIViewController
         var walkAction = SCNAction()
         switch direction {
         case "up":
-            walkAction = SCNAction.moveBy(x: 0, y: 0, z: -0.02, duration: 1.5)
+            walkAction = SCNAction.moveBy(x: 0, y: 0, z: -0.02, duration: 1.0)
         case "down":
             walkAction = SCNAction.moveBy(x: 0, y: 0, z: 0.02, duration: 1.5)
         case "left":
@@ -108,22 +112,10 @@ class ViewController: UIViewController
         }
         return walkAction
     }
-    
+    // MARK: ViewController Functions
     override func viewDidLoad()
     {
         super.viewDidLoad()
-        
-        //enables user to tap detected plane for maze placement
-        addTapGestureToSceneView()
-        
-        //adds arrow pad to screen
-        createGamepad()
-    }
-    
-    override func viewWillAppear(_ animated: Bool)
-    {
-        super.viewWillAppear(animated)
-        
         //setting scene to AR
         let config = ARWorldTrackingConfiguration()
         
@@ -135,9 +127,33 @@ class ViewController: UIViewController
         
         //display the detected plane
         ARCanvas.delegate = self
-        
         //shows the feature points
         ARCanvas.debugOptions = [ARSCNDebugOptions.showFeaturePoints]
+        //enables user to tap detected plane for maze placement
+        addTapGestureToSceneView()
+        
+        //adds arrow pad to screen
+        createGamepad()
+    }
+    
+    override func viewWillAppear(_ animated: Bool)
+    {
+        super.viewWillAppear(animated)
+        
+//        //setting scene to AR
+//        let config = ARWorldTrackingConfiguration()
+//
+//        //search for horizontal planes
+//        config.planeDetection = .horizontal
+//
+//        //apply configurations
+//        ARCanvas.session.run(config)
+//
+//        //display the detected plane
+//        ARCanvas.delegate = self
+//
+//        //shows the feature points
+//        ARCanvas.debugOptions = [ARSCNDebugOptions.showFeaturePoints]
     }
     
     @objc func addMazeToSceneView(withGestureRecognizer recognizer: UIGestureRecognizer)
@@ -234,10 +250,10 @@ class ViewController: UIViewController
       self.view.addSubview(downButton)
     }
     // MARK: Arrow Button Logics
-    
     //right button logic
     @objc func rightButtonClicked(sender : UIButton)
     {
+          print("turned Right")
           sender.preventRepeatedPresses()
           turnRight(direction: currentPlayerDirection)
           let turnAction = SCNAction.rotateBy(x: 0, y: .pi/2, z: 0, duration: 0.5)
@@ -270,23 +286,22 @@ class ViewController: UIViewController
         // Load the character in the idle animation
         let idleScene = SCNScene(named: "art.scnassets/characters/player/IdleFixed.dae")!
         
-        // Set up parent node of all animation models
-        //let node = SCNNode()
-        
         // Add all the child nodes to the parent node
         for child in idleScene.rootNode.childNodes
         {
             charNode.addChildNode(child)
         }
+        
+        
         charNode.position = SCNVector3(CGFloat(position.xCoord), CGFloat(position.yCoord), CGFloat(position.zCoord))
         //size of the player model
         charNode.scale = SCNVector3(0.00018, 0.00018, 0.00018)
         // Rotating the character by 180 degrees
         charNode.rotation = SCNVector4Make(0, 1, 0, .pi)
-        ARCanvas.scene.rootNode.addChildNode(charNode)
         //TODO: load more animations if available
         loadAnimation(withKey: "walking", sceneName: "art.scnassets/characters/player/WalkFixed", animationIdentifier: "WalkFixed-1")
         loadAnimation(withKey: "walkBack", sceneName: "art.scnassets/characters/player/WalkBackFixed", animationIdentifier: "WalkBackFixed-1")
+        ARCanvas.scene.rootNode.addChildNode(charNode)
     }
     
     func loadAnimation(withKey: String, sceneName: String, animationIdentifier: String){
@@ -316,12 +331,11 @@ class ViewController: UIViewController
         // Stop the animation with a smooth transition
         ARCanvas.scene.rootNode.removeAnimation(forKey: key, blendOutDuration: CGFloat(0.5))
     }
-    
-    //MARK: Maze Map Setup
-    //creates a box
-    func setUpBox(size: Size, position: Position)
+    // MARK: Maze Nodes Setup
+    //creates a box for maze wall
+    func setupWall(size: Size, position: Position)
     {
-        let box = SCNBox(width: CGFloat(size.width), height: CGFloat(size.height), length: CGFloat(size.length), chamferRadius: 0)
+        wall = SCNBox(width: CGFloat(size.width), height: CGFloat(size.height), length: CGFloat(size.length), chamferRadius: 0)
         
         //wall textures
         let imageMaterial1 = SCNMaterial()
@@ -332,13 +346,43 @@ class ViewController: UIViewController
 //        let wallImage2 = UIImage(named: "darkWall")
 //        imageMaterial2.diffuse.contents = wallImage2
         //apply skins
-        box.materials = [imageMaterial1, imageMaterial1, imageMaterial1, imageMaterial1, imageMaterial1, imageMaterial1]
+        wall.materials = [imageMaterial1, imageMaterial1, imageMaterial1, imageMaterial1, imageMaterial1, imageMaterial1]
         //add box to scene
-        let boxNode = SCNNode(geometry: box)
-        boxNode.position = SCNVector3(CGFloat(position.xCoord), CGFloat(position.yCoord), CGFloat(position.zCoord))
-        ARCanvas.scene.rootNode.addChildNode(boxNode)
+        wallNode = SCNNode(geometry: wall)
+        wallNode.position = SCNVector3(CGFloat(position.xCoord), CGFloat(position.yCoord), CGFloat(position.zCoord))
+        mazeWallNode.addChildNode(wallNode)
+        
+        ARCanvas.scene.rootNode.addChildNode(mazeWallNode)
     }
+    // creates a box for maze floor
+    func setupFloor(size: Size, position: Position)
+        {
+            let floor = SCNBox(width: CGFloat(size.width), height: CGFloat(size.height), length: CGFloat(size.length), chamferRadius: 0)
+            
+            //wall textures
+            let imageMaterial1 = SCNMaterial()
+            let imageMaterial2 = SCNMaterial()
+            
+            let floorImage1 = UIImage(named: "floor")
+            let floorSideImage1 = UIImage(named: "wall")
+            
+            imageMaterial1.diffuse.contents = floorImage1
+            imageMaterial2.diffuse.contents = floorSideImage1
+            
+    //        let imageMaterial2 = SCNMaterial()
+    //        let wallImage2 = UIImage(named: "darkWall")
+    //        imageMaterial2.diffuse.contents = wallImage2
+            //apply skins
+            floor.materials = [imageMaterial2, imageMaterial2, imageMaterial2, imageMaterial2, imageMaterial1, imageMaterial2]
+            //add box to scene
+            let floorNode = SCNNode(geometry: floor)
+            floorNode.position = SCNVector3(CGFloat(position.xCoord), CGFloat(position.yCoord), CGFloat(position.zCoord))
+            mazeFloorNode.addChildNode(floorNode)
+            ARCanvas.scene.rootNode.addChildNode(mazeFloorNode)
+        }
     
+    
+    //MARK: Maze Map Setup
     //create a maze
     func setUpMaze(position: Position)
     {
@@ -367,7 +411,7 @@ class ViewController: UIViewController
                         [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
                         [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
                         [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-                        [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+                        [1,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,1],
                         [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
                         [1,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,1],
                         [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
@@ -394,20 +438,21 @@ class ViewController: UIViewController
                 //creates maze floor
                 y -= 0.04
                 location = Position(xCoord: x, yCoord: y, zCoord: z, cRad: c)
-                setUpBox(size: dimensions, position: location)
+                setupFloor(size: dimensions, position: location)
                 y += 0.04
                 
                 //show wall or player depending on flag value
                 if flag == 1
                 {
                     location = Position(xCoord: x, yCoord: y, zCoord: z, cRad: c)
-                    setUpBox(size: dimensions, position: location)
+                    setupWall(size: dimensions, position: location)
                 // player initial position
                 }
                 else if flag == 2
                 {
                     playerLocation = Position(xCoord: x, yCoord: y-0.02, zCoord: z, cRad: c)
                     loadPlayerAnimations(position: playerLocation)
+                    
                 }
                 //increment each block so it lines up horizontally
                 x += 0.02
@@ -419,6 +464,7 @@ class ViewController: UIViewController
     }
 }
 
+// MARK: Class Extensions
 extension ViewController: ARSCNViewDelegate
 {
     func renderer(_ renderer: SCNSceneRenderer, didAdd node: SCNNode, for anchor: ARAnchor)
