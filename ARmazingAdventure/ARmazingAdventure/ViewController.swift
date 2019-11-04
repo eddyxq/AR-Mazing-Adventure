@@ -316,7 +316,7 @@ class ViewController: UIViewController
     {
         //play animation
         playAnimation(key: "heavyAttack")
-        let audio = SCNAudioSource(named: "art.scnassets/audios/heavyAttack.mp3")
+        let audio = SCNAudioSource(named: "art.scnassets/audios/heavyAttack.wav")
         let audioAction = SCNAction.playAudio(audio!, waitForCompletion: true)
         charNode.runAction(audioAction)
     }
