@@ -253,7 +253,7 @@ class ViewController: UIViewController
             turnRight(direction: currentPlayerDirection)
             let turnAction = SCNAction.rotateBy(x: 0, y: .pi/2, z: 0, duration: 0.5)
             charNode.runAction(turnAction)
-            maze = rotateArrayCCW(arr: maze)
+            maze = rotateArrayCCW(orig: maze)
         }
     }
     //left button logic
@@ -336,9 +336,9 @@ class ViewController: UIViewController
     }
 	
 	//rotates a array counter clockwise
-    func rotateArrayCW(orig: [[Int]]) -> [[Int]]
+    func rotateArrayCCW(orig: [[Int]]) -> [[Int]]
     {
-        return rotateArrayCW(orig: rotateArrayCW(orig: rotateArrayCW(orig: arr))) 
+        return rotateArrayCW(orig: rotateArrayCW(orig: rotateArrayCW(orig: orig)))
     }
     
     //moves and updates player location
