@@ -450,6 +450,8 @@ class ViewController: UIViewController
         loadAnimation(withKey: "walkBack", sceneName: "art.scnassets/characters/player/WalkBackFixed", animationIdentifier: "WalkBackFixed-1")
         loadAnimation(withKey: "turnLeft", sceneName: "art.scnassets/characters/player/TurnLeftFixed", animationIdentifier: "TurnLeftFixed-1")
         loadAnimation(withKey: "turnRight", sceneName: "art.scnassets/characters/player/TurnRightFixed", animationIdentifier: "TurnRightFixed-1")
+        loadAnimation(withKey: "lightAttack", sceneName: "art.scnassets/characters/player/LightAttackFixed", animationIdentifier: "LightAttackFixed-1")
+        loadAnimation(withKey: "heavyAttack", sceneName: "art.scnassets/characters/player/HeavyAttackFixed", animationIdentifier: "HeavyAttackFixed-1")
     }
     // MARK: Enemy Model
     // creates a player character model with its animations
