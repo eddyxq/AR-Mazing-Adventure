@@ -48,6 +48,7 @@ class ViewController: UIViewController
             return self.rawValue
         }
     }
+    // MARK: Player Movement Logics
     // The direction player is current facing.
     // Default: Up
     var currentPlayerDirection = playerDirection.up.direction()
@@ -115,24 +116,12 @@ class ViewController: UIViewController
         }
         return walkAction
     }
-    
+    // MARK: ViewController Functions
     override func viewDidLoad()
     {
         super.viewDidLoad()
-        
-        //enables user to tap detected plane for maze placement
-        addTapGestureToSceneView()
-        
-        //adds arrow pad to screen
-        createGamepad()
-    }
-    
-    override func viewWillAppear(_ animated: Bool)
-    {
-        super.viewWillAppear(animated)
-        
-		//setting scene to AR
-		config = ARWorldTrackingConfiguration()
+        //setting scene to AR
+        config = ARWorldTrackingConfiguration()
         
         //search for horizontal planes
         config.planeDetection = .horizontal
@@ -145,6 +134,17 @@ class ViewController: UIViewController
         
         //shows the feature points
         ARCanvas.debugOptions = [ARSCNDebugOptions.showFeaturePoints]
+        //enables user to tap detected plane for maze placement
+        addTapGestureToSceneView()
+        
+        //adds arrow pad to screen
+        createGamepad()
+    }
+    
+    override func viewWillAppear(_ animated: Bool)
+    {
+        super.viewWillAppear(animated)
+    
     }
     
     @objc func addMazeToSceneView(withGestureRecognizer recognizer: UIGestureRecognizer)
@@ -255,7 +255,7 @@ class ViewController: UIViewController
             sender.preventRepeatedPresses()
             turnRight(direction: currentPlayerDirection)
             let turnAction = SCNAction.rotateBy(x: 0, y: .pi/2, z: 0, duration: 0.5)
-            playAnimation(key: "turnRight")
+            playAnimation(key: "lightAttack")
             charNode.runAction(turnAction)
             maze = rotateArrayCCW(orig: maze)
         }
@@ -268,7 +268,10 @@ class ViewController: UIViewController
             sender.preventRepeatedPresses()
             turnLeft(direction: currentPlayerDirection)
             let turnAction = SCNAction.rotateBy(x: 0, y: -(.pi/2), z: 0, duration: 0.5)
-            playAnimation(key: "turnLeft")
+            playAnimation(key: "heavyAttack")
+            let audio = SCNAudioSource(named: "art.scnassets/audios/lightAttack.wav")
+            let audioAction = SCNAction.playAudio(audio!, waitForCompletion: true)
+            ARCanvas.scene.rootNode.runAction(audioAction)
             charNode.runAction(turnAction)
             maze = rotateArrayCW(orig: maze)
         }
@@ -421,7 +424,7 @@ class ViewController: UIViewController
         }
         return playerCol;
     }
-    
+    // MARK: Musics and Sound Effects
     
     // MARK: Animations & Models
     // creates a player character model with its animations
@@ -645,7 +648,7 @@ class ViewController: UIViewController
         }
     }
 }
-
+// MARK: Class Extension
 extension ViewController: ARSCNViewDelegate
 {
     func renderer(_ renderer: SCNSceneRenderer, didAdd node: SCNNode, for anchor: ARAnchor)
