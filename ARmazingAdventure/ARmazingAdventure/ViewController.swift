@@ -264,7 +264,7 @@ class ViewController: UIViewController
             sender.preventRepeatedPresses()
             turnRight(direction: currentPlayerDirection)
             let turnAction = SCNAction.rotateBy(x: 0, y: .pi/2, z: 0, duration: 0.5)
-            playAnimation(key: "lightAttack")
+            playAnimation(key: "turnRight")
             charNode.runAction(turnAction)
             maze = rotateArrayCCW(orig: maze)
         }
@@ -277,6 +277,7 @@ class ViewController: UIViewController
             sender.preventRepeatedPresses()
             turnLeft(direction: currentPlayerDirection)
             let turnAction = SCNAction.rotateBy(x: 0, y: -(.pi/2), z: 0, duration: 0.5)
+            playAnimation(key: "turnLeft")
             charNode.runAction(turnAction)
             maze = rotateArrayCW(orig: maze)
         }
