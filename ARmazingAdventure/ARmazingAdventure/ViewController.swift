@@ -204,6 +204,7 @@ class ViewController: UIViewController
         let buttonY = 250
         let buttonWidth = 100
         let buttonHeight = 50
+        let attackButtonRadius = 75
 
         //right arrow
         let rightButton = UIButton(type: .system)
@@ -242,7 +243,7 @@ class ViewController: UIViewController
         let attack1 = UIImage(named: "attackButton")
         lightAttackButton.setImage(attack1, for: .normal)
         lightAttackButton.addTarget(self, action: #selector(lightAttackButtonClicked), for: .touchUpInside)
-        lightAttackButton.frame = CGRect(x: buttonX+100, y: buttonY, width: buttonWidth, height: buttonHeight)
+        lightAttackButton.frame = CGRect(x: buttonX+100, y: buttonY-12, width: attackButtonRadius, height: attackButtonRadius)
         self.view.addSubview(lightAttackButton)
         
         //heavy attack
@@ -250,7 +251,7 @@ class ViewController: UIViewController
         let attack2 = UIImage(named: "attackButton")
         heavyAttackButton.setImage(attack2, for: .normal)
         heavyAttackButton.addTarget(self, action: #selector(heavyAttackButtonClicked), for: .touchUpInside)
-        heavyAttackButton.frame = CGRect(x: buttonX+150, y: buttonY, width: buttonWidth, height: buttonHeight)
+        heavyAttackButton.frame = CGRect(x: buttonX+200, y: buttonY-12, width: attackButtonRadius, height: attackButtonRadius)
         self.view.addSubview(heavyAttackButton)
     }
     // MARK: Arrow Button Logics
