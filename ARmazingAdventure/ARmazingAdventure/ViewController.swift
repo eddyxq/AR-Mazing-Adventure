@@ -255,6 +255,7 @@ class ViewController: UIViewController
             sender.preventRepeatedPresses()
             turnRight(direction: currentPlayerDirection)
             let turnAction = SCNAction.rotateBy(x: 0, y: .pi/2, z: 0, duration: 0.5)
+            playAnimation(key: "turnRight")
             charNode.runAction(turnAction)
             maze = rotateArrayCCW(orig: maze)
         }
@@ -267,6 +268,7 @@ class ViewController: UIViewController
             sender.preventRepeatedPresses()
             turnLeft(direction: currentPlayerDirection)
             let turnAction = SCNAction.rotateBy(x: 0, y: -(.pi/2), z: 0, duration: 0.5)
+            playAnimation(key: "turnLeft")
             charNode.runAction(turnAction)
             maze = rotateArrayCW(orig: maze)
         }
@@ -446,6 +448,8 @@ class ViewController: UIViewController
         //TODO: load more animations if available
         loadAnimation(withKey: "walking", sceneName: "art.scnassets/characters/player/WalkFixed", animationIdentifier: "WalkFixed-1")
         loadAnimation(withKey: "walkBack", sceneName: "art.scnassets/characters/player/WalkBackFixed", animationIdentifier: "WalkBackFixed-1")
+        loadAnimation(withKey: "turnLeft", sceneName: "art.scnassets/characters/player/TurnLeftFixed", animationIdentifier: "TurnLeftFixed-1")
+        loadAnimation(withKey: "turnRight", sceneName: "art.scnassets/characters/player/TurnRightFixed", animationIdentifier: "TurnRightFixed-1")
     }
     // MARK: Enemy Model
     // creates a player character model with its animations
