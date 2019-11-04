@@ -200,50 +200,59 @@ class ViewController: UIViewController
     //creates 4 buttons
     func createGamepad()
     {
-      let buttonX = 150
-      let buttonY = 250
-      let buttonWidth = 100
-      let buttonHeight = 50
+        let buttonX = 150
+        let buttonY = 250
+        let buttonWidth = 100
+        let buttonHeight = 50
+        let attackButtonRadius = 75
 
-      //right arrow
-      let rightButton = UIButton(type: .system)
-      let rightArrow = UIImage(named: "rightArrow")
-      rightButton.setImage(rightArrow, for: .normal)
-      rightButton.addTarget(self, action: #selector(rightButtonClicked), for: .touchUpInside)
+        //right arrow
+        let rightButton = UIButton(type: .system)
+        let rightArrow = UIImage(named: "rightArrow")
+        rightButton.setImage(rightArrow, for: .normal)
+        rightButton.addTarget(self, action: #selector(rightButtonClicked), for: .touchUpInside)
+        rightButton.frame = CGRect(x: buttonX, y: buttonY, width: buttonWidth, height: buttonHeight)
+        self.view.addSubview(rightButton)
 
-      rightButton.frame = CGRect(x: buttonX, y: buttonY, width: buttonWidth, height: buttonHeight)
+        //left arrow
+        let leftButton = UIButton(type: .system)
+        let leftArrow = UIImage(named: "leftArrow")
+        leftButton.setImage(leftArrow, for: .normal)
+        leftButton.addTarget(self, action: #selector(leftButtonClicked), for: .touchUpInside)
+        leftButton.frame = CGRect(x: buttonX-100, y: buttonY, width: buttonWidth, height: buttonHeight)
+        self.view.addSubview(leftButton)
 
-      self.view.addSubview(rightButton)
+        //up arrow
+        let upButton = UIButton(type: .system)
+        let upArrow = UIImage(named: "upArrow")
+        upButton.setImage(upArrow, for: .normal)
+        upButton.addTarget(self, action: #selector(upButtonClicked), for: .touchUpInside)
+        upButton.frame = CGRect(x: buttonX-50, y: buttonY-50, width: buttonWidth, height: buttonHeight)
+        self.view.addSubview(upButton)
 
-      //left arrow
-      let leftButton = UIButton(type: .system)
-      let leftArrow = UIImage(named: "leftArrow")
-      leftButton.setImage(leftArrow, for: .normal)
-      leftButton.addTarget(self, action: #selector(leftButtonClicked), for: .touchUpInside)
-
-      leftButton.frame = CGRect(x: buttonX-100, y: buttonY, width: buttonWidth, height: buttonHeight)
-
-      self.view.addSubview(leftButton)
-
-      //up arrow
-      let upButton = UIButton(type: .system)
-      let upArrow = UIImage(named: "upArrow")
-      upButton.setImage(upArrow, for: .normal)
-      upButton.addTarget(self, action: #selector(upButtonClicked), for: .touchUpInside)
-
-      upButton.frame = CGRect(x: buttonX-50, y: buttonY-50, width: buttonWidth, height: buttonHeight)
-
-      self.view.addSubview(upButton)
-
-      //down arrow
-      let downButton = UIButton(type: .system)
-      let downArrow = UIImage(named: "downArrow")
-      downButton.setImage(downArrow, for: .normal)
-      downButton.addTarget(self, action: #selector(downButtonClicked), for: .touchUpInside)
-
-      downButton.frame = CGRect(x: buttonX-50, y: buttonY+50, width: buttonWidth, height: buttonHeight)
-
-      self.view.addSubview(downButton)
+        //down arrow
+        let downButton = UIButton(type: .system)
+        let downArrow = UIImage(named: "downArrow")
+        downButton.setImage(downArrow, for: .normal)
+        downButton.addTarget(self, action: #selector(downButtonClicked), for: .touchUpInside)
+        downButton.frame = CGRect(x: buttonX-50, y: buttonY+50, width: buttonWidth, height: buttonHeight)
+        self.view.addSubview(downButton)
+        
+        //light attack
+        let lightAttackButton = UIButton(type: .system)
+        let attack1 = UIImage(named: "attackButton")
+        lightAttackButton.setImage(attack1, for: .normal)
+        lightAttackButton.addTarget(self, action: #selector(lightAttackButtonClicked), for: .touchUpInside)
+        lightAttackButton.frame = CGRect(x: buttonX+100, y: buttonY-12, width: attackButtonRadius, height: attackButtonRadius)
+        self.view.addSubview(lightAttackButton)
+        
+        //heavy attack
+        let heavyAttackButton = UIButton(type: .system)
+        let attack2 = UIImage(named: "attackButton")
+        heavyAttackButton.setImage(attack2, for: .normal)
+        heavyAttackButton.addTarget(self, action: #selector(heavyAttackButtonClicked), for: .touchUpInside)
+        heavyAttackButton.frame = CGRect(x: buttonX+200, y: buttonY-12, width: attackButtonRadius, height: attackButtonRadius)
+        self.view.addSubview(heavyAttackButton)
     }
     // MARK: Arrow Button Logics
     
@@ -296,6 +305,19 @@ class ViewController: UIViewController
             charNode.runAction(moveBackward(direction: currentPlayerDirection))
         }
     }
+    //light attack button logic
+    @objc func lightAttackButtonClicked(sender : UIButton)
+    {
+        //play animation
+    }
+    //heavy attack button logic
+    @objc func heavyAttackButtonClicked(sender : UIButton)
+    {
+        ////play animation
+    }
+    
+
+    
     // MARK: Player Restriction
     //var currentPlayerLocation
     
