@@ -277,10 +277,6 @@ class ViewController: UIViewController
             sender.preventRepeatedPresses()
             turnLeft(direction: currentPlayerDirection)
             let turnAction = SCNAction.rotateBy(x: 0, y: -(.pi/2), z: 0, duration: 0.5)
-            playAnimation(key: "heavyAttack")
-            let audio = SCNAudioSource(named: "art.scnassets/audios/lightAttack.wav")
-            let audioAction = SCNAction.playAudio(audio!, waitForCompletion: true)
-            ARCanvas.scene.rootNode.runAction(audioAction)
             charNode.runAction(turnAction)
             maze = rotateArrayCW(orig: maze)
         }
@@ -309,11 +305,19 @@ class ViewController: UIViewController
     @objc func lightAttackButtonClicked(sender : UIButton)
     {
         //play animation
+        playAnimation(key: "lightAttack")
+        let audio = SCNAudioSource(named: "art.scnassets/audios/lightAttack.wav")
+        let audioAction = SCNAction.playAudio(audio!, waitForCompletion: true)
+        charNode.runAction(audioAction)
     }
     //heavy attack button logic
     @objc func heavyAttackButtonClicked(sender : UIButton)
     {
-        ////play animation
+        //play animation
+        playAnimation(key: "heavyAttack")
+        let audio = SCNAudioSource(named: "art.scnassets/audios/heavyAttack.mp3")
+        let audioAction = SCNAction.playAudio(audio!, waitForCompletion: true)
+        charNode.runAction(audioAction)
     }
     
 
