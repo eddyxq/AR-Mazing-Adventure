@@ -31,6 +31,9 @@ class ViewController: UIViewController
     
     var animations = [String: CAAnimation]()
     var idle: Bool = true
+    var mazeWallNode = SCNNode()
+    var mazeFloorNode = SCNNode()
+    let enemyNode = SCNNode()
     let charNode = SCNNode()
     //true when user has placed the maze on surface
     var mazePlaced = false
@@ -288,13 +291,13 @@ class ViewController: UIViewController
             charNode.runAction(moveBackward(direction: currentPlayerDirection))
         }
     }
-    
+    // MARK: Player Restriction
     //var currentPlayerLocation
     
     var maze = [
     [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
     [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-    [1,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+    [1,0,2,0,0,3,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
     [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
     [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
     [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
@@ -438,11 +441,37 @@ class ViewController: UIViewController
         charNode.scale = SCNVector3(0.00018, 0.00018, 0.00018)
         // Rotating the character by 180 degrees
         charNode.rotation = SCNVector4Make(0, 1, 0, .pi)
+        charNode.name = "player"
         ARCanvas.scene.rootNode.addChildNode(charNode)
         //TODO: load more animations if available
         loadAnimation(withKey: "walking", sceneName: "art.scnassets/characters/player/WalkFixed", animationIdentifier: "WalkFixed-1")
         loadAnimation(withKey: "walkBack", sceneName: "art.scnassets/characters/player/WalkBackFixed", animationIdentifier: "WalkBackFixed-1")
     }
+    // MARK: Enemy Model
+    // creates a player character model with its animations
+    func loadEnemyAnimations(position: Position)
+    {
+        // Load the character in the idle animation
+        let idleScene = SCNScene(named: "art.scnassets/characters/enemy/IdleEnemyFixed.dae")!
+        
+        // Add all the child nodes to the parent node
+        for child in idleScene.rootNode.childNodes
+        {
+            enemyNode.addChildNode(child)
+        }
+        
+        
+        enemyNode.position = SCNVector3(CGFloat(position.xCoord), CGFloat(position.yCoord), CGFloat(position.zCoord))
+        //size of the player model
+        enemyNode.scale = SCNVector3(0.00018, 0.00018, 0.00018)
+        // Rotating the character by 180 degrees
+        enemyNode.rotation = SCNVector4Make(0, 1, 0, 0)
+        enemyNode.name = "enemy"
+        //TODO: load more animations if available
+        
+        ARCanvas.scene.rootNode.addChildNode(enemyNode)
+    }
+    
     
     func loadAnimation(withKey: String, sceneName: String, animationIdentifier: String){
         let sceneURL = Bundle.main.url(forResource: sceneName, withExtension: "dae")
@@ -463,36 +492,67 @@ class ViewController: UIViewController
     func playAnimation(key: String)
     {
         // Add the animation to start playing it right away
-        ARCanvas.scene.rootNode.addAnimation(animations[key]!, forKey: key)
+        ARCanvas.scene.rootNode.childNode(withName: "player", recursively: true)?.addAnimation(animations[key]!, forKey: key)
     }
     
     func stopAnimation(key: String)
     {
         // Stop the animation with a smooth transition
-        ARCanvas.scene.rootNode.removeAnimation(forKey: key, blendOutDuration: CGFloat(0.5))
+        ARCanvas.scene.rootNode.childNode(withName: "player", recursively: true)?.removeAnimation(forKey: key, blendOutDuration: CGFloat(0.5))
     }
     
     //MARK: Maze Map Setup
     //creates a box
-    func setUpBox(size: Size, position: Position)
-    {
-        let box = SCNBox(width: CGFloat(size.width), height: CGFloat(size.height), length: CGFloat(size.length), chamferRadius: 0)
-        
-        //wall textures
-        let imageMaterial1 = SCNMaterial()
-        let wallImage1 = UIImage(named: "wall")
-        imageMaterial1.diffuse.contents = wallImage1
-        
-//        let imageMaterial2 = SCNMaterial()
-//        let wallImage2 = UIImage(named: "darkWall")
-//        imageMaterial2.diffuse.contents = wallImage2
-        //apply skins
-        box.materials = [imageMaterial1, imageMaterial1, imageMaterial1, imageMaterial1, imageMaterial1, imageMaterial1]
-        //add box to scene
-        let boxNode = SCNNode(geometry: box)
-        boxNode.position = SCNVector3(CGFloat(position.xCoord), CGFloat(position.yCoord), CGFloat(position.zCoord))
-        ARCanvas.scene.rootNode.addChildNode(boxNode)
-    }
+    // MARK: Maze Nodes Setup
+        //creates a box for maze wall
+        func setupWall(size: Size, position: Position)
+        {
+            let wall = SCNBox(width: CGFloat(size.width), height: CGFloat(size.height), length: CGFloat(size.length), chamferRadius: 0)
+            
+            //wall textures
+            let imageMaterial1 = SCNMaterial()
+            let wallImage1 = UIImage(named: "wall")
+            imageMaterial1.diffuse.contents = wallImage1
+            
+    //        let imageMaterial2 = SCNMaterial()
+    //        let wallImage2 = UIImage(named: "darkWall")
+    //        imageMaterial2.diffuse.contents = wallImage2
+            //apply skins
+            wall.materials = [imageMaterial1, imageMaterial1, imageMaterial1, imageMaterial1, imageMaterial1, imageMaterial1]
+            //add box to scene
+           let wallNode = SCNNode(geometry: wall)
+            wallNode.position = SCNVector3(CGFloat(position.xCoord), CGFloat(position.yCoord), CGFloat(position.zCoord))
+            mazeWallNode.addChildNode(wallNode)
+            
+            ARCanvas.scene.rootNode.addChildNode(mazeWallNode)
+        }
+    
+    // creates a box for maze floor
+    func setupFloor(size: Size, position: Position)
+        {
+            let floor = SCNBox(width: CGFloat(size.width), height: CGFloat(size.height), length: CGFloat(size.length), chamferRadius: 0)
+            
+            //wall textures
+            let imageMaterial1 = SCNMaterial()
+            let imageMaterial2 = SCNMaterial()
+            
+            let floorImage1 = UIImage(named: "floor")
+            let floorSideImage1 = UIImage(named: "wall")
+            
+            imageMaterial1.diffuse.contents = floorImage1
+            imageMaterial2.diffuse.contents = floorSideImage1
+            
+    //        let imageMaterial2 = SCNMaterial()
+    //        let wallImage2 = UIImage(named: "darkWall")
+    //        imageMaterial2.diffuse.contents = wallImage2
+            //apply skins
+            floor.materials = [imageMaterial2, imageMaterial2, imageMaterial2, imageMaterial2, imageMaterial1, imageMaterial2]
+            //add box to scene
+            let floorNode = SCNNode(geometry: floor)
+            floorNode.position = SCNVector3(CGFloat(position.xCoord), CGFloat(position.yCoord), CGFloat(position.zCoord))
+            mazeFloorNode.addChildNode(floorNode)
+            ARCanvas.scene.rootNode.addChildNode(mazeFloorNode)
+        }
     
     //create a maze
     func setUpMaze(position: Position)
@@ -512,11 +572,12 @@ class ViewController: UIViewController
         //init position
         var location = Position(xCoord: x, yCoord: y, zCoord: z, cRad: c)
         var playerLocation = Position(xCoord: x, yCoord: y, zCoord: z, cRad: c)
+        var enemyLocation = Position(xCoord: x, yCoord: y, zCoord: z, cRad: c)
         //hard coded maze
         let mazeMap = [
                         [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
                         [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-                        [1,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+                        [1,0,2,0,0,3,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
                         [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
                         [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
                         [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
@@ -549,20 +610,25 @@ class ViewController: UIViewController
                 //creates maze floor
                 y -= 0.04
                 location = Position(xCoord: x, yCoord: y, zCoord: z, cRad: c)
-                setUpBox(size: dimensions, position: location)
+                setupFloor(size: dimensions, position: location)
                 y += 0.04
                 
                 //show wall or player depending on flag value
                 if flag == 1
                 {
                     location = Position(xCoord: x, yCoord: y, zCoord: z, cRad: c)
-                    setUpBox(size: dimensions, position: location)
+                    setupWall(size: dimensions, position: location)
                 // player initial position
                 }
                 else if flag == 2
                 {
                     playerLocation = Position(xCoord: x, yCoord: y-0.02, zCoord: z, cRad: c)
                     loadPlayerAnimations(position: playerLocation)
+                }
+                else if flag == 3
+                {
+                    enemyLocation = Position(xCoord: x, yCoord: y-0.02, zCoord: z, cRad: c)
+                    loadEnemyAnimations(position: enemyLocation)
                 }
                 //increment each block so it lines up horizontally
                 x += 0.02
