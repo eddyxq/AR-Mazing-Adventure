@@ -288,7 +288,7 @@ class ViewController: UIViewController
         if mazePlaced && move(direction: "forward")
         {
             sender.preventRepeatedPresses()
-            playAnimation(key: "walking")
+            playAnimation(key: "walk")
             charNode.runAction(moveForward(direction: currentPlayerDirection))
         }
     }
@@ -451,8 +451,6 @@ class ViewController: UIViewController
         }
         return playerCol;
     }
-    // MARK: Musics and Sound Effects
-    
     // MARK: Animations & Models
     // creates a player character model with its animations
     func loadPlayerAnimations(position: Position)
@@ -476,7 +474,7 @@ class ViewController: UIViewController
         charNode.name = "player"
         ARCanvas.scene.rootNode.addChildNode(charNode)
         //TODO: load more animations if available
-        loadAnimation(withKey: "walking", sceneName: "art.scnassets/characters/player/WalkFixed", animationIdentifier: "WalkFixed-1")
+        loadAnimation(withKey: "walk", sceneName: "art.scnassets/characters/player/WalkFixed", animationIdentifier: "WalkFixed-1")
         loadAnimation(withKey: "walkBack", sceneName: "art.scnassets/characters/player/WalkBackFixed", animationIdentifier: "WalkBackFixed-1")
         loadAnimation(withKey: "turnLeft", sceneName: "art.scnassets/characters/player/TurnLeftFixed", animationIdentifier: "TurnLeftFixed-1")
         loadAnimation(withKey: "turnRight", sceneName: "art.scnassets/characters/player/TurnRightFixed", animationIdentifier: "TurnRightFixed-1")
@@ -735,7 +733,7 @@ extension float4x4
 }
 
 extension UIButton {
-    func preventRepeatedPresses(inNext seconds: Double = 1) {
+    func preventRepeatedPresses(inNext seconds: Double = 2) {
         self.isUserInteractionEnabled = false
         DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + seconds) {
             self.isUserInteractionEnabled = true
