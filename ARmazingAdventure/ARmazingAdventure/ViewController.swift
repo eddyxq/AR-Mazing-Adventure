@@ -305,6 +305,7 @@ class ViewController: UIViewController
     //light attack button logic
     @objc func lightAttackButtonClicked(sender : UIButton)
     {
+        sender.preventRepeatedPresses()
         //play animation
         playAnimation(key: "lightAttack")
         let audio = SCNAudioSource(named: "art.scnassets/audios/lightAttack.wav")
@@ -314,6 +315,7 @@ class ViewController: UIViewController
     //heavy attack button logic
     @objc func heavyAttackButtonClicked(sender : UIButton)
     {
+        sender.preventRepeatedPresses()
         //play animation
         playAnimation(key: "heavyAttack")
         let audio = SCNAudioSource(named: "art.scnassets/audios/heavyAttack.wav")
