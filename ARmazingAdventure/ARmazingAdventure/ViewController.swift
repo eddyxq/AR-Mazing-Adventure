@@ -578,7 +578,7 @@ class ViewController: UIViewController
     func setupFog(){
         ARCanvas.scene.fogColor = UIColor.darkGray
         ARCanvas.scene.fogStartDistance = CGFloat(0.0)
-        ARCanvas.scene.fogEndDistance = CGFloat(2.0)
+        ARCanvas.scene.fogEndDistance = CGFloat(3.0)
         
     }
     //MARK: Maze Map Setup
