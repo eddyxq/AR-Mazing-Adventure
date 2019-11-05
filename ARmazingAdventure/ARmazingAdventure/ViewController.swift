@@ -52,10 +52,10 @@ class ViewController: UIViewController
     
     var maze = [
     [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
-    [1,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-    [1,0,2,0,1,3,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-    [1,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-    [1,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+    [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+    [1,0,2,0,0,3,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+    [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+    [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
     [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
     [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
     [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
@@ -118,13 +118,13 @@ class ViewController: UIViewController
         switch direction
         {
             case "up":
-                walkAction = SCNAction.moveBy(x: 0, y: 0, z: -0.02, duration: 1.5)
+                walkAction = SCNAction.moveBy(x: 0, y: 0, z: -0.04, duration: 1.5)
             case "down":
-                walkAction = SCNAction.moveBy(x: 0, y: 0, z: 0.02, duration: 1.5)
+                walkAction = SCNAction.moveBy(x: 0, y: 0, z: 0.04, duration: 1.5)
             case "left":
-                walkAction = SCNAction.moveBy(x: -0.02, y: 0, z: 0, duration: 1.5)
+                walkAction = SCNAction.moveBy(x: -0.04, y: 0, z: 0, duration: 1.5)
             case "right":
-                walkAction = SCNAction.moveBy(x: 0.02, y: 0, z: 0, duration: 1.5)
+                walkAction = SCNAction.moveBy(x: 0.04, y: 0, z: 0, duration: 1.5)
             default:
                 break
         }
@@ -155,13 +155,13 @@ class ViewController: UIViewController
         switch direction
         {
             case "up":
-                walkAction = SCNAction.moveBy(x: 0, y: 0, z: 0.02, duration: 1.5)
+                walkAction = SCNAction.moveBy(x: 0, y: 0, z: 0.04, duration: 1.5)
             case "down":
-                walkAction = SCNAction.moveBy(x: 0, y: 0, z: -0.02, duration: 1.5)
+                walkAction = SCNAction.moveBy(x: 0, y: 0, z: -0.04, duration: 1.5)
             case "left":
-                walkAction = SCNAction.moveBy(x: 0.02, y: 0, z: 0, duration: 1.5)
+                walkAction = SCNAction.moveBy(x: 0.04, y: 0, z: 0, duration: 1.5)
             case "right":
-                walkAction = SCNAction.moveBy(x: -0.02, y: 0, z: 0, duration: 1.5)
+                walkAction = SCNAction.moveBy(x: -0.04, y: 0, z: 0, duration: 1.5)
             default:
                 break
         }
@@ -187,8 +187,8 @@ class ViewController: UIViewController
         //shows the feature points
         ARCanvas.debugOptions = [ARSCNDebugOptions.showFeaturePoints]
         ARCanvas.scene.rootNode.castsShadow = true
-        setupARLight()
-        setupFog()
+        //setupARLight()
+        //setupFog()
         //enables user to tap detected plane for maze placement
         addTapGestureToSceneView()
         
@@ -500,7 +500,8 @@ class ViewController: UIViewController
         }
         charNode.position = SCNVector3(CGFloat(position.xCoord), CGFloat(position.yCoord), CGFloat(position.zCoord))
         //size of the player model
-        charNode.scale = SCNVector3(0.00018, 0.00018, 0.00018)
+        let playerModelSize = 0.00036
+        charNode.scale = SCNVector3(playerModelSize, playerModelSize, playerModelSize)
         // Rotating the character by 180 degrees
         charNode.rotation = SCNVector4Make(0, 1, 0, .pi)
         
@@ -529,8 +530,9 @@ class ViewController: UIViewController
         }
         
         enemyNode.position = SCNVector3(CGFloat(position.xCoord), CGFloat(position.yCoord), CGFloat(position.zCoord))
-        //size of the player model
-        enemyNode.scale = SCNVector3(0.00018, 0.00018, 0.00018)
+        //size of the enemy model
+        let enemyModelSize = 0.00038
+        enemyNode.scale = SCNVector3(enemyModelSize, enemyModelSize, enemyModelSize)
         // Rotating the character by 180 degrees
         enemyNode.rotation = SCNVector4Make(0, 1, 0, 0)
         enemyNode.castsShadow = true
@@ -590,9 +592,7 @@ class ViewController: UIViewController
         ARCanvas.scene.fogEndDistance = CGFloat(3.0)
     }
     //MARK: Maze Map Setup
-    //creates a box
-    // MARK: Maze Nodes Setup
-    //creates a box for maze wall
+    //creates the maze wall
     func setupWall(size: Size, position: Position)
     {
         let wall = SCNBox(width: CGFloat(size.width), height: CGFloat(size.height), length: CGFloat(size.length), chamferRadius: 0)
@@ -612,7 +612,7 @@ class ViewController: UIViewController
         ARCanvas.scene.rootNode.addChildNode(mazeWallNode)
     }
     
-    // creates a box for maze floor
+    // creates the maze floor
     func setupFloor(size: Size, position: Position)
     {
         let floor = SCNBox(width: CGFloat(size.width), height: CGFloat(size.height), length: CGFloat(size.length), chamferRadius: 0)
@@ -641,12 +641,12 @@ class ViewController: UIViewController
     func setUpMaze(position: Position)
     {
         //dimensions of a box
-        let WIDTH = 0.02
-        let HEIGHT = 0.04
-        let LENGTH = 0.02
+        let WIDTH = 0.04
+        let HEIGHT = 0.08
+        let LENGTH = 0.04
         //init dimensions
         let dimensions = Size(width: WIDTH, height: HEIGHT, length: LENGTH)
-            
+        let floorDimensions = Size(width: WIDTH, height: 0.01, length: LENGTH)
         //position of first box
         var x = position.xCoord - 0.14
         var y = position.yCoord + 0.06
@@ -668,10 +668,10 @@ class ViewController: UIViewController
                 let flag = row[j]
                 
                 //creates maze floor
-                y -= 0.04
+                y -= 0.045
                 location = Position(xCoord: x, yCoord: y, zCoord: z, cRad: c)
-                setupFloor(size: dimensions, position: location)
-                y += 0.04
+                setupFloor(size: floorDimensions, position: location)
+                y += 0.045
                 
                 //show wall or player depending on flag value
                 if flag == 1
@@ -682,20 +682,20 @@ class ViewController: UIViewController
                 }
                 else if flag == 2
                 {
-                    playerLocation = Position(xCoord: x, yCoord: y-0.02, zCoord: z, cRad: c)
+                    playerLocation = Position(xCoord: x, yCoord: y-0.04, zCoord: z, cRad: c)
                     loadPlayerAnimations(position: playerLocation)
                 }
                 else if flag == 3
                 {
-                    enemyLocation = Position(xCoord: x, yCoord: y-0.02, zCoord: z, cRad: c)
+                    enemyLocation = Position(xCoord: x, yCoord: y-0.04, zCoord: z, cRad: c)
                     loadEnemyAnimations(position: enemyLocation)
                 }
                 //increment each block so it lines up horizontally
-                x += 0.02
+                x += 0.04
             }
             //line up blocks on a new row
-            x -= 0.4
-            z += 0.02
+            x -= 0.8
+            z += 0.04
         }
     }
 }
