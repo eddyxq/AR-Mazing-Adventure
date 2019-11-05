@@ -37,6 +37,7 @@ class ViewController: UIViewController
     let charNode = SCNNode()
     //true when user has placed the maze on surface
     var mazePlaced = false
+    var planeFound = false
     // Player directions
     enum playerDirection: String{
         case up
@@ -149,8 +150,8 @@ class ViewController: UIViewController
     
     @objc func addMazeToSceneView(withGestureRecognizer recognizer: UIGestureRecognizer)
     {
-        //adds maze only if it has not been placed
-        if mazePlaced == false
+        //adds maze only if it has not been placed and a plane is found
+        if mazePlaced == false && planeFound == true
         {
             //disable plane detection by resetting configurations
             let configuration = ARWorldTrackingConfiguration()
@@ -700,6 +701,9 @@ extension ViewController: ARSCNViewDelegate
         planeNode.eulerAngles.x = -.pi / 2
         
         node.addChildNode(planeNode)
+        
+        //ensures the setup maze is not run without an anchor plane
+        planeFound = true
     }
     
     func renderer(_ renderer: SCNSceneRenderer, didUpdate node: SCNNode, for anchor: ARAnchor)
