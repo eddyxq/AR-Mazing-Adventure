@@ -150,9 +150,12 @@ class ViewController: UIViewController
         
         //display the detected plane
         ARCanvas.delegate = self
-        
+        ARCanvas.autoenablesDefaultLighting = false
         //shows the feature points
         ARCanvas.debugOptions = [ARSCNDebugOptions.showFeaturePoints]
+        ARCanvas.scene.rootNode.castsShadow = true
+        setupARLight()
+        setupFog()
         //enables user to tap detected plane for maze placement
         addTapGestureToSceneView()
         
@@ -350,10 +353,10 @@ class ViewController: UIViewController
     
     var maze = [
     [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
-    [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-    [1,0,2,0,0,3,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-    [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-    [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+    [1,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+    [1,0,2,0,1,3,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+    [1,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+    [1,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
     [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
     [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
     [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
@@ -493,6 +496,8 @@ class ViewController: UIViewController
         charNode.scale = SCNVector3(0.00018, 0.00018, 0.00018)
         // Rotating the character by 180 degrees
         charNode.rotation = SCNVector4Make(0, 1, 0, .pi)
+        
+        charNode.castsShadow = true
         charNode.name = "player"
         ARCanvas.scene.rootNode.addChildNode(charNode)
         //TODO: load more animations if available
@@ -522,6 +527,7 @@ class ViewController: UIViewController
         enemyNode.scale = SCNVector3(0.00018, 0.00018, 0.00018)
         // Rotating the character by 180 degrees
         enemyNode.rotation = SCNVector4Make(0, 1, 0, 0)
+        enemyNode.castsShadow = true
         enemyNode.name = "enemy"
         //TODO: load more animations if available
         
@@ -556,7 +562,25 @@ class ViewController: UIViewController
         // Stop the animation with a smooth transition
         ARCanvas.scene.rootNode.childNode(withName: "player", recursively: true)?.removeAnimation(forKey: key, blendOutDuration: CGFloat(0.5))
     }
+    //MARK: Lighting & Fog
+    func setupARLight(){
+        let charLight = SCNLight()
+        
+        charLight.type = .spot
+        charLight.spotOuterAngle = CGFloat(15)
+        charLight.zFar = CGFloat(100)
+        charLight.zNear = CGFloat(0.01)
+        charLight.castsShadow = true
+        charLight.intensity = CGFloat(2000)
+        ARCanvas.pointOfView?.light = charLight
+    }
     
+    func setupFog(){
+        ARCanvas.scene.fogColor = UIColor.darkGray
+        ARCanvas.scene.fogStartDistance = CGFloat(0.0)
+        ARCanvas.scene.fogEndDistance = CGFloat(2.0)
+        
+    }
     //MARK: Maze Map Setup
     //creates a box
     // MARK: Maze Nodes Setup
@@ -579,7 +603,7 @@ class ViewController: UIViewController
            let wallNode = SCNNode(geometry: wall)
             wallNode.position = SCNVector3(CGFloat(position.xCoord), CGFloat(position.yCoord), CGFloat(position.zCoord))
             mazeWallNode.addChildNode(wallNode)
-            
+            mazeWallNode.castsShadow = true
             ARCanvas.scene.rootNode.addChildNode(mazeWallNode)
         }
     
@@ -607,6 +631,7 @@ class ViewController: UIViewController
             let floorNode = SCNNode(geometry: floor)
             floorNode.position = SCNVector3(CGFloat(position.xCoord), CGFloat(position.yCoord), CGFloat(position.zCoord))
             mazeFloorNode.addChildNode(floorNode)
+            mazeWallNode.castsShadow = true
             ARCanvas.scene.rootNode.addChildNode(mazeFloorNode)
         }
     
@@ -632,10 +657,10 @@ class ViewController: UIViewController
         //hard coded maze
         let mazeMap = [
                         [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
-                        [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-                        [1,0,2,0,0,3,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-                        [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-                        [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+                        [1,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+                        [1,0,2,0,1,3,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+                        [1,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+                        [1,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
                         [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
                         [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
                         [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
