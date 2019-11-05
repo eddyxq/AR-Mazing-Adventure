@@ -101,6 +101,23 @@ class ViewController: UIViewController
         return walkAction
     }
     
+    func attackMove(direction: String) -> SCNAction{
+        var attackMoveAction = SCNAction()
+        switch direction{
+        case "up":
+            attackMoveAction = SCNAction.move(to: SCNVector3(x: charNode.position.x, y: charNode.position.y, z: charNode.position.z-0.02), duration: 0)
+        case "down":
+            attackMoveAction = SCNAction.move(to: SCNVector3(x: charNode.position.x, y: charNode.position.y, z: charNode.position.z+0.02), duration: 0)
+        case "left":
+            attackMoveAction = SCNAction.move(to: SCNVector3(x: charNode.position.x-0.02, y: charNode.position.y, z: charNode.position.z), duration: 0)
+        case "right":
+            attackMoveAction = SCNAction.move(to: SCNVector3(x: charNode.position.x+0.02, y: charNode.position.y, z: charNode.position.z), duration: 0)
+        default:
+            break
+            }
+        return attackMoveAction
+    }
+    
     func moveBackward(direction: String) -> SCNAction{
         var walkAction = SCNAction()
         switch direction {
@@ -117,6 +134,7 @@ class ViewController: UIViewController
         }
         return walkAction
     }
+
     // MARK: ViewController Functions
     override func viewDidLoad()
     {
@@ -303,6 +321,7 @@ class ViewController: UIViewController
             charNode.runAction(moveBackward(direction: currentPlayerDirection))
         }
     }
+    // MARK: Attack Buttons
     //light attack button logic
     @objc func lightAttackButtonClicked(sender : UIButton)
     {
