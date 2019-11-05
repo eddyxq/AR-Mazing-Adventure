@@ -152,6 +152,7 @@ class ViewController: UIViewController
         
         //shows the feature points
         ARCanvas.debugOptions = [ARSCNDebugOptions.showFeaturePoints]
+
         //enables user to tap detected plane for maze placement
         addTapGestureToSceneView()
         
@@ -349,10 +350,10 @@ class ViewController: UIViewController
     
     var maze = [
     [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
-    [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-    [1,0,2,0,0,3,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-    [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-    [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+    [1,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+    [1,0,2,0,1,3,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+    [1,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+    [1,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
     [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
     [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
     [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
@@ -492,6 +493,15 @@ class ViewController: UIViewController
         charNode.scale = SCNVector3(0.00018, 0.00018, 0.00018)
         // Rotating the character by 180 degrees
         charNode.rotation = SCNVector4Make(0, 1, 0, .pi)
+        
+        let charLight = SCNLight()
+        
+        charLight.type = .spot
+        charLight.spotOuterAngle = CGFloat(10)
+        charLight.zNear = CGFloat(0.04)
+        charLight.intensity = CGFloat(1000)
+        ARCanvas.pointOfView?.light = charLight
+        
         charNode.name = "player"
         ARCanvas.scene.rootNode.addChildNode(charNode)
         //TODO: load more animations if available
@@ -631,10 +641,10 @@ class ViewController: UIViewController
         //hard coded maze
         let mazeMap = [
                         [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
-                        [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-                        [1,0,2,0,0,3,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-                        [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-                        [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+                        [1,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+                        [1,0,2,0,1,3,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+                        [1,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+                        [1,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
                         [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
                         [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
                         [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
