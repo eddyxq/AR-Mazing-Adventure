@@ -517,7 +517,7 @@ class ViewController: UIViewController
             //The animation will only play once
             animationObject.repeatCount = 1
             //To create smooth transitions between animations
-            animationObject.fadeInDuration = CGFloat(1)
+            animationObject.fadeInDuration = CGFloat(0.5)
             animationObject.fadeOutDuration = CGFloat(0.5)
             
             //Store the animation for later use
