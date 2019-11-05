@@ -54,7 +54,8 @@ class ViewController: UIViewController
     // Default: Up
     var currentPlayerDirection = playerDirection.up.direction()
     
-    func turnLeft(direction: String){
+    func turnLeft(direction: String)
+    {
         switch direction{
             case "up":
                 currentPlayerDirection = playerDirection.left.direction()
@@ -69,7 +70,8 @@ class ViewController: UIViewController
         }
     }
     
-    func turnRight(direction: String){
+    func turnRight(direction: String)
+    {
         switch direction{
             case "up":
                 currentPlayerDirection = playerDirection.right.direction()
@@ -84,53 +86,58 @@ class ViewController: UIViewController
         }
     }
     
-    func moveForward(direction: String) -> SCNAction{
+    func moveForward(direction: String) -> SCNAction
+    {
         var walkAction = SCNAction()
-        switch direction {
-        case "up":
-            walkAction = SCNAction.moveBy(x: 0, y: 0, z: -0.02, duration: 1.5)
-        case "down":
-            walkAction = SCNAction.moveBy(x: 0, y: 0, z: 0.02, duration: 1.5)
-        case "left":
-            walkAction = SCNAction.moveBy(x: -0.02, y: 0, z: 0, duration: 1.5)
-        case "right":
-            walkAction = SCNAction.moveBy(x: 0.02, y: 0, z: 0, duration: 1.5)
-        default:
-            break
+        switch direction
+        {
+            case "up":
+                walkAction = SCNAction.moveBy(x: 0, y: 0, z: -0.02, duration: 1.5)
+            case "down":
+                walkAction = SCNAction.moveBy(x: 0, y: 0, z: 0.02, duration: 1.5)
+            case "left":
+                walkAction = SCNAction.moveBy(x: -0.02, y: 0, z: 0, duration: 1.5)
+            case "right":
+                walkAction = SCNAction.moveBy(x: 0.02, y: 0, z: 0, duration: 1.5)
+            default:
+                break
         }
         return walkAction
     }
     
     func attackMove(direction: String) -> SCNAction{
         var attackMoveAction = SCNAction()
-        switch direction{
-        case "up":
-            attackMoveAction = SCNAction.move(to: SCNVector3(x: charNode.position.x, y: charNode.position.y, z: charNode.position.z-0.02), duration: 0)
-        case "down":
-            attackMoveAction = SCNAction.move(to: SCNVector3(x: charNode.position.x, y: charNode.position.y, z: charNode.position.z+0.02), duration: 0)
-        case "left":
-            attackMoveAction = SCNAction.move(to: SCNVector3(x: charNode.position.x-0.02, y: charNode.position.y, z: charNode.position.z), duration: 0)
-        case "right":
-            attackMoveAction = SCNAction.move(to: SCNVector3(x: charNode.position.x+0.02, y: charNode.position.y, z: charNode.position.z), duration: 0)
-        default:
-            break
+        switch direction
+        {
+            case "up":
+                attackMoveAction = SCNAction.move(to: SCNVector3(x: charNode.position.x, y: charNode.position.y, z: charNode.position.z-0.02), duration: 0)
+            case "down":
+                attackMoveAction = SCNAction.move(to: SCNVector3(x: charNode.position.x, y: charNode.position.y, z: charNode.position.z+0.02), duration: 0)
+            case "left":
+                attackMoveAction = SCNAction.move(to: SCNVector3(x: charNode.position.x-0.02, y: charNode.position.y, z: charNode.position.z), duration: 0)
+            case "right":
+                attackMoveAction = SCNAction.move(to: SCNVector3(x: charNode.position.x+0.02, y: charNode.position.y, z: charNode.position.z), duration: 0)
+            default:
+                break
             }
         return attackMoveAction
     }
     
-    func moveBackward(direction: String) -> SCNAction{
+    func moveBackward(direction: String) -> SCNAction
+    {
         var walkAction = SCNAction()
-        switch direction {
-        case "up":
-            walkAction = SCNAction.moveBy(x: 0, y: 0, z: 0.02, duration: 1.5)
-        case "down":
-            walkAction = SCNAction.moveBy(x: 0, y: 0, z: -0.02, duration: 1.5)
-        case "left":
-            walkAction = SCNAction.moveBy(x: 0.02, y: 0, z: 0, duration: 1.5)
-        case "right":
-            walkAction = SCNAction.moveBy(x: -0.02, y: 0, z: 0, duration: 1.5)
-        default:
-            break
+        switch direction
+        {
+            case "up":
+                walkAction = SCNAction.moveBy(x: 0, y: 0, z: 0.02, duration: 1.5)
+            case "down":
+                walkAction = SCNAction.moveBy(x: 0, y: 0, z: -0.02, duration: 1.5)
+            case "left":
+                walkAction = SCNAction.moveBy(x: 0.02, y: 0, z: 0, duration: 1.5)
+            case "right":
+                walkAction = SCNAction.moveBy(x: -0.02, y: 0, z: 0, duration: 1.5)
+            default:
+                break
         }
         return walkAction
     }
@@ -166,7 +173,6 @@ class ViewController: UIViewController
     override func viewWillAppear(_ animated: Bool)
     {
         super.viewWillAppear(animated)
-    
     }
     
     @objc func addMazeToSceneView(withGestureRecognizer recognizer: UIGestureRecognizer)
@@ -177,7 +183,6 @@ class ViewController: UIViewController
             //disable plane detection by resetting configurations
             let configuration = ARWorldTrackingConfiguration()
             ARCanvas.session.run(configuration)
-            
             
             //get coordinates of where user tapped
             let tapLocation = recognizer.location(in: ARCanvas)
@@ -328,26 +333,29 @@ class ViewController: UIViewController
     //light attack button logic
     @objc func lightAttackButtonClicked(sender : UIButton)
     {
-        sender.preventRepeatedPresses()
-        //play animation
-        playAnimation(key: "lightAttack")
-        let audio = SCNAudioSource(named: "art.scnassets/audios/lightAttack.wav")
-        let audioAction = SCNAction.playAudio(audio!, waitForCompletion: true)
-        charNode.runAction(audioAction)
+        if mazePlaced == true
+        {
+            sender.preventRepeatedPresses()
+            //play animation
+            playAnimation(key: "lightAttack")
+            let audio = SCNAudioSource(named: "art.scnassets/audios/lightAttack.wav")
+            let audioAction = SCNAction.playAudio(audio!, waitForCompletion: true)
+            charNode.runAction(audioAction)
+        }
     }
     //heavy attack button logic
     @objc func heavyAttackButtonClicked(sender : UIButton)
     {
-        sender.preventRepeatedPresses()
-        //play animation
-        playAnimation(key: "heavyAttack")
-        let audio = SCNAudioSource(named: "art.scnassets/audios/heavyAttack.wav")
-        let audioAction = SCNAction.playAudio(audio!, waitForCompletion: true)
-        charNode.runAction(audioAction)
+        if mazePlaced == true
+        {
+            sender.preventRepeatedPresses()
+            //play animation
+            playAnimation(key: "heavyAttack")
+            let audio = SCNAudioSource(named: "art.scnassets/audios/heavyAttack.wav")
+            let audioAction = SCNAction.playAudio(audio!, waitForCompletion: true)
+            charNode.runAction(audioAction)
+        }
     }
-    
-
-    
     // MARK: Player Restriction
     //var currentPlayerLocation
     
@@ -385,9 +393,9 @@ class ViewController: UIViewController
    
         var arr = [[Int]](repeating: [Int](repeating: 0, count: 20), count: 20)
         
-        for r in 0...19
+        for r in 0...rows-1
         {
-            for c in 0...19
+            for c in 0...cols-1
             {
                 arr[c][rows-1-r] = orig[r][c]
             }
@@ -407,7 +415,7 @@ class ViewController: UIViewController
         var canMove = false
         
         var playerRow = getRow();
-        var playerCol = getCol();
+        let playerCol = getCol();
         // remove player from current position
         maze[playerRow][playerCol] = 0;
         switch (direction)
@@ -521,7 +529,6 @@ class ViewController: UIViewController
             enemyNode.addChildNode(child)
         }
         
-        
         enemyNode.position = SCNVector3(CGFloat(position.xCoord), CGFloat(position.yCoord), CGFloat(position.zCoord))
         //size of the player model
         enemyNode.scale = SCNVector3(0.00018, 0.00018, 0.00018)
@@ -535,7 +542,8 @@ class ViewController: UIViewController
     }
     
     
-    func loadAnimation(withKey: String, sceneName: String, animationIdentifier: String){
+    func loadAnimation(withKey: String, sceneName: String, animationIdentifier: String)
+    {
         let sceneURL = Bundle.main.url(forResource: sceneName, withExtension: "dae")
         let sceneSource = SCNSceneSource(url: sceneURL!, options: nil)
         
@@ -563,7 +571,8 @@ class ViewController: UIViewController
         ARCanvas.scene.rootNode.childNode(withName: "player", recursively: true)?.removeAnimation(forKey: key, blendOutDuration: CGFloat(0.5))
     }
     //MARK: Lighting & Fog
-    func setupARLight(){
+    func setupARLight()
+    {
         let charLight = SCNLight()
         
         charLight.type = .spot
@@ -575,65 +584,59 @@ class ViewController: UIViewController
         ARCanvas.pointOfView?.light = charLight
     }
     
-    func setupFog(){
+    func setupFog()
+    {
         ARCanvas.scene.fogColor = UIColor.darkGray
         ARCanvas.scene.fogStartDistance = CGFloat(0.0)
         ARCanvas.scene.fogEndDistance = CGFloat(3.0)
-        
     }
     //MARK: Maze Map Setup
     //creates a box
     // MARK: Maze Nodes Setup
-        //creates a box for maze wall
-        func setupWall(size: Size, position: Position)
-        {
-            let wall = SCNBox(width: CGFloat(size.width), height: CGFloat(size.height), length: CGFloat(size.length), chamferRadius: 0)
-            
-            //wall textures
-            let imageMaterial1 = SCNMaterial()
-            let wallImage1 = UIImage(named: "wall")
-            imageMaterial1.diffuse.contents = wallImage1
-            
-    //        let imageMaterial2 = SCNMaterial()
-    //        let wallImage2 = UIImage(named: "darkWall")
-    //        imageMaterial2.diffuse.contents = wallImage2
-            //apply skins
-            wall.materials = [imageMaterial1, imageMaterial1, imageMaterial1, imageMaterial1, imageMaterial1, imageMaterial1]
-            //add box to scene
-           let wallNode = SCNNode(geometry: wall)
-            wallNode.position = SCNVector3(CGFloat(position.xCoord), CGFloat(position.yCoord), CGFloat(position.zCoord))
-            mazeWallNode.addChildNode(wallNode)
-            mazeWallNode.castsShadow = true
-            ARCanvas.scene.rootNode.addChildNode(mazeWallNode)
-        }
+    //creates a box for maze wall
+    func setupWall(size: Size, position: Position)
+    {
+        let wall = SCNBox(width: CGFloat(size.width), height: CGFloat(size.height), length: CGFloat(size.length), chamferRadius: 0)
+        
+        //wall textures
+        let imageMaterial1 = SCNMaterial()
+        let wallImage1 = UIImage(named: "wall")
+        imageMaterial1.diffuse.contents = wallImage1
+        
+        //apply skins
+        wall.materials = [imageMaterial1, imageMaterial1, imageMaterial1, imageMaterial1, imageMaterial1, imageMaterial1]
+        //add box to scene
+       let wallNode = SCNNode(geometry: wall)
+        wallNode.position = SCNVector3(CGFloat(position.xCoord), CGFloat(position.yCoord), CGFloat(position.zCoord))
+        mazeWallNode.addChildNode(wallNode)
+        mazeWallNode.castsShadow = true
+        ARCanvas.scene.rootNode.addChildNode(mazeWallNode)
+    }
     
     // creates a box for maze floor
     func setupFloor(size: Size, position: Position)
-        {
-            let floor = SCNBox(width: CGFloat(size.width), height: CGFloat(size.height), length: CGFloat(size.length), chamferRadius: 0)
-            
-            //wall textures
-            let imageMaterial1 = SCNMaterial()
-            let imageMaterial2 = SCNMaterial()
-            
-            let floorImage1 = UIImage(named: "floor")
-            let floorSideImage1 = UIImage(named: "wall")
-            
-            imageMaterial1.diffuse.contents = floorImage1
-            imageMaterial2.diffuse.contents = floorSideImage1
-            
-    //        let imageMaterial2 = SCNMaterial()
-    //        let wallImage2 = UIImage(named: "darkWall")
-    //        imageMaterial2.diffuse.contents = wallImage2
-            //apply skins
-            floor.materials = [imageMaterial2, imageMaterial2, imageMaterial2, imageMaterial2, imageMaterial1, imageMaterial2]
-            //add box to scene
-            let floorNode = SCNNode(geometry: floor)
-            floorNode.position = SCNVector3(CGFloat(position.xCoord), CGFloat(position.yCoord), CGFloat(position.zCoord))
-            mazeFloorNode.addChildNode(floorNode)
-            mazeWallNode.castsShadow = true
-            ARCanvas.scene.rootNode.addChildNode(mazeFloorNode)
-        }
+    {
+        let floor = SCNBox(width: CGFloat(size.width), height: CGFloat(size.height), length: CGFloat(size.length), chamferRadius: 0)
+        
+        //wall textures
+        let imageMaterial1 = SCNMaterial()
+        let imageMaterial2 = SCNMaterial()
+        
+        let floorImage1 = UIImage(named: "floor")
+        let floorSideImage1 = UIImage(named: "wall")
+        
+        imageMaterial1.diffuse.contents = floorImage1
+        imageMaterial2.diffuse.contents = floorSideImage1
+        
+        //apply skins
+        floor.materials = [imageMaterial2, imageMaterial2, imageMaterial2, imageMaterial2, imageMaterial1, imageMaterial2]
+        //add box to scene
+        let floorNode = SCNNode(geometry: floor)
+        floorNode.position = SCNVector3(CGFloat(position.xCoord), CGFloat(position.yCoord), CGFloat(position.zCoord))
+        mazeFloorNode.addChildNode(floorNode)
+        mazeWallNode.castsShadow = true
+        ARCanvas.scene.rootNode.addChildNode(mazeFloorNode)
+    }
     
     //create a maze
     func setUpMaze(position: Position)
@@ -782,11 +785,13 @@ extension float4x4
     }
 }
 
-extension UIButton {
-    func preventRepeatedPresses(inNext seconds: Double = 2) {
+extension UIButton
+{
+    func preventRepeatedPresses(inNext seconds: Double = 2)
+    {
         self.isUserInteractionEnabled = false
         DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + seconds) {
-            self.isUserInteractionEnabled = true
+                self.isUserInteractionEnabled = true
         }
     }
 }
