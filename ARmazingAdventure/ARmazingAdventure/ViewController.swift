@@ -64,8 +64,8 @@ class ViewController: UIViewController
     [1,0,0,0,0,0,0,0,0,1],
     [1,1,1,1,1,1,1,1,1,1]]
     
-    let NUMROW = maze.count
-    let NUMCOL = maze.count
+    let NUMROW = 10
+    let NUMCOL = 10
     
     // MARK: Player Movement Logics
     // The direction player is current facing.
@@ -179,8 +179,8 @@ class ViewController: UIViewController
         //shows the feature points
         ARCanvas.debugOptions = [ARSCNDebugOptions.showFeaturePoints]
         ARCanvas.scene.rootNode.castsShadow = true
-        //setupARLight()
-        //setupFog()
+        setupARLight()
+        setupFog()
         //enables user to tap detected plane for maze placement
         addTapGestureToSceneView()
         
@@ -246,7 +246,7 @@ class ViewController: UIViewController
     func createGamepad()
     {
         let buttonX = 150
-        let buttonY = 250
+        let buttonY = 450
         let buttonWidth = 100
         let buttonHeight = 50
         let attackButtonRadius = 75
@@ -288,7 +288,7 @@ class ViewController: UIViewController
         let attack1 = UIImage(named: "attackButton")
         lightAttackButton.setImage(attack1, for: .normal)
         lightAttackButton.addTarget(self, action: #selector(lightAttackButtonClicked), for: .touchUpInside)
-        lightAttackButton.frame = CGRect(x: buttonX+100, y: buttonY-12, width: attackButtonRadius, height: attackButtonRadius)
+        lightAttackButton.frame = CGRect(x: buttonX+1000, y: buttonY-12, width: attackButtonRadius, height: attackButtonRadius)
         self.view.addSubview(lightAttackButton)
         
         //heavy attack
@@ -296,7 +296,7 @@ class ViewController: UIViewController
         let attack2 = UIImage(named: "attackButton")
         heavyAttackButton.setImage(attack2, for: .normal)
         heavyAttackButton.addTarget(self, action: #selector(heavyAttackButtonClicked), for: .touchUpInside)
-        heavyAttackButton.frame = CGRect(x: buttonX+200, y: buttonY-12, width: attackButtonRadius, height: attackButtonRadius)
+        heavyAttackButton.frame = CGRect(x: buttonX+1100, y: buttonY-12, width: attackButtonRadius, height: attackButtonRadius)
         self.view.addSubview(heavyAttackButton)
     }
     // MARK: Arrow Button Logics
@@ -379,10 +379,10 @@ class ViewController: UIViewController
 	//rotates a array clockwise
     func rotateArrayCW(orig: [[Int]]) -> [[Int]]
     {
-        let rows = 20
-        let cols = 20
+        let rows = 10
+        let cols = 10
    
-        var arr = [[Int]](repeating: [Int](repeating: 0, count: 20), count: 20)
+        var arr = [[Int]](repeating: [Int](repeating: 0, count: 10), count: 10)
         
         for r in 0...rows-1
         {
@@ -649,8 +649,8 @@ class ViewController: UIViewController
         var playerLocation = Position(xCoord: x, yCoord: y, zCoord: z, cRad: c)
         var enemyLocation = Position(xCoord: x, yCoord: y, zCoord: z, cRad: c)
 
-        let NUMROW = 20
-        let NUMCOL = 20
+        let NUMROW = 10
+        let NUMCOL = 10
         
         for i in 0...NUMROW-1
         {
