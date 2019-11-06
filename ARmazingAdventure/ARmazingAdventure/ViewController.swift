@@ -54,13 +54,13 @@ class ViewController: UIViewController
     
     var maze = [
     [1,1,1,1,1,1,1,1,1,1],
-	[1,2,1,0,0,0,1,0,0,1],
-	[1,0,1,0,3,0,1,1,0,1],
+	[1,0,1,0,3,0,1,0,0,1],
+	[1,0,1,0,0,0,1,1,0,1],
 	[1,0,1,0,0,0,1,0,0,1],
-	[1,0,1,1,0,1,0,0,1,1],
-	[1,0,1,0,0,0,1,0,0,1],
+	[1,0,0,1,0,1,0,0,1,1],
+	[1,0,0,0,0,0,1,0,0,1],
 	[1,0,0,0,0,0,0,0,0,1],
-	[1,1,0,1,1,0,1,0,1,1],
+	[1,0,2,0,1,0,1,0,1,1],
     [1,0,0,0,0,0,0,0,0,1],
     [1,1,1,1,1,1,1,1,1,1]]
     
@@ -179,6 +179,8 @@ class ViewController: UIViewController
         //shows the feature points
         ARCanvas.debugOptions = [ARSCNDebugOptions.showFeaturePoints]
         ARCanvas.scene.rootNode.castsShadow = true
+        
+        setupDungeonMusic()
         setupARLight()
         setupFog()
         //enables user to tap detected plane for maze placement
@@ -474,6 +476,14 @@ class ViewController: UIViewController
              }
         }
         return playerCol;
+    }
+    // MARK: Music
+    func setupDungeonMusic(){
+        let audio = SCNAudioSource(named: "art.scnassets/audios/dungeonMusic.wav")
+        audio?.volume = 0.65
+        audio?.loops = true
+        let audioAction = SCNAction.playAudio(audio!, waitForCompletion: true)
+        charNode.runAction(audioAction)
     }
     // MARK: Animations & Models
     // creates a player character model with its animations
