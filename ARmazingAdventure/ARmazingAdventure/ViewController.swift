@@ -39,41 +39,33 @@ class ViewController: UIViewController
     var mazePlaced = false
     var planeFound = false
     // Player directions
-    enum playerDirection: String{
+    enum playerDirection: String
+	{
         case up
         case down
         case left
         case right
         
-        func direction() -> String{
+        func direction() -> String
+		{
             return self.rawValue
         }
     }
     
     var maze = [
-    [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
-    [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-    [1,0,2,0,0,3,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-    [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-    [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-    [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-    [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-    [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-    [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-    [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-    [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-    [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-    [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-    [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-    [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-    [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-    [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-    [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-    [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-    [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]]
+    [1,1,1,1,1,1,1,1,1,1],
+	[1,2,1,0,0,0,1,0,0,1],
+	[1,0,1,0,3,0,1,1,0,1],
+	[1,0,1,0,0,0,1,0,0,1],
+	[1,0,1,1,0,1,0,0,1,1],
+	[1,0,1,0,0,0,1,0,0,1],
+	[1,0,0,0,0,0,0,0,0,1],
+	[1,1,0,1,1,0,1,0,1,1],
+    [1,0,0,0,0,0,0,0,0,1],
+    [1,1,1,1,1,1,1,1,1,1]]
     
-    let NUMROW = 20
-    let NUMCOL = 20
+    let NUMROW = maze.count
+    let NUMCOL = maze.count
     
     // MARK: Player Movement Logics
     // The direction player is current facing.
@@ -668,6 +660,7 @@ class ViewController: UIViewController
                 let flag = row[j]
                 
                 //creates maze floor
+				//y offset to place floor block flush under the wall
                 y -= 0.045
                 location = Position(xCoord: x, yCoord: y, zCoord: z, cRad: c)
                 setupFloor(size: floorDimensions, position: location)
@@ -694,7 +687,7 @@ class ViewController: UIViewController
                 x += 0.04
             }
             //line up blocks on a new row
-            x -= 0.8
+            x -= 0.4
             z += 0.04
         }
     }
@@ -766,7 +759,8 @@ extension UIButton
     func preventRepeatedPresses(inNext seconds: Double = 2)
     {
         self.isUserInteractionEnabled = false
-        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + seconds) {
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + seconds) 
+		{
                 self.isUserInteractionEnabled = true
         }
     }
