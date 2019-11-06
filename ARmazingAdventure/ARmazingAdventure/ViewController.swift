@@ -54,14 +54,14 @@ class ViewController: UIViewController
     
     var maze = [
     [1,1,1,1,1,1,1,1,1,1],
-	[1,0,1,0,3,0,1,0,0,1],
-	[1,0,1,0,0,0,1,1,0,1],
+	[1,0,1,0,0,0,1,0,0,1],
+	[1,0,1,0,3,0,1,1,0,1],
 	[1,0,1,0,0,0,1,0,0,1],
 	[1,0,0,1,0,1,0,0,1,1],
 	[1,0,0,0,0,0,1,0,0,1],
 	[1,0,0,0,0,0,0,0,0,1],
-	[1,0,2,0,1,0,1,0,1,1],
-    [1,0,0,0,0,0,0,0,0,1],
+	[1,0,0,0,1,0,1,0,1,1],
+    [1,2,0,0,0,0,0,0,0,1],
     [1,1,1,1,1,1,1,1,1,1]]
     
     let NUMROW = 10
@@ -311,7 +311,7 @@ class ViewController: UIViewController
             sender.preventRepeatedPresses()
             turnRight(direction: currentPlayerDirection)
             let turnAction = SCNAction.rotateBy(x: 0, y: .pi/2, z: 0, duration: 0.5)
-            playAnimation(key: "turnRight")
+            playAnimation(charType: "player", key: "turnRight")
             charNode.runAction(turnAction)
             maze = rotateArrayCCW(orig: maze)
         }
@@ -324,7 +324,7 @@ class ViewController: UIViewController
             sender.preventRepeatedPresses()
             turnLeft(direction: currentPlayerDirection)
             let turnAction = SCNAction.rotateBy(x: 0, y: -(.pi/2), z: 0, duration: 0.5)
-            playAnimation(key: "turnLeft")
+            playAnimation(charType: "player", key: "turnLeft")
             charNode.runAction(turnAction)
             maze = rotateArrayCW(orig: maze)
         }
@@ -335,7 +335,7 @@ class ViewController: UIViewController
         if mazePlaced && move(direction: "forward")
         {
             sender.preventRepeatedPresses()
-            playAnimation(key: "walk")
+            playAnimation(charType: "player", key: "walk")
             charNode.runAction(moveForward(direction: currentPlayerDirection))
         }
     }
@@ -345,7 +345,7 @@ class ViewController: UIViewController
         if mazePlaced && move(direction: "backward")
         {
             sender.preventRepeatedPresses()
-            playAnimation(key: "walkBack")
+            playAnimation(charType: "player", key: "walkBack")
             charNode.runAction(moveBackward(direction: currentPlayerDirection))
         }
     }
@@ -357,10 +357,14 @@ class ViewController: UIViewController
         {
             sender.preventRepeatedPresses()
             //play animation
-            playAnimation(key: "lightAttack")
+            playAnimation(charType: "player", key: "lightAttack")
             let audio = SCNAudioSource(named: "art.scnassets/audios/lightAttack.wav")
             let audioAction = SCNAction.playAudio(audio!, waitForCompletion: true)
             charNode.runAction(audioAction)
+            if enemyNearBy(direction: "forward")
+            {
+                playAnimation(charType: "enemy", key: "impact")
+            }
         }
     }
     //heavy attack button logic
@@ -370,7 +374,7 @@ class ViewController: UIViewController
         {
             sender.preventRepeatedPresses()
             //play animation
-            playAnimation(key: "heavyAttack")
+            playAnimation(charType: "player", key: "heavyAttack")
             let audio = SCNAudioSource(named: "art.scnassets/audios/heavyAttack.wav")
             let audioAction = SCNAction.playAudio(audio!, waitForCompletion: true)
             charNode.runAction(audioAction)
@@ -477,6 +481,33 @@ class ViewController: UIViewController
         }
         return playerCol;
     }
+    // MARK: Basic Combat
+    func enemyNearBy(direction: String) -> Bool{
+        var enemyNearby = false
+        
+        var playerRow = getRow();
+        let playerCol = getCol();
+        
+        switch (direction)
+        {
+        case "backward":
+            playerRow += 1;
+        case "forward":
+            playerRow -= 1;
+        default:
+            print("error")
+        }
+        
+        if maze[playerRow][playerCol] == 3
+        {
+                   enemyNearby = true
+        }else
+        {
+            enemyNearby = false
+        }
+        return enemyNearby
+    }
+    
     // MARK: Music
     func setupDungeonMusic(){
         let audio = SCNAudioSource(named: "art.scnassets/audios/dungeonMusic.wav")
@@ -540,7 +571,7 @@ class ViewController: UIViewController
         enemyNode.castsShadow = true
         enemyNode.name = "enemy"
         //TODO: load more animations if available
-        
+        loadAnimation(withKey: "impact", sceneName: "art.scnassets/characters/enemy/ImpactFixed", animationIdentifier: "ImpactFixed-1")
         ARCanvas.scene.rootNode.addChildNode(enemyNode)
     }
     
@@ -562,16 +593,16 @@ class ViewController: UIViewController
         }
     }
     
-    func playAnimation(key: String)
+    func playAnimation(charType: String, key: String)
     {
         // Add the animation to start playing it right away
-        ARCanvas.scene.rootNode.childNode(withName: "player", recursively: true)?.addAnimation(animations[key]!, forKey: key)
+        ARCanvas.scene.rootNode.childNode(withName: charType, recursively: true)?.addAnimation(animations[key]!, forKey: key)
     }
     
-    func stopAnimation(key: String)
+    func stopAnimation(charType: String, key: String)
     {
         // Stop the animation with a smooth transition
-        ARCanvas.scene.rootNode.childNode(withName: "player", recursively: true)?.removeAnimation(forKey: key, blendOutDuration: CGFloat(0.5))
+        ARCanvas.scene.rootNode.childNode(withName: charType, recursively: true)?.removeAnimation(forKey: key, blendOutDuration: CGFloat(0.5))
     }
     //MARK: Lighting & Fog
     func setupARLight()
