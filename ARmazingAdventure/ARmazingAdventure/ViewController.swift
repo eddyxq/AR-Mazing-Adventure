@@ -61,7 +61,7 @@ class ViewController: UIViewController
 	[1,0,0,0,0,0,1,0,0,1],
 	[1,0,0,0,0,0,0,0,0,1],
 	[1,0,0,0,1,0,1,0,1,1],
-    [1,2,0,0,0,0,0,0,0,1],
+    [1,0,2,0,0,0,0,0,0,1],
     [1,1,1,1,1,1,1,1,1,1]]
     
     let NUMROW = 10
@@ -797,7 +797,7 @@ extension float4x4
 
 extension UIButton
 {
-    func preventRepeatedPresses(inNext seconds: Double = 2)
+    func preventRepeatedPresses(inNext seconds: Double = 1.5)
     {
         self.isUserInteractionEnabled = false
         DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + seconds) 
