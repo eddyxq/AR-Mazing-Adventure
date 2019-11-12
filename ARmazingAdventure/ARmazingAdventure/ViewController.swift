@@ -33,8 +33,10 @@ class ViewController: UIViewController
     var idle: Bool = true
     var mazeWallNode = SCNNode()
     var mazeFloorNode = SCNNode()
-    let enemyNode = SCNNode()
+    
     let player = Player()
+    let boss = Boss()
+    
     //true when user has placed the maze on surface
     var mazePlaced = false
     var planeFound = false
@@ -264,7 +266,7 @@ class ViewController: UIViewController
             player.getPlayerNode().runAction(audioAction)
             if enemyNearBy(direction: "forward")
             {
-                playAnimation(charType: "enemy", key: "impact")
+                boss.playAnimation(ARCanvas, key: "impact")
             }
         }
     }
@@ -418,61 +420,6 @@ class ViewController: UIViewController
         let audioAction = SCNAction.playAudio(audio!, waitForCompletion: true)
         player.getPlayerNode().runAction(audioAction)
     }
-    // MARK: Enemy Model
-    // creates a player character model with its animations
-    func loadEnemyAnimations(position: Position)
-    {
-        // Load the character in the idle animation
-        let idleScene = SCNScene(named: "art.scnassets/characters/enemy/IdleEnemyFixed.dae")!
-        
-        // Add all the child nodes to the parent node
-        for child in idleScene.rootNode.childNodes
-        {
-            enemyNode.addChildNode(child)
-        }
-        //set enemy location
-        enemyNode.position = SCNVector3(CGFloat(position.xCoord), CGFloat(position.yCoord), CGFloat(position.zCoord))
-        //size of the enemy model
-        let enemyModelSize = 0.00038
-        enemyNode.scale = SCNVector3(enemyModelSize, enemyModelSize, enemyModelSize)
-        // Rotating the character by 180 degrees
-        enemyNode.rotation = SCNVector4Make(0, 1, 0, 0)
-        enemyNode.castsShadow = true
-        enemyNode.name = "enemy"
-        //TODO: load more animations if available
-        loadAnimation(withKey: "impact", sceneName: "art.scnassets/characters/enemy/ImpactFixed", animationIdentifier: "ImpactFixed-1")
-        ARCanvas.scene.rootNode.addChildNode(enemyNode)
-    }
-    //load animations
-    func loadAnimation(withKey: String, sceneName: String, animationIdentifier: String)
-    {
-        let sceneURL = Bundle.main.url(forResource: sceneName, withExtension: "dae")
-        let sceneSource = SCNSceneSource(url: sceneURL!, options: nil)
-        
-        if let animationObject = sceneSource?.entryWithIdentifier(animationIdentifier, withClass: CAAnimation.self)
-		{
-            //The animation will only play once
-            animationObject.repeatCount = 1
-            //To create smooth transitions between animations
-            animationObject.fadeInDuration = CGFloat(0.5)
-            animationObject.fadeOutDuration = CGFloat(0.5)
-            
-            //Store the animation for later use
-            animations[withKey] = animationObject
-        }
-    }
-    //play animation
-    func playAnimation(charType: String, key: String)
-    {
-        // Add the animation to start playing it right away
-        ARCanvas.scene.rootNode.childNode(withName: charType, recursively: true)?.addAnimation(animations[key]!, forKey: key)
-    }
-    //stop animation
-    func stopAnimation(charType: String, key: String)
-    {
-        // Stop the animation with a smooth transition
-        ARCanvas.scene.rootNode.childNode(withName: charType, recursively: true)?.removeAnimation(forKey: key, blendOutDuration: CGFloat(0.5))
-    }
     //MARK: Lighting & Fog
 	//creates tunnel vision
     func setupARLight()
@@ -559,7 +506,7 @@ class ViewController: UIViewController
         //init position
         var location = Position(xCoord: x, yCoord: y, zCoord: z, cRad: c)
         var playerLocation = Position(xCoord: x, yCoord: y, zCoord: z, cRad: c)
-        var enemyLocation = Position(xCoord: x, yCoord: y, zCoord: z, cRad: c)
+        var bossLocation = Position(xCoord: x, yCoord: y, zCoord: z, cRad: c)
 
         let NUMROW = 10
         let NUMCOL = 10
@@ -592,8 +539,8 @@ class ViewController: UIViewController
                 }
                 else if flag == 3
                 {
-                    enemyLocation = Position(xCoord: x, yCoord: y-WIDTH, zCoord: z, cRad: c)
-                    loadEnemyAnimations(position: enemyLocation)
+                    bossLocation = Position(xCoord: x, yCoord: y-WIDTH, zCoord: z, cRad: c)
+                    boss.loadBossAnimations(ARCanvas, bossLocation)
                 }
                 //increment each block so it lines up horizontally
                 x += WIDTH
