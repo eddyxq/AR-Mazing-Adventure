@@ -13,7 +13,7 @@
 		4E9887BF237B632B002A4F45 /* HelperFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E9887BC237B632B002A4F45 /* HelperFunctions.swift */; };
 		4E9887C2237B638C002A4F45 /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E9887C1237B638C002A4F45 /* Player.swift */; };
 		4E9887C5237B6E2B002A4F45 /* Enemy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E9887C4237B6E2B002A4F45 /* Enemy.swift */; };
-		4E9887C7237B7103002A4F45 /* Minions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E9887C6237B7103002A4F45 /* Minions.swift */; };
+		4E9887C7237B7103002A4F45 /* Minion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E9887C6237B7103002A4F45 /* Minion.swift */; };
 		4E9887C9237B710C002A4F45 /* Boss.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E9887C8237B710C002A4F45 /* Boss.swift */; };
 		4EAEE61F235E3A170041EBDF /* art.scnassets in Resources */ = {isa = PBXBuildFile; fileRef = 4EAEE61E235E3A170041EBDF /* art.scnassets */; };
 		4EAEE621235E5EAC0041EBDF /* MainMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EAEE620235E5EAC0041EBDF /* MainMenuViewController.swift */; };
@@ -49,7 +49,7 @@
 		4E9887BC237B632B002A4F45 /* HelperFunctions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HelperFunctions.swift; path = ARmazingAdventure/HelperFunctions.swift; sourceTree = SOURCE_ROOT; };
 		4E9887C1237B638C002A4F45 /* Player.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
 		4E9887C4237B6E2B002A4F45 /* Enemy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Enemy.swift; sourceTree = "<group>"; };
-		4E9887C6237B7103002A4F45 /* Minions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Minions.swift; sourceTree = "<group>"; };
+		4E9887C6237B7103002A4F45 /* Minion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Minion.swift; sourceTree = "<group>"; };
 		4E9887C8237B710C002A4F45 /* Boss.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Boss.swift; sourceTree = "<group>"; };
 		4EAEE61E235E3A170041EBDF /* art.scnassets */ = {isa = PBXFileReference; lastKnownFileType = wrapper.scnassets; path = art.scnassets; sourceTree = "<group>"; };
 		4EAEE620235E5EAC0041EBDF /* MainMenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MainMenuViewController.swift; path = ARmazingAdventure/MainMenuViewController.swift; sourceTree = SOURCE_ROOT; };
@@ -104,7 +104,7 @@
 			isa = PBXGroup;
 			children = (
 				4E9887C4237B6E2B002A4F45 /* Enemy.swift */,
-				4E9887C6237B7103002A4F45 /* Minions.swift */,
+				4E9887C6237B7103002A4F45 /* Minion.swift */,
 				4E9887C8237B710C002A4F45 /* Boss.swift */,
 			);
 			path = enemy;
@@ -300,7 +300,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4E9887C7237B7103002A4F45 /* Minions.swift in Sources */,
+				4E9887C7237B7103002A4F45 /* Minion.swift in Sources */,
 				4E9887BF237B632B002A4F45 /* HelperFunctions.swift in Sources */,
 				4EAEE621235E5EAC0041EBDF /* MainMenuViewController.swift in Sources */,
 				4E9887BE237B632B002A4F45 /* ARSCNViewDelegate.swift in Sources */,
