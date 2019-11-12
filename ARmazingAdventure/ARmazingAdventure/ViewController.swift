@@ -390,9 +390,9 @@ class ViewController: UIViewController
    
         var arr = [[Int]](repeating: [Int](repeating: 0, count: 10), count: 10)
         
-        for r in 0...rows-1
+        for r in 0..< rows
         {
-            for c in 0...cols-1
+            for c in 0...< cols
             {
                 arr[c][rows-1-r] = orig[r][c]
             }
@@ -452,9 +452,9 @@ class ViewController: UIViewController
     func getRow() -> Int
     {
         var playerRow = 0;
-        for row in 0...NUMROW-1
+        for row in 0..< NUMROW
         {
-             for col in 0...NUMCOL-1
+             for col in 0..< NUMCOL
              {
                  if (maze[row][col] == 2)
                  {
@@ -469,9 +469,9 @@ class ViewController: UIViewController
     func getCol() -> Int
     {
         var playerCol = 0;
-        for row in 0...NUMROW-1
+        for row in 0..< NUMROW
         {
-             for col in 0...NUMCOL-1
+             for col in 0..< NUMCOL
              {
                  if (maze[row][col] == 2)
                  {
@@ -490,18 +490,19 @@ class ViewController: UIViewController
         
         switch (direction)
         {
-        case "backward":
-            playerRow += 1;
-        case "forward":
-            playerRow -= 1;
-        default:
-            print("error")
+			case "backward":
+				playerRow += 1;
+			case "forward":
+				playerRow -= 1;
+			default:
+				print("error")
         }
         
         if maze[playerRow][playerCol] == 3
         {
-                   enemyNearby = true
-        }else
+			enemyNearby = true
+        }
+		else
         {
             enemyNearby = false
         }
@@ -679,11 +680,13 @@ class ViewController: UIViewController
         let LENGTH = 0.04
         //init dimensions
         let dimensions = Size(width: WIDTH, height: HEIGHT, length: LENGTH)
-        let floorDimensions = Size(width: WIDTH, height: 0.01, length: LENGTH)
+		
+		let FLOORHEIGHT = 0.01
+        let floorDimensions = Size(width: WIDTH, height: FLOORHEIGHT, length: LENGTH)
         //position of first box
-        var x = position.xCoord - 0.14
+        var x = position.xCoord - WIDTH * NUMCOL / 2
         var y = position.yCoord + 0.06
-        var z = position.zCoord - 0.14
+        var z = position.zCoord - LENGTH * NUMROW / 2
         let c = 0.0
         //init position
         var location = Position(xCoord: x, yCoord: y, zCoord: z, cRad: c)
@@ -693,43 +696,43 @@ class ViewController: UIViewController
         let NUMROW = 10
         let NUMCOL = 10
         
-        for i in 0...NUMROW-1
+        for i in 0..< NUMROW
         {
-            for j in 0...NUMCOL-1
+            for j in 0..< NUMCOL
             {
                 let row = maze[i]
                 let flag = row[j]
                 
                 //creates maze floor
 				//y offset to place floor block flush under the wall
-                y -= 0.045
+                y -= (HEIGHT + FLOORHEIGHT) / 2
                 location = Position(xCoord: x, yCoord: y, zCoord: z, cRad: c)
                 setupFloor(size: floorDimensions, position: location)
-                y += 0.045
+                y += (HEIGHT + FLOORHEIGHT) / 2
                 
                 //show wall or player depending on flag value
                 if flag == 1
                 {
                     location = Position(xCoord: x, yCoord: y, zCoord: z, cRad: c)
                     setupWall(size: dimensions, position: location)
-                // player initial position
                 }
                 else if flag == 2
                 {
-                    playerLocation = Position(xCoord: x, yCoord: y-0.04, zCoord: z, cRad: c)
+					//initial player position
+                    playerLocation = Position(xCoord: x, yCoord: y-WIDTH, zCoord: z, cRad: c)
                     loadPlayerAnimations(position: playerLocation)
                 }
                 else if flag == 3
                 {
-                    enemyLocation = Position(xCoord: x, yCoord: y-0.04, zCoord: z, cRad: c)
+                    enemyLocation = Position(xCoord: x, yCoord: y-WIDTH, zCoord: z, cRad: c)
                     loadEnemyAnimations(position: enemyLocation)
                 }
                 //increment each block so it lines up horizontally
-                x += 0.04
+                x += WIDTH
             }
             //line up blocks on a new row
-            x -= 0.4
-            z += 0.04
+            x -= WIDTH * NUMCOL
+            z += LENGTH
         }
     }
 }
