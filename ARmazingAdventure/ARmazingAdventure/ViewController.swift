@@ -181,8 +181,8 @@ class ViewController: UIViewController
         ARCanvas.scene.rootNode.castsShadow = true
         
         setupDungeonMusic()
-        setupARLight()
-        setupFog()
+        //setupARLight()
+        //setupFog()
         //enables user to tap detected plane for maze placement
         addTapGestureToSceneView()
         
