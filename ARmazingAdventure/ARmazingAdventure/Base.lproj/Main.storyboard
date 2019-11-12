@@ -28,7 +28,7 @@
                                         <rect key="frame" x="206.5" y="178" width="127" height="51"/>
                                         <state key="normal" image="playButton"/>
                                         <connections>
-                                            <segue destination="BYZ-38-t0r" kind="show" id="04d-qz-YX2"/>
+                                            <segue destination="BYZ-38-t0r" kind="show" id="9Af-AO-feo"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="b4c-Kr-9ta" userLabel="Character Button">

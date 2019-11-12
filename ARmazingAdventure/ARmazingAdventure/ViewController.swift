@@ -34,7 +34,7 @@ class ViewController: UIViewController
     var mazeWallNode = SCNNode()
     var mazeFloorNode = SCNNode()
     let enemyNode = SCNNode()
-    let charNode = SCNNode()
+    let player = Player()
     //true when user has placed the maze on surface
     var mazePlaced = false
     var planeFound = false
@@ -66,83 +66,6 @@ class ViewController: UIViewController
     
     let NUMROW = 10
     let NUMCOL = 10
-    
-    // MARK: Player Movement Logics
-    // The direction player is current facing.
-    // Default: Up
-    var currentPlayerDirection = playerDirection.up.direction()
-    
-	//turns the player 90 degrees counter clockwise
-    func turnLeft(direction: String)
-    {
-        switch direction
-		{
-            case "up":
-                currentPlayerDirection = playerDirection.left.direction()
-            case "down":
-                currentPlayerDirection = playerDirection.right.direction()
-            case "left":
-                currentPlayerDirection = playerDirection.down.direction()
-            case "right":
-                currentPlayerDirection = playerDirection.up.direction()
-			default:
-				break
-        }
-    }
-    //turns the player 90 degrees clockwise
-    func turnRight(direction: String)
-    {
-        switch direction{
-            case "up":
-                currentPlayerDirection = playerDirection.right.direction()
-            case "down":
-                currentPlayerDirection = playerDirection.left.direction()
-            case "left":
-                currentPlayerDirection = playerDirection.up.direction()
-            case "right":
-                currentPlayerDirection = playerDirection.down.direction()
-			default:
-				break
-        }
-    }
-    //moves player forward 
-    func moveForward(direction: String) -> SCNAction
-    {
-        var walkAction = SCNAction()
-        switch direction
-        {
-            case "up":
-                walkAction = SCNAction.moveBy(x: 0, y: 0, z: -0.04, duration: 1.5)
-            case "down":
-                walkAction = SCNAction.moveBy(x: 0, y: 0, z: 0.04, duration: 1.5)
-            case "left":
-                walkAction = SCNAction.moveBy(x: -0.04, y: 0, z: 0, duration: 1.5)
-            case "right":
-                walkAction = SCNAction.moveBy(x: 0.04, y: 0, z: 0, duration: 1.5)
-            default:
-                break
-        }
-        return walkAction
-    }
-	//moves player backward
-	func moveBackward(direction: String) -> SCNAction
-    {
-        var walkAction = SCNAction()
-        switch direction
-        {
-            case "up":
-                walkAction = SCNAction.moveBy(x: 0, y: 0, z: 0.04, duration: 1.5)
-            case "down":
-                walkAction = SCNAction.moveBy(x: 0, y: 0, z: -0.04, duration: 1.5)
-            case "left":
-                walkAction = SCNAction.moveBy(x: 0.04, y: 0, z: 0, duration: 1.5)
-            case "right":
-                walkAction = SCNAction.moveBy(x: -0.04, y: 0, z: 0, duration: 1.5)
-            default:
-                break
-        }
-        return walkAction
-    }
     
     // MARK: ViewController Functions
     override func viewDidLoad()
@@ -287,10 +210,10 @@ class ViewController: UIViewController
         if mazePlaced == true
         {
             sender.preventRepeatedPresses()
-            turnRight(direction: currentPlayerDirection)
+            player.turnRight(direction: player.currentPlayerDirection)
             let turnAction = SCNAction.rotateBy(x: 0, y: .pi/2, z: 0, duration: 0.5)
-            playAnimation(charType: "player", key: "turnRight")
-            charNode.runAction(turnAction)
+            player.playAnimation(ARCanvas, key: "turnRight")
+            player.getPlayerNode().runAction(turnAction)
             maze = rotateArrayCCW(orig: maze)
         }
     }
@@ -300,10 +223,10 @@ class ViewController: UIViewController
         if mazePlaced == true
         {
             sender.preventRepeatedPresses()
-            turnLeft(direction: currentPlayerDirection)
+            player.turnLeft(direction: player.currentPlayerDirection)
             let turnAction = SCNAction.rotateBy(x: 0, y: -(.pi/2), z: 0, duration: 0.5)
-            playAnimation(charType: "player", key: "turnLeft")
-            charNode.runAction(turnAction)
+            player.playAnimation(ARCanvas, key: "turnLeft")
+            player.getPlayerNode().runAction(turnAction)
             maze = rotateArrayCW(orig: maze)
         }
     }
@@ -313,8 +236,8 @@ class ViewController: UIViewController
         if mazePlaced && move(direction: "forward")
         {
             sender.preventRepeatedPresses()
-            playAnimation(charType: "player", key: "walk")
-            charNode.runAction(moveForward(direction: currentPlayerDirection))
+            player.playAnimation(ARCanvas, key: "walk")
+            player.getPlayerNode().runAction(player.moveForward(direction: player.currentPlayerDirection))
         }
     }
     //down button logic
@@ -323,8 +246,8 @@ class ViewController: UIViewController
         if mazePlaced && move(direction: "backward")
         {
             sender.preventRepeatedPresses()
-            playAnimation(charType: "player", key: "walkBack")
-            charNode.runAction(moveBackward(direction: currentPlayerDirection))
+            player.playAnimation(ARCanvas, key: "walkBack")
+            player.getPlayerNode().runAction(player.moveBackward(direction: player.currentPlayerDirection))
         }
     }
     // MARK: Attack Buttons
@@ -335,10 +258,10 @@ class ViewController: UIViewController
         {
             sender.preventRepeatedPresses()
             //play animation
-            playAnimation(charType: "player", key: "lightAttack")
+            player.playAnimation(ARCanvas, key: "lightAttack")
             let audio = SCNAudioSource(named: "art.scnassets/audios/lightAttack.wav")
             let audioAction = SCNAction.playAudio(audio!, waitForCompletion: true)
-            charNode.runAction(audioAction)
+            player.getPlayerNode().runAction(audioAction)
             if enemyNearBy(direction: "forward")
             {
                 playAnimation(charType: "enemy", key: "impact")
@@ -352,10 +275,10 @@ class ViewController: UIViewController
         {
             sender.preventRepeatedPresses()
             //play animation
-            playAnimation(charType: "player", key: "heavyAttack")
+            player.playAnimation(ARCanvas, key: "heavyAttack")
             let audio = SCNAudioSource(named: "art.scnassets/audios/heavyAttack.wav")
             let audioAction = SCNAction.playAudio(audio!, waitForCompletion: true)
-            charNode.runAction(audioAction)
+            player.getPlayerNode().runAction(audioAction)
         }
     }
     // MARK: Player Restriction
@@ -493,40 +416,7 @@ class ViewController: UIViewController
         audio?.volume = 0.65
         audio?.loops = true
         let audioAction = SCNAction.playAudio(audio!, waitForCompletion: true)
-        charNode.runAction(audioAction)
-    }
-    // MARK: Animations & Models
-    // creates a player character model with its animations
-    func loadPlayerAnimations(position: Position)
-    {
-        // Load the character in the idle animation
-        let idleScene = SCNScene(named: "art.scnassets/characters/player/IdleFixed.dae")!
-        
-        // Set up parent node of all animation models
-        //let node = SCNNode()
-        
-        // Add all the child nodes to the parent node
-        for child in idleScene.rootNode.childNodes
-        {
-            charNode.addChildNode(child)
-        }
-        charNode.position = SCNVector3(CGFloat(position.xCoord), CGFloat(position.yCoord), CGFloat(position.zCoord))
-        //size of the player model
-        let playerModelSize = 0.00036
-        charNode.scale = SCNVector3(playerModelSize, playerModelSize, playerModelSize)
-        // Rotating the character by 180 degrees
-        charNode.rotation = SCNVector4Make(0, 1, 0, .pi)
-        
-        charNode.castsShadow = true
-        charNode.name = "player"
-        ARCanvas.scene.rootNode.addChildNode(charNode)
-        //TODO: load more animations if available
-        loadAnimation(withKey: "walk", sceneName: "art.scnassets/characters/player/WalkFixed", animationIdentifier: "WalkFixed-1")
-        loadAnimation(withKey: "walkBack", sceneName: "art.scnassets/characters/player/WalkBackFixed", animationIdentifier: "WalkBackFixed-1")
-        loadAnimation(withKey: "turnLeft", sceneName: "art.scnassets/characters/player/TurnLeftFixed", animationIdentifier: "TurnLeftFixed-1")
-        loadAnimation(withKey: "turnRight", sceneName: "art.scnassets/characters/player/TurnRightFixed", animationIdentifier: "TurnRightFixed-1")
-        loadAnimation(withKey: "lightAttack", sceneName: "art.scnassets/characters/player/LightAttackFixed", animationIdentifier: "LightAttackFixed-1")
-        loadAnimation(withKey: "heavyAttack", sceneName: "art.scnassets/characters/player/HeavyAttackFixed", animationIdentifier: "HeavyAttackFixed-1")
+        player.getPlayerNode().runAction(audioAction)
     }
     // MARK: Enemy Model
     // creates a player character model with its animations
@@ -698,7 +588,7 @@ class ViewController: UIViewController
                 {
 					//initial player position
                     playerLocation = Position(xCoord: x, yCoord: y-WIDTH, zCoord: z, cRad: c)
-                    loadPlayerAnimations(position: playerLocation)
+                    player.spawnPlayer(ARCanvas, playerLocation)
                 }
                 else if flag == 3
                 {
