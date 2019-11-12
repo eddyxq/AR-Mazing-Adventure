@@ -368,9 +368,9 @@ class ViewController: UIViewController
    
         var arr = [[Int]](repeating: [Int](repeating: 0, count: 10), count: 10)
         
-        for r in 0..< rows
+        for r in 0 ..< rows
         {
-            for c in 0...< cols
+            for c in 0 ..< cols
             {
                 arr[c][rows-1-r] = orig[r][c]
             }
@@ -428,9 +428,9 @@ class ViewController: UIViewController
     func getRow() -> Int
     {
         var playerRow = 0;
-        for row in 0..< NUMROW
+        for row in 0 ..< NUMROW
         {
-             for col in 0..< NUMCOL
+             for col in 0 ..< NUMCOL
              {
                  if (maze[row][col] == 2)
                  {
@@ -445,9 +445,9 @@ class ViewController: UIViewController
     func getCol() -> Int
     {
         var playerCol = 0;
-        for row in 0..< NUMROW
+        for row in 0 ..< NUMROW
         {
-             for col in 0..< NUMCOL
+             for col in 0 ..< NUMCOL
              {
                  if (maze[row][col] == 2)
                  {
@@ -662,9 +662,9 @@ class ViewController: UIViewController
 		let FLOORHEIGHT = 0.01
         let floorDimensions = Size(width: WIDTH, height: FLOORHEIGHT, length: LENGTH)
         //position of first box
-        var x = position.xCoord - WIDTH * NUMCOL / 2
+        var x = position.xCoord - WIDTH * Double(NUMCOL) / 2.0
         var y = position.yCoord + 0.06
-        var z = position.zCoord - LENGTH * NUMROW / 2
+        var z = position.zCoord - LENGTH * Double(NUMROW) / 2.0
         let c = 0.0
         //init position
         var location = Position(xCoord: x, yCoord: y, zCoord: z, cRad: c)
@@ -674,9 +674,9 @@ class ViewController: UIViewController
         let NUMROW = 10
         let NUMCOL = 10
         
-        for i in 0..< NUMROW
+        for i in 0 ..< NUMROW
         {
-            for j in 0..< NUMCOL
+            for j in 0 ..< NUMCOL
             {
                 let row = maze[i]
                 let flag = row[j]
@@ -709,7 +709,7 @@ class ViewController: UIViewController
                 x += WIDTH
             }
             //line up blocks on a new row
-            x -= WIDTH * NUMCOL
+            x -= WIDTH * Double(NUMCOL)
             z += LENGTH
         }
     }
