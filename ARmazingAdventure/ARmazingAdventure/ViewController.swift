@@ -248,7 +248,7 @@ class ViewController: UIViewController
     func createGamepad()
     {
         let buttonX = 150
-        let buttonY = 450
+        let buttonY = 250
         let buttonWidth = 100
         let buttonHeight = 50
         let attackButtonRadius = 75
@@ -290,7 +290,7 @@ class ViewController: UIViewController
         let attack1 = UIImage(named: "attackButton")
         lightAttackButton.setImage(attack1, for: .normal)
         lightAttackButton.addTarget(self, action: #selector(lightAttackButtonClicked), for: .touchUpInside)
-        lightAttackButton.frame = CGRect(x: buttonX+1000, y: buttonY-12, width: attackButtonRadius, height: attackButtonRadius)
+        lightAttackButton.frame = CGRect(x: buttonX+100, y: buttonY-12, width: attackButtonRadius, height: attackButtonRadius)
         self.view.addSubview(lightAttackButton)
         
         //heavy attack
@@ -298,7 +298,7 @@ class ViewController: UIViewController
         let attack2 = UIImage(named: "attackButton")
         heavyAttackButton.setImage(attack2, for: .normal)
         heavyAttackButton.addTarget(self, action: #selector(heavyAttackButtonClicked), for: .touchUpInside)
-        heavyAttackButton.frame = CGRect(x: buttonX+1100, y: buttonY-12, width: attackButtonRadius, height: attackButtonRadius)
+        heavyAttackButton.frame = CGRect(x: buttonX+200, y: buttonY-12, width: attackButtonRadius, height: attackButtonRadius)
         self.view.addSubview(heavyAttackButton)
     }
     // MARK: Arrow Button Logics
