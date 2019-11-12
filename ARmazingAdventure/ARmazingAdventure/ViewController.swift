@@ -72,9 +72,11 @@ class ViewController: UIViewController
     // Default: Up
     var currentPlayerDirection = playerDirection.up.direction()
     
+	//turns the player 90 degrees counter clockwise
     func turnLeft(direction: String)
     {
-        switch direction{
+        switch direction
+		{
             case "up":
                 currentPlayerDirection = playerDirection.left.direction()
             case "down":
@@ -83,11 +85,11 @@ class ViewController: UIViewController
                 currentPlayerDirection = playerDirection.down.direction()
             case "right":
                 currentPlayerDirection = playerDirection.up.direction()
-        default:
-            break
+			default:
+				break
         }
     }
-    
+    //turns the player 90 degrees clockwise
     func turnRight(direction: String)
     {
         switch direction{
@@ -99,11 +101,11 @@ class ViewController: UIViewController
                 currentPlayerDirection = playerDirection.up.direction()
             case "right":
                 currentPlayerDirection = playerDirection.down.direction()
-        default:
-            break
+			default:
+				break
         }
     }
-    
+    //moves player forward 
     func moveForward(direction: String) -> SCNAction
     {
         var walkAction = SCNAction()
@@ -122,26 +124,8 @@ class ViewController: UIViewController
         }
         return walkAction
     }
-    
-    func attackMove(direction: String) -> SCNAction{
-        var attackMoveAction = SCNAction()
-        switch direction
-        {
-            case "up":
-                attackMoveAction = SCNAction.move(to: SCNVector3(x: charNode.position.x, y: charNode.position.y, z: charNode.position.z-0.02), duration: 0)
-            case "down":
-                attackMoveAction = SCNAction.move(to: SCNVector3(x: charNode.position.x, y: charNode.position.y, z: charNode.position.z+0.02), duration: 0)
-            case "left":
-                attackMoveAction = SCNAction.move(to: SCNVector3(x: charNode.position.x-0.02, y: charNode.position.y, z: charNode.position.z), duration: 0)
-            case "right":
-                attackMoveAction = SCNAction.move(to: SCNVector3(x: charNode.position.x+0.02, y: charNode.position.y, z: charNode.position.z), duration: 0)
-            default:
-                break
-            }
-        return attackMoveAction
-    }
-    
-    func moveBackward(direction: String) -> SCNAction
+	//moves player backward
+	func moveBackward(direction: String) -> SCNAction
     {
         var walkAction = SCNAction()
         switch direction
@@ -159,7 +143,7 @@ class ViewController: UIViewController
         }
         return walkAction
     }
-
+    
     // MARK: ViewController Functions
     override func viewDidLoad()
     {
@@ -234,15 +218,10 @@ class ViewController: UIViewController
     //accepts tap input for placing maze
     func addTapGestureToSceneView()
     {
-         let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(ViewController.addMazeToSceneView(withGestureRecognizer:)))
-            ARCanvas.addGestureRecognizer(tapGestureRecognizer)
+		let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(ViewController.addMazeToSceneView(withGestureRecognizer:)))
+		ARCanvas.addGestureRecognizer(tapGestureRecognizer)
     }
-    
-    override func viewWillDisappear(_ animated: Bool)
-    {
-        super.viewWillDisappear(animated)
-        ARCanvas.session.pause()
-    }
+
     // MARK: Buttons & Controlls
     //creates 4 buttons
     func createGamepad()
@@ -302,7 +281,6 @@ class ViewController: UIViewController
         self.view.addSubview(heavyAttackButton)
     }
     // MARK: Arrow Button Logics
-    
     //right button logic
     @objc func rightButtonClicked(sender : UIButton)
     {
@@ -381,7 +359,7 @@ class ViewController: UIViewController
         }
     }
     // MARK: Player Restriction
-
+	
 	//rotates a array clockwise
     func rotateArrayCW(orig: [[Int]]) -> [[Int]]
     {
@@ -417,12 +395,12 @@ class ViewController: UIViewController
         maze[playerRow][playerCol] = 0;
         switch (direction)
         {
-        case "backward":
-            playerRow += 1;
-        case "forward":
-            playerRow -= 1;
-        default:
-            print("error")
+			case "backward":
+				playerRow += 1;
+			case "forward":
+				playerRow -= 1;
+			default:
+				break
         }
         
         if maze[playerRow][playerCol] != 1
@@ -430,21 +408,19 @@ class ViewController: UIViewController
             maze[playerRow][playerCol] = 2
             canMove = true
         }
-            
         else // player does not move, returns to origin
         {
             switch (direction)
             {
-            case "backward":
-                playerRow -= 1;
-            case "forward":
-                playerRow += 1;
-            default:
-                print("error")
+				case "backward":
+					playerRow -= 1;
+				case "forward":
+					playerRow += 1;
+				default:
+					break
             }
             maze[playerRow][playerCol] = 2;
         }
-        
         return canMove
     }
     
@@ -482,7 +458,8 @@ class ViewController: UIViewController
         return playerCol;
     }
     // MARK: Basic Combat
-    func enemyNearBy(direction: String) -> Bool{
+    func enemyNearBy(direction: String) -> Bool
+	{
         var enemyNearby = false
         
         var playerRow = getRow();
@@ -508,9 +485,10 @@ class ViewController: UIViewController
         }
         return enemyNearby
     }
-    
     // MARK: Music
-    func setupDungeonMusic(){
+	//plays background music
+    func setupDungeonMusic()
+	{
         let audio = SCNAudioSource(named: "art.scnassets/audios/dungeonMusic.wav")
         audio?.volume = 0.65
         audio?.loops = true
@@ -562,7 +540,7 @@ class ViewController: UIViewController
         {
             enemyNode.addChildNode(child)
         }
-        
+        //set enemy location
         enemyNode.position = SCNVector3(CGFloat(position.xCoord), CGFloat(position.yCoord), CGFloat(position.zCoord))
         //size of the enemy model
         let enemyModelSize = 0.00038
@@ -575,14 +553,14 @@ class ViewController: UIViewController
         loadAnimation(withKey: "impact", sceneName: "art.scnassets/characters/enemy/ImpactFixed", animationIdentifier: "ImpactFixed-1")
         ARCanvas.scene.rootNode.addChildNode(enemyNode)
     }
-    
-    
+    //load animations
     func loadAnimation(withKey: String, sceneName: String, animationIdentifier: String)
     {
         let sceneURL = Bundle.main.url(forResource: sceneName, withExtension: "dae")
         let sceneSource = SCNSceneSource(url: sceneURL!, options: nil)
         
-        if let animationObject = sceneSource?.entryWithIdentifier(animationIdentifier, withClass: CAAnimation.self){
+        if let animationObject = sceneSource?.entryWithIdentifier(animationIdentifier, withClass: CAAnimation.self)
+		{
             //The animation will only play once
             animationObject.repeatCount = 1
             //To create smooth transitions between animations
@@ -593,23 +571,23 @@ class ViewController: UIViewController
             animations[withKey] = animationObject
         }
     }
-    
+    //play animation
     func playAnimation(charType: String, key: String)
     {
         // Add the animation to start playing it right away
         ARCanvas.scene.rootNode.childNode(withName: charType, recursively: true)?.addAnimation(animations[key]!, forKey: key)
     }
-    
+    //stop animation
     func stopAnimation(charType: String, key: String)
     {
         // Stop the animation with a smooth transition
         ARCanvas.scene.rootNode.childNode(withName: charType, recursively: true)?.removeAnimation(forKey: key, blendOutDuration: CGFloat(0.5))
     }
     //MARK: Lighting & Fog
+	//creates tunnel vision
     func setupARLight()
     {
         let charLight = SCNLight()
-        
         charLight.type = .spot
         charLight.spotOuterAngle = CGFloat(15)
         charLight.zFar = CGFloat(100)
@@ -618,7 +596,7 @@ class ViewController: UIViewController
         charLight.intensity = CGFloat(2000)
         ARCanvas.pointOfView?.light = charLight
     }
-    
+    //adds fog to the scene
     func setupFog()
     {
         ARCanvas.scene.fogColor = UIColor.darkGray
@@ -639,11 +617,11 @@ class ViewController: UIViewController
         //apply skins
         wall.materials = [imageMaterial1, imageMaterial1, imageMaterial1, imageMaterial1, imageMaterial1, imageMaterial1]
         //add box to scene
-       let wallNode = SCNNode(geometry: wall)
-        wallNode.position = SCNVector3(CGFloat(position.xCoord), CGFloat(position.yCoord), CGFloat(position.zCoord))
-        mazeWallNode.addChildNode(wallNode)
-        mazeWallNode.castsShadow = true
-        ARCanvas.scene.rootNode.addChildNode(mazeWallNode)
+		let wallNode = SCNNode(geometry: wall)
+		wallNode.position = SCNVector3(CGFloat(position.xCoord), CGFloat(position.yCoord), CGFloat(position.zCoord))
+		mazeWallNode.addChildNode(wallNode)
+		mazeWallNode.castsShadow = true
+		ARCanvas.scene.rootNode.addChildNode(mazeWallNode)
     }
     
     // creates the maze floor
@@ -733,79 +711,6 @@ class ViewController: UIViewController
             //line up blocks on a new row
             x -= WIDTH * NUMCOL
             z += LENGTH
-        }
-    }
-}
-// MARK: Class Extension
-extension ViewController: ARSCNViewDelegate
-{
-    func renderer(_ renderer: SCNSceneRenderer, didAdd node: SCNNode, for anchor: ARAnchor)
-    {
-        //unwrap anchor as ARPlaneAnchor
-        guard let planeAnchor = anchor as? ARPlaneAnchor else { return }
-        
-        //extract surface of SCNPlane
-        let width = CGFloat(planeAnchor.extent.x)
-        let height = CGFloat(planeAnchor.extent.z)
-        let plane = SCNPlane(width: width, height: height)
-        
-        //set plane color
-        plane.materials.first?.diffuse.contents = UIColor(red: 0/255, green: 204/255, blue: 14/255, alpha: 0.0)
-        let planeNode = SCNNode(geometry: plane)
-        
-        //get anchor coordinates for the plane node position
-        let x = CGFloat(planeAnchor.center.x)
-        let y = CGFloat(planeAnchor.center.y)
-        let z = CGFloat(planeAnchor.center.z)
-        planeNode.position = SCNVector3(x,y,z)
-        planeNode.eulerAngles.x = -.pi / 2
-        
-        node.addChildNode(planeNode)
-        
-        //ensures the setup maze is not run without an anchor plane
-        planeFound = true
-    }
-    
-    func renderer(_ renderer: SCNSceneRenderer, didUpdate node: SCNNode, for anchor: ARAnchor)
-    {
-        //render plane
-        guard let planeAnchor = anchor as?  ARPlaneAnchor,
-        let planeNode = node.childNodes.first,
-        let plane = planeNode.geometry as? SCNPlane
-        else { return }
-        
-        //update plane dimensions
-        let width = CGFloat(planeAnchor.extent.x)
-        let height = CGFloat(planeAnchor.extent.z)
-        plane.width = width
-        plane.height = height
-        
-        //update position of plane
-        let x = CGFloat(planeAnchor.center.x)
-        let y = CGFloat(planeAnchor.center.y)
-        let z = CGFloat(planeAnchor.center.z)
-        planeNode.position = SCNVector3(x, y, z)
-    }
-}
-
-//converts worldTransform value to simd_float3 for access to position
-extension float4x4
-{
-    var translation: simd_float3
-    {
-        let translation = self.columns.3
-        return simd_float3(translation.x, translation.y, translation.z)
-    }
-}
-
-extension UIButton
-{
-    func preventRepeatedPresses(inNext seconds: Double = 1.5)
-    {
-        self.isUserInteractionEnabled = false
-        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + seconds) 
-		{
-                self.isUserInteractionEnabled = true
         }
     }
 }
