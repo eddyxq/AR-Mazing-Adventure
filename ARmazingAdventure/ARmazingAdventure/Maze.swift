@@ -1,59 +1,84 @@
-class Maze
+class Maze 
 {
-    enum Cell
-    {
-        case Space, Wall
-    }
+    var maze: [[Int]] = []
 
-    var data: [[Cell]] = []
-
+    let FLOOR = 0
+    let WALL = 1
+    let PLAYER = 2
+    let FINISHPOINT = 9
+    
     //generates a random maze
-    init(width: Int, height: Int)
+    func generateRandomMaze()
     {
-        for _ in 0 ..< height
+        let HEIGHT = 15
+        let WIDTH = 15
+
+        for _ in 0 ..< HEIGHT 
         {
-            data.append([Cell](repeating: Cell.Wall, count: width))
+            maze.append([Int](repeating: FLOOR, count: WIDTH))
         }
-        for i in 0 ..< width
+        for i in 0 ..< WIDTH 
         {
-            data[0][i] = Cell.Space
-            data[height - 1][i] = Cell.Space
+            maze[0][i] = WALL
+            maze[HEIGHT - 1][i] = WALL
         }
-        for i in 0 ..< height
+        for i in 0 ..< HEIGHT 
         {
-            data[i][0] = Cell.Space
-            data[i][width - 1] = Cell.Space
+            maze[i][0] = WALL
+            maze[i][WIDTH - 1] = WALL
         }
-        data[2][2] = Cell.Space
+        maze[2][2] = WALL
         self.carve(x: 2, y: 2)
-        data[1][2] = Cell.Space
-        data[height - 2][width - 3] = Cell.Space
+        maze[1][2] = WALL
+        maze[HEIGHT - 2][WIDTH - 3] = WALL
     }
 
-    //carve starting at x y
-    func carve(x: Int, y: Int)
+    //recursively carve out floor and walls of the maze
+    func carve(x: Int, y: Int) 
     {
         let upx = [1, -1, 0, 0]
         let upy = [0, 0, 1, -1]
-        var dir = Int.random(in: 0..<4)
+        var dir = Int.random(in: 0 ..< 4)
         var count = 0
-        while count < 4
+        while count < 4 
         {
             let x1 = x + upx[dir]
             let y1 = y + upy[dir]
             let x2 = x1 + upx[dir]
             let y2 = y1 + upy[dir]
-            if data[y1][x1] == Cell.Wall && data[y2][x2] == Cell.Wall
+            if maze[y1][x1] == FLOOR && maze[y2][x2] == FLOOR 
             {
-                data[y1][x1] = Cell.Space
-                data[y2][x2] = Cell.Space
+                maze[y1][x1] = WALL
+                maze[y2][x2] = WALL
                 carve(x: x2, y: y2)
-            }
-            else
+            } 
+            else 
             {
                 dir = (dir + 1) % 4
                 count += 1
             }
         }
+    }
+
+    //returns the maze as a 2d int array
+    func newStage() -> [[Int]]
+    {
+        generateRandomMaze()
+        setPlayer()
+        setFinishPoint()
+        return maze
+
+    }
+
+    //set player spawnlocation
+    func setPlayer()
+    {
+        maze[0][1] = PLAYER
+    }
+
+    //set maze finish point
+    func setFinishPoint()
+    {
+        maze[14][13] = FINISHPOINT
     }
 }
