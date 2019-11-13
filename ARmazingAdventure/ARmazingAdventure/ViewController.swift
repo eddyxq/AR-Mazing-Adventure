@@ -41,21 +41,21 @@ class ViewController: UIViewController
     var mazePlaced = false
     var planeFound = false
     // Player directions
-    enum playerDirection: String
+	enum playerDirection: String
 	{
-        case up
-        case down
-        case left
-        case right
-        
-        func direction() -> String
+		case up
+		case down
+		case left
+		case right
+
+		func direction() -> String
 		{
-            return self.rawValue
-        }
-    }
+			return self.rawValue
+		}
+	}
     
     var maze = [
-    [1,1,1,1,1,1,1,1,1,1],
+	[1,1,1,1,1,1,1,1,1,1],
 	[1,0,1,0,0,0,1,0,0,1],
 	[1,0,1,0,3,0,1,1,0,1],
 	[1,0,1,0,0,0,1,0,0,1],
@@ -63,8 +63,8 @@ class ViewController: UIViewController
 	[1,0,0,0,0,0,1,0,0,1],
 	[1,0,0,0,0,0,0,0,0,1],
 	[1,0,0,0,1,0,1,0,1,1],
-    [1,0,2,0,0,0,0,0,0,1],
-    [1,1,1,1,1,1,1,1,1,1]]
+	[1,0,2,0,0,0,0,0,0,1],
+	[1,1,1,1,1,1,1,1,1,1]]
     
     let NUMROW = 10
     let NUMCOL = 10
@@ -392,12 +392,12 @@ class ViewController: UIViewController
         
         switch (direction)
         {
-			case "backward":
-				playerRow += 1;
-			case "forward":
-				playerRow -= 1;
-			default:
-				print("error")
+		case "backward":
+			playerRow += 1;
+		case "forward":
+			playerRow -= 1;
+		default:
+			print("error")
         }
         
         if maze[playerRow][playerCol] == 3
