@@ -2,8 +2,8 @@ class Maze
 {
     var maze: [[Int]] = []
 	//identifying value in array
-    let FLOOR = 0
-    let WALL = 1
+    let FLOOR = 1
+    let WALL = 0
     let PLAYER = 2
 	let BOSS = 3
     let FINISHPOINT = 9
@@ -68,37 +68,51 @@ class Maze
         setPlayer()
 		setBoss()
         setFinishPoint()
+        fillOuterWall()
         return maze
-
     }
 
     //set player spawn location
     func setPlayer()
     {
-        maze[1][1] = PLAYER
-		//place a wall behind player
-		maze[0][1] = WALL
+        maze[1][2] = PLAYER
     }
 	
 	//set boss spawn location
     func setBoss()
     {
-        maze[13][13] = BOSS
+        maze[13][12] = BOSS
     }
 
     //set maze finish point
     func setFinishPoint()
     {
-        maze[14][13] = FINISHPOINT
+        maze[14][12] = FINISHPOINT
+        //maze[2][1] = FINISHPOINT
     }
 	
+    //returns height of maze
 	func getHeight() -> Int
 	{
 		return HEIGHT
 	}
 	
+    //returns width of maze
 	func getWidth() -> Int
 	{
 		return WIDTH
 	}
+    
+    //creates a outter rim to prevent player from falling off
+    func fillOuterWall()
+    {
+        for i in 0 ..< 15
+        {
+            maze[0][i] = 1
+            maze[14][i] = 1
+            maze[i][0] = 1
+            maze[i][14] = 1
+            maze[14][12] = 9
+        }
+    }
 }

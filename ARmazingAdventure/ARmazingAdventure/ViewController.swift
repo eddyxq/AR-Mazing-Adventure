@@ -33,6 +33,7 @@ class ViewController: UIViewController
     var idle: Bool = true
     var mazeWallNode = SCNNode()
     var mazeFloorNode = SCNNode()
+    var location = Position(xCoord: 0.0, yCoord: 0.0, zCoord: 0.0, cRad: 0.0)
     
     let player = Player()
     let boss = Boss()
@@ -115,7 +116,7 @@ class ViewController: UIViewController
             let z = Double(translation.z)
             
             //spawn maze on location
-            let location = Position(xCoord: x, yCoord: y, zCoord: z, cRad: 0.0)
+            location = Position(xCoord: x, yCoord: y, zCoord: z, cRad: 0.0)
             setUpMaze(position: location)
             
             //flip flag to true so you cannot spawn multiple mazes
@@ -317,8 +318,18 @@ class ViewController: UIViewController
             default:
                 break
         }
+        if maze[playerRow][playerCol] == 9
+        {
+            ARCanvas.scene.rootNode.enumerateChildNodes
+            { (node, stop) in
+                node.removeFromParentNode()
+            }
+            //load a new stage
+            maze = Maze().newStage()
+            setUpMaze(position: location)
+        }
         
-        if maze[playerRow][playerCol] != 1
+        else if maze[playerRow][playerCol] != 1
         {
             maze[playerRow][playerCol] = 2
             canMove = true
