@@ -41,22 +41,23 @@ class ViewController: UIViewController
     var mazePlaced = false
     var planeFound = false
     // Player directions
-	enum playerDirection: String
-	{
-		case up
-		case down
-		case left
-		case right
+    enum playerDirection: String
+    {
+        case up
+        case down
+        case left
+        case right
 
-		func direction() -> String
-		{
-			return self.rawValue
-		}
-	}
+        func direction() -> String
+        {
+            return self.rawValue
+        }
+    }
     
     var maze = Maze().newStage()
-    let NUMROW = Maze().getHeight
-    let NUMCOL = Maze().getWidth
+    
+    let NUMROW = Maze().getHeight()
+    let NUMCOL = Maze().getWidth()
     
     // MARK: ViewController Functions
     override func viewDidLoad()
@@ -132,8 +133,8 @@ class ViewController: UIViewController
     //accepts tap input for placing maze
     func addTapGestureToSceneView()
     {
-		let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(ViewController.addMazeToSceneView(withGestureRecognizer:)))
-		ARCanvas.addGestureRecognizer(tapGestureRecognizer)
+        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(ViewController.addMazeToSceneView(withGestureRecognizer:)))
+        ARCanvas.addGestureRecognizer(tapGestureRecognizer)
     }
 
     // MARK: Buttons & Controlls
@@ -273,12 +274,12 @@ class ViewController: UIViewController
         }
     }
     // MARK: Player Restriction
-	
-	//rotates a array clockwise
+    
+    //rotates a array clockwise
     func rotateArrayCW(orig: [[Int]]) -> [[Int]]
     {
-        let rows = Maze.getHeight()
-        let cols = Maze.getWidth()
+        let rows = Maze().getHeight()
+        let cols = Maze().getWidth()
    
         var arr = [[Int]](repeating: [Int](repeating: 0, count: rows), count: cols)
         
@@ -291,8 +292,8 @@ class ViewController: UIViewController
         }
         return arr;
     }
-	
-	//rotates a array counter clockwise
+    
+    //rotates a array counter clockwise
     func rotateArrayCCW(orig: [[Int]]) -> [[Int]]
     {
         return rotateArrayCW(orig: rotateArrayCW(orig: rotateArrayCW(orig: orig)))
@@ -309,12 +310,12 @@ class ViewController: UIViewController
         maze[playerRow][playerCol] = 0;
         switch (direction)
         {
-			case "backward":
-				playerRow += 1;
-			case "forward":
-				playerRow -= 1;
-			default:
-				break
+            case "backward":
+                playerRow += 1;
+            case "forward":
+                playerRow -= 1;
+            default:
+                break
         }
         
         if maze[playerRow][playerCol] != 1
@@ -326,12 +327,12 @@ class ViewController: UIViewController
         {
             switch (direction)
             {
-				case "backward":
-					playerRow -= 1;
-				case "forward":
-					playerRow += 1;
-				default:
-					break
+                case "backward":
+                    playerRow -= 1;
+                case "forward":
+                    playerRow += 1;
+                default:
+                    break
             }
             maze[playerRow][playerCol] = 2;
         }
@@ -355,7 +356,7 @@ class ViewController: UIViewController
         return playerRow;
     }
     
-	//get player column index
+    //get player column index
     func getCol() -> Int
     {
         var playerCol = 0;
@@ -373,7 +374,7 @@ class ViewController: UIViewController
     }
     // MARK: Basic Combat
     func enemyNearBy(direction: String) -> Bool
-	{
+    {
         var enemyNearby = false
         
         var playerRow = getRow();
@@ -381,28 +382,28 @@ class ViewController: UIViewController
         
         switch (direction)
         {
-		case "backward":
-			playerRow += 1;
-		case "forward":
-			playerRow -= 1;
-		default:
-			print("error")
+        case "backward":
+            playerRow += 1;
+        case "forward":
+            playerRow -= 1;
+        default:
+            print("error")
         }
         
         if maze[playerRow][playerCol] == 3
         {
-			enemyNearby = true
+            enemyNearby = true
         }
-		else
+        else
         {
             enemyNearby = false
         }
         return enemyNearby
     }
     // MARK: Music
-	//plays background music
+    //plays background music
     func setupDungeonMusic()
-	{
+    {
         let audio = SCNAudioSource(named: "art.scnassets/audios/dungeonMusic.wav")
         audio?.volume = 0.65
         audio?.loops = true
@@ -410,7 +411,7 @@ class ViewController: UIViewController
         player.getPlayerNode().runAction(audioAction)
     }
     //MARK: Lighting & Fog
-	//creates tunnel vision
+    //creates tunnel vision
     func setupARLight()
     {
         let charLight = SCNLight()
@@ -443,11 +444,11 @@ class ViewController: UIViewController
         //apply skins
         wall.materials = [imageMaterial1, imageMaterial1, imageMaterial1, imageMaterial1, imageMaterial1, imageMaterial1]
         //add box to scene
-		let wallNode = SCNNode(geometry: wall)
-		wallNode.position = SCNVector3(CGFloat(position.xCoord), CGFloat(position.yCoord), CGFloat(position.zCoord))
-		mazeWallNode.addChildNode(wallNode)
-		mazeWallNode.castsShadow = true
-		ARCanvas.scene.rootNode.addChildNode(mazeWallNode)
+        let wallNode = SCNNode(geometry: wall)
+        wallNode.position = SCNVector3(CGFloat(position.xCoord), CGFloat(position.yCoord), CGFloat(position.zCoord))
+        mazeWallNode.addChildNode(wallNode)
+        mazeWallNode.castsShadow = true
+        ARCanvas.scene.rootNode.addChildNode(mazeWallNode)
     }
     
     // creates the maze floor
@@ -484,8 +485,8 @@ class ViewController: UIViewController
         let LENGTH = 0.04
         //init dimensions
         let dimensions = Size(width: WIDTH, height: HEIGHT, length: LENGTH)
-		
-		let FLOORHEIGHT = 0.01
+        
+        let FLOORHEIGHT = 0.01
         let floorDimensions = Size(width: WIDTH, height: FLOORHEIGHT, length: LENGTH)
         //position of first box
         var x = position.xCoord - WIDTH * Double(NUMCOL) / 2.0
@@ -496,6 +497,9 @@ class ViewController: UIViewController
         var location = Position(xCoord: x, yCoord: y, zCoord: z, cRad: c)
         var playerLocation = Position(xCoord: x, yCoord: y, zCoord: z, cRad: c)
         var bossLocation = Position(xCoord: x, yCoord: y, zCoord: z, cRad: c)
+
+        let NUMROW = Maze().getHeight()
+        let NUMCOL = Maze().getWidth()
         
         for i in 0 ..< NUMROW
         {
@@ -505,7 +509,7 @@ class ViewController: UIViewController
                 let flag = row[j]
                 
                 //creates maze floor
-				//y offset to place floor block flush under the wall
+                //y offset to place floor block flush under the wall
                 y -= (HEIGHT + FLOORHEIGHT) / 2
                 location = Position(xCoord: x, yCoord: y, zCoord: z, cRad: c)
                 setupFloor(size: floorDimensions, position: location)
@@ -519,7 +523,7 @@ class ViewController: UIViewController
                 }
                 else if flag == 2
                 {
-					//initial player position
+                    //initial player position
                     playerLocation = Position(xCoord: x, yCoord: y-WIDTH, zCoord: z, cRad: c)
                     player.spawnPlayer(ARCanvas, playerLocation)
                 }
