@@ -38,6 +38,8 @@ class ViewController: UIViewController
     let player = Player()
     let boss = Boss()
     
+    var stageLevel = 1
+    
     //true when user has placed the maze on surface
     var mazePlaced = false
     var planeFound = false
@@ -300,9 +302,28 @@ class ViewController: UIViewController
             { (node, stop) in
                 node.removeFromParentNode()
             }
-            //load a new stage
-            maze = Maze().rotateArrayCW(orig: Maze().rotateArrayCW(orig: Maze().newStage()))
-            setUpMaze(position: location)
+            
+            if stageLevel % 2 != 0
+            {
+                //load a new stage and rotate maze 180 degrees so player
+                //starts new stage where he finished previous stage
+                maze = Maze().rotateArrayCW(orig: Maze().rotateArrayCW(orig: Maze().newStage()))
+                setUpMaze(position: location)
+                //rotate player 180 degress
+                player.turnRight(direction: player.currentPlayerDirection)
+                player.turnRight(direction: player.currentPlayerDirection)
+            }
+            else
+            {
+                maze = Maze().newStage()
+                setUpMaze(position: location)
+            }
+            //count number of stages cleared
+            stageLevel += 1
+            //reload music and settings
+            setupDungeonMusic()
+            //setupARLight()
+            //setupFog()
         }
         
         else if maze[playerRow][playerCol] != 1
