@@ -115,4 +115,62 @@ class Maze
             maze[14][12] = 9
         }
     }
+    
+    //rotates a array clockwise
+     func rotateArrayCW(orig: [[Int]]) -> [[Int]]
+     {
+         let rows = Maze().getHeight()
+         let cols = Maze().getWidth()
+
+         var arr = [[Int]](repeating: [Int](repeating: 0, count: rows), count: cols)
+         
+         for r in 0 ..< rows
+         {
+             for c in 0 ..< cols
+             {
+                 arr[c][rows-1-r] = orig[r][c]
+             }
+         }
+         return arr;
+     }
+     
+     //rotates a array counter clockwise
+     func rotateArrayCCW(orig: [[Int]]) -> [[Int]]
+     {
+         return rotateArrayCW(orig: rotateArrayCW(orig: rotateArrayCW(orig: orig)))
+     }
+     
+    //get player row index
+    func getRow(maze: [[Int]]) -> Int
+     {
+         var playerRow = 0;
+         for row in 0 ..< HEIGHT
+         {
+              for col in 0 ..< WIDTH
+              {
+                  if (maze[row][col] == 2)
+                  {
+                      playerRow = row;
+                  }
+              }
+         }
+         return playerRow;
+     }
+     
+     //get player column index
+     func getCol(maze: [[Int]]) -> Int
+     {
+         var playerCol = 0;
+         for row in 0 ..< HEIGHT
+         {
+              for col in 0 ..< WIDTH
+              {
+                  if (maze[row][col] == 2)
+                  {
+                      playerCol = col;
+                  }
+              }
+         }
+         return playerCol;
+     }
 }

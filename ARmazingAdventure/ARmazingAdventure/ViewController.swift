@@ -207,7 +207,7 @@ class ViewController: UIViewController
             let turnAction = SCNAction.rotateBy(x: 0, y: .pi/2, z: 0, duration: 0.5)
             player.playAnimation(ARCanvas, key: "turnRight")
             player.getPlayerNode().runAction(turnAction)
-            maze = rotateArrayCCW(orig: maze)
+            maze = Maze().rotateArrayCCW(orig: maze)
         }
     }
     //left button logic
@@ -220,7 +220,7 @@ class ViewController: UIViewController
             let turnAction = SCNAction.rotateBy(x: 0, y: -(.pi/2), z: 0, duration: 0.5)
             player.playAnimation(ARCanvas, key: "turnLeft")
             player.getPlayerNode().runAction(turnAction)
-            maze = rotateArrayCW(orig: maze)
+            maze = Maze().rotateArrayCW(orig: maze)
         }
     }
     //up button logic
@@ -274,47 +274,23 @@ class ViewController: UIViewController
             player.getPlayerNode().runAction(audioAction)
         }
     }
-    // MARK: Player Restriction
-    
-    //rotates a array clockwise
-    func rotateArrayCW(orig: [[Int]]) -> [[Int]]
-    {
-        let rows = Maze().getHeight()
-        let cols = Maze().getWidth()
-   
-        var arr = [[Int]](repeating: [Int](repeating: 0, count: rows), count: cols)
+    // MARK: Player Movement
         
-        for r in 0 ..< rows
-        {
-            for c in 0 ..< cols
-            {
-                arr[c][rows-1-r] = orig[r][c]
-            }
-        }
-        return arr;
-    }
-    
-    //rotates a array counter clockwise
-    func rotateArrayCCW(orig: [[Int]]) -> [[Int]]
-    {
-        return rotateArrayCW(orig: rotateArrayCW(orig: rotateArrayCW(orig: orig)))
-    }
-    
     //moves and updates player location
     func move(direction: String) -> Bool
     {
         var canMove = false
         
-        var playerRow = getRow();
-        let playerCol = getCol();
+        var playerRow = Maze().getRow(maze: maze)
+        let playerCol = Maze().getCol(maze: maze)
         // remove player from current position
-        maze[playerRow][playerCol] = 0;
+        maze[playerRow][playerCol] = 0
         switch (direction)
         {
             case "backward":
-                playerRow += 1;
+                playerRow += 1
             case "forward":
-                playerRow -= 1;
+                playerRow -= 1
             default:
                 break
         }
@@ -325,7 +301,7 @@ class ViewController: UIViewController
                 node.removeFromParentNode()
             }
             //load a new stage
-            maze = rotateArrayCW(orig: rotateArrayCW(orig: Maze().newStage()))
+            maze = Maze().rotateArrayCW(orig: Maze().rotateArrayCW(orig: Maze().newStage()))
             setUpMaze(position: location)
         }
         
@@ -339,9 +315,9 @@ class ViewController: UIViewController
             switch (direction)
             {
                 case "backward":
-                    playerRow -= 1;
+                    playerRow -= 1
                 case "forward":
-                    playerRow += 1;
+                    playerRow += 1
                 default:
                     break
             }
@@ -350,55 +326,22 @@ class ViewController: UIViewController
         return canMove
     }
     
-    //get player row index
-    func getRow() -> Int
-    {
-        var playerRow = 0;
-        for row in 0 ..< NUMROW
-        {
-             for col in 0 ..< NUMCOL
-             {
-                 if (maze[row][col] == 2)
-                 {
-                     playerRow = row;
-                 }
-             }
-        }
-        return playerRow;
-    }
-    
-    //get player column index
-    func getCol() -> Int
-    {
-        var playerCol = 0;
-        for row in 0 ..< NUMROW
-        {
-             for col in 0 ..< NUMCOL
-             {
-                 if (maze[row][col] == 2)
-                 {
-                     playerCol = col;
-                 }
-             }
-        }
-        return playerCol;
-    }
     // MARK: Basic Combat
     func enemyNearBy(direction: String) -> Bool
     {
         var enemyNearby = false
         
-        var playerRow = getRow();
-        let playerCol = getCol();
+        var playerRow = Maze().getRow(maze: maze)
+        let playerCol = Maze().getCol(maze: maze)
         
         switch (direction)
         {
-        case "backward":
-            playerRow += 1;
-        case "forward":
-            playerRow -= 1;
-        default:
-            print("error")
+            case "backward":
+                playerRow += 1
+            case "forward":
+                playerRow -= 1
+            default:
+                print("error")
         }
         
         if maze[playerRow][playerCol] == 3
