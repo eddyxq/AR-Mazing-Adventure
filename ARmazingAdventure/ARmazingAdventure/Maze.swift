@@ -1,18 +1,19 @@
 class Maze 
 {
     var maze: [[Int]] = []
-
+	//identifying value in array
     let FLOOR = 0
     let WALL = 1
     let PLAYER = 2
+	let BOSS = 3
     let FINISHPOINT = 9
-    
+	//size of the maze
+    let HEIGHT = 15
+    let WIDTH = 15
+		
     //generates a random maze
     func generateRandomMaze()
     {
-        let HEIGHT = 15
-        let WIDTH = 15
-
         for _ in 0 ..< HEIGHT 
         {
             maze.append([Int](repeating: FLOOR, count: WIDTH))
@@ -65,15 +66,24 @@ class Maze
     {
         generateRandomMaze()
         setPlayer()
+		setBoss()
         setFinishPoint()
         return maze
 
     }
 
-    //set player spawnlocation
+    //set player spawn location
     func setPlayer()
     {
-        maze[0][1] = PLAYER
+        maze[1][1] = PLAYER
+		//place a wall behind player
+		maze[0][1] = WALL
+    }
+	
+	//set boss spawn location
+    func setBoss()
+    {
+        maze[13][13] = BOSS
     }
 
     //set maze finish point
@@ -81,4 +91,14 @@ class Maze
     {
         maze[14][13] = FINISHPOINT
     }
+	
+	func getHeight() -> Int
+	{
+		return HEIGHT
+	}
+	
+	func getWidth() -> Int
+	{
+		return WIDTH
+	}
 }

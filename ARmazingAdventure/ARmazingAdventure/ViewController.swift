@@ -54,20 +54,9 @@ class ViewController: UIViewController
 		}
 	}
     
-    var maze = [
-	[1,1,1,1,1,1,1,1,1,1],
-	[1,0,1,0,0,0,1,0,0,1],
-	[1,0,1,0,3,0,1,1,0,1],
-	[1,0,1,0,0,0,1,0,0,1],
-	[1,0,0,1,0,1,0,0,1,1],
-	[1,0,0,0,0,0,1,0,0,1],
-	[1,0,0,0,0,0,0,0,0,1],
-	[1,0,0,0,1,0,1,0,1,1],
-	[1,0,2,0,0,0,0,0,0,1],
-	[1,1,1,1,1,1,1,1,1,1]]
-    
-    let NUMROW = 10
-    let NUMCOL = 10
+    var maze = Maze().newStage()
+    let NUMROW = Maze().getHeight
+    let NUMCOL = Maze().getWidth
     
     // MARK: ViewController Functions
     override func viewDidLoad()
@@ -288,10 +277,10 @@ class ViewController: UIViewController
 	//rotates a array clockwise
     func rotateArrayCW(orig: [[Int]]) -> [[Int]]
     {
-        let rows = 10
-        let cols = 10
+        let rows = Maze.getHeight()
+        let cols = Maze.getWidth()
    
-        var arr = [[Int]](repeating: [Int](repeating: 0, count: 10), count: 10)
+        var arr = [[Int]](repeating: [Int](repeating: 0, count: rows), count: cols)
         
         for r in 0 ..< rows
         {
@@ -507,9 +496,6 @@ class ViewController: UIViewController
         var location = Position(xCoord: x, yCoord: y, zCoord: z, cRad: c)
         var playerLocation = Position(xCoord: x, yCoord: y, zCoord: z, cRad: c)
         var bossLocation = Position(xCoord: x, yCoord: y, zCoord: z, cRad: c)
-
-        let NUMROW = 10
-        let NUMCOL = 10
         
         for i in 0 ..< NUMROW
         {
