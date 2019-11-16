@@ -325,7 +325,7 @@ class ViewController: UIViewController
                 node.removeFromParentNode()
             }
             //load a new stage
-            maze = Maze().newStage()
+            maze = rotateArrayCW(orig: rotateArrayCW(orig: Maze().newStage()))
             setUpMaze(position: location)
         }
         

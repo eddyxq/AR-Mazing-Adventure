@@ -1,11 +1,3 @@
-//
-//  AppDelegate.swift
-//  ARmazingAdventure
-//
-//  Created by Muhammad Saadan on 2019-10-20.
-//  Copyright © 2019 Muhammad Saadan. All rights reserved.
-//
-
 import UIKit
 
 @UIApplicationMain
