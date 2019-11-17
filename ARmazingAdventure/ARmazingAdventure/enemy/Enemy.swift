@@ -12,9 +12,14 @@ import ARKit
 
 class Enemy{
     //enemy types
-    enum type {
+    enum EnemyTypes: String {
         case minion
         case boss
+        
+        func type() -> String
+        {
+            return self.rawValue
+        }
     }
     
     

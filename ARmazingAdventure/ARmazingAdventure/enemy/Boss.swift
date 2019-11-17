@@ -11,9 +11,11 @@ import SceneKit
 import ARKit
 
 class Boss: Enemy{
+    
     let bossNode = SCNNode()
     var animations = [String: CAAnimation]()
-
+    let enemyType = Enemy.EnemyTypes.boss.type()
+    
     // MARK: Animations & Models
     // creates a player character model with its animations
     func loadBossAnimations(_ sceneView: ARSCNView, _ position: ViewController.Position)
