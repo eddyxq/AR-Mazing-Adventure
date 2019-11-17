@@ -507,6 +507,11 @@ class ViewController: UIViewController
                     bossLocation = Position(xCoord: x, yCoord: y-WIDTH, zCoord: z, cRad: c)
                     boss.loadBossAnimations(ARCanvas, bossLocation)
                 }
+				else if flag == 4
+                {
+					bossLocation = Position(xCoord: x, yCoord: y-WIDTH, zCoord: z, cRad: c)
+                    boss.loadBossAnimations(ARCanvas, bossLocation)
+                }
                 //increment each block so it lines up horizontally
                 x += WIDTH
             }
