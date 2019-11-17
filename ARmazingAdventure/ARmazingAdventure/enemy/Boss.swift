@@ -1,17 +1,9 @@
-//
-//  Boss.swift
-//  ARmazingAdventure
-//
-//  Created by Shuji Chen on 2019-11-12.
-//  Copyright © 2019 ShuJi Chen. All rights reserved.
-//
-
 import Foundation
 import SceneKit
 import ARKit
 
-class Boss: Enemy{
-    
+class Boss: Enemy
+{
     let bossNode = SCNNode()
     var animations = [String: CAAnimation]()
     let enemyType = Enemy.EnemyTypes.boss.type()
@@ -41,6 +33,7 @@ class Boss: Enemy{
         loadAnimation(withKey: "impact", sceneName: "art.scnassets/characters/enemy/ImpactFixed", animationIdentifier: "ImpactFixed-1")
         sceneView.scene.rootNode.addChildNode(bossNode)
     }
+    
     //load animations
     func loadAnimation(withKey: String, sceneName: String, animationIdentifier: String)
     {
@@ -73,11 +66,14 @@ class Boss: Enemy{
     }
     
     //Spawns the boss model at the given sceneview
-    func spawnBoss(_ sceneView: ARSCNView, _ position: ViewController.Position){
+    func spawnBoss(_ sceneView: ARSCNView, _ position: ViewController.Position)
+    {
         loadBossAnimations(sceneView, position)
     }
     
-    func getBossNode() -> SCNNode{
+    func getBossNode() -> SCNNode
+    {
         return bossNode
     }
+
 }

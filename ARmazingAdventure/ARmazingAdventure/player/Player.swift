@@ -1,17 +1,9 @@
-//
-//  Player.swift
-//  ARmazingAdventure
-//
-//  Created by Shuji Chen on 2019-11-12.
-//  Copyright © 2019 ShuJi Chen. All rights reserved.
-//
-
 import Foundation
 import SceneKit
 import ARKit
 
-
-class Player{
+class Player
+{
     let playerNode = SCNNode()
     var animations = [String: CAAnimation]()
     
@@ -171,11 +163,13 @@ class Player{
         return walkAction
     }
     
-    func spawnPlayer(_ sceneView: ARSCNView, _ position: ViewController.Position){
+    func spawnPlayer(_ sceneView: ARSCNView, _ position: ViewController.Position)
+    {
         loadPlayerAnimations(sceneView, position)
     }
     
-    func getPlayerNode() -> SCNNode{
+    func getPlayerNode() -> SCNNode
+    {
         return playerNode
     }
     

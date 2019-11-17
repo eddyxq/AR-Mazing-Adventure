@@ -1,59 +1,198 @@
-class Maze
+class Maze 
 {
-    enum Cell
-    {
-        case Space, Wall
-    }
-
-    var data: [[Cell]] = []
-
+    var maze: [[Int]] = []
+	//identifying value in array
+    let FLOOR = 0
+    let WALL = 1
+    let PLAYER = 2
+	let BOSS = 3
+    let MINION = 4
+    let FINISHPOINT = 9
+	//size of the maze
+    let HEIGHT = 15
+    let WIDTH = 15
+		
     //generates a random maze
-    init(width: Int, height: Int)
+    func generateRandomMaze()
     {
-        for _ in 0 ..< height
+        for _ in 0 ..< HEIGHT 
         {
-            data.append([Cell](repeating: Cell.Wall, count: width))
+            maze.append([Int](repeating: WALL, count: WIDTH))
         }
-        for i in 0 ..< width
+        for i in 0 ..< WIDTH 
         {
-            data[0][i] = Cell.Space
-            data[height - 1][i] = Cell.Space
+            maze[0][i] = FLOOR
+            maze[HEIGHT - 1][i] = FLOOR
         }
-        for i in 0 ..< height
+        for i in 0 ..< HEIGHT 
         {
-            data[i][0] = Cell.Space
-            data[i][width - 1] = Cell.Space
+            maze[i][0] = FLOOR
+            maze[i][WIDTH - 1] = FLOOR
         }
-        data[2][2] = Cell.Space
+        maze[2][2] = FLOOR
         self.carve(x: 2, y: 2)
-        data[1][2] = Cell.Space
-        data[height - 2][width - 3] = Cell.Space
+        maze[1][2] = FLOOR
+        maze[HEIGHT - 2][WIDTH - 3] = FLOOR
     }
 
-    //carve starting at x y
-    func carve(x: Int, y: Int)
+    //recursively carve out floor and walls of the maze
+    func carve(x: Int, y: Int) 
     {
         let upx = [1, -1, 0, 0]
         let upy = [0, 0, 1, -1]
-        var dir = Int.random(in: 0..<4)
+        var dir = Int.random(in: 0 ..< 4)
         var count = 0
-        while count < 4
+        while count < 4 
         {
             let x1 = x + upx[dir]
             let y1 = y + upy[dir]
             let x2 = x1 + upx[dir]
             let y2 = y1 + upy[dir]
-            if data[y1][x1] == Cell.Wall && data[y2][x2] == Cell.Wall
+            if maze[y1][x1] == WALL && maze[y2][x2] == WALL 
             {
-                data[y1][x1] = Cell.Space
-                data[y2][x2] = Cell.Space
+                maze[y1][x1] = FLOOR
+                maze[y2][x2] = FLOOR
                 carve(x: x2, y: y2)
-            }
-            else
+            } 
+            else 
             {
                 dir = (dir + 1) % 4
                 count += 1
             }
         }
     }
+
+    //returns the maze as a 2d int array
+    func newStage() -> [[Int]]
+    {
+        generateRandomMaze()
+        fillOuterWall()
+        setFinishPoint()
+        setPlayer()
+        setBoss()
+        setMinions()
+        return maze
+    }
+
+    //set player spawn location
+    func setPlayer()
+    {
+        maze[1][2] = PLAYER
+    }
+
+    //set minion spawn locations
+    func setMinions()
+    {
+        //number of mininons to spawn
+        var numMinions = 5
+        //counter to keep track of number of minions
+        var count = 0
+    
+        while count < numMinions
+        {
+            //randomly generated locations
+            var i = Int.random(in: 2 ... 12)
+            var j = Int.random(in: 2 ... 12)
+            //ensure minions only spawn on the floors
+            if maze[i][j] == FLOOR
+            {
+                maze[i][j] = MINION
+                count += 1
+            }
+        }
+    }
+	
+	//set boss spawn location
+    func setBoss()
+    {
+        maze[13][12] = BOSS
+    }
+
+    //set maze finish point
+    func setFinishPoint()
+    {
+        maze[14][12] = FINISHPOINT
+    }
+	
+    //returns height of maze
+	func getHeight() -> Int
+	{
+		return HEIGHT
+	}
+	
+    //returns width of maze
+	func getWidth() -> Int
+	{
+		return WIDTH
+	}
+    
+    //creates a outter rim to prevent player from falling off
+    func fillOuterWall()
+    {
+        for i in 0 ..< 15
+        {
+            maze[0][i] = 1
+            maze[14][i] = 1
+            maze[i][0] = 1
+            maze[i][14] = 1
+        }
+    }
+    
+    //rotates a array clockwise
+     func rotateArrayCW(orig: [[Int]]) -> [[Int]]
+     {
+         let rows = Maze().getHeight()
+         let cols = Maze().getWidth()
+
+         var arr = [[Int]](repeating: [Int](repeating: 0, count: rows), count: cols)
+         
+         for r in 0 ..< rows
+         {
+             for c in 0 ..< cols
+             {
+                 arr[c][rows-1-r] = orig[r][c]
+             }
+         }
+         return arr;
+     }
+     
+     //rotates a array counter clockwise
+     func rotateArrayCCW(orig: [[Int]]) -> [[Int]]
+     {
+         return rotateArrayCW(orig: rotateArrayCW(orig: rotateArrayCW(orig: orig)))
+     }
+     
+    //get player row index
+    func getRow(maze: [[Int]]) -> Int
+     {
+         var playerRow = 0;
+         for row in 0 ..< HEIGHT
+         {
+              for col in 0 ..< WIDTH
+              {
+                  if (maze[row][col] == 2)
+                  {
+                      playerRow = row;
+                  }
+              }
+         }
+         return playerRow;
+     }
+     
+     //get player column index
+     func getCol(maze: [[Int]]) -> Int
+     {
+         var playerCol = 0;
+         for row in 0 ..< HEIGHT
+         {
+              for col in 0 ..< WIDTH
+              {
+                  if (maze[row][col] == 2)
+                  {
+                      playerCol = col;
+                  }
+              }
+         }
+         return playerCol;
+     }
 }
