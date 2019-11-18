@@ -259,6 +259,33 @@ class ViewController: UIViewController
         heavyAttackButton.addTarget(self, action: #selector(heavyAttackButtonClicked), for: .touchUpInside)
         heavyAttackButton.frame = CGRect(x: buttonX+200, y: buttonY-12, width: attackButtonRadius, height: attackButtonRadius)
         self.view.addSubview(heavyAttackButton)
+        
+        //constraints
+               
+       for button in [rightButton, upButton, downButton, leftButton, rightButton, heavyAttackButton, lightAttackButton] {
+           button.translatesAutoresizingMaskIntoConstraints = false
+           button.heightAnchor.constraint(equalTo: button.widthAnchor, multiplier: 1).isActive = true
+       }
+
+       leftButton.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor, constant: 24).isActive = true
+       leftButton.bottomAnchor.constraint(equalTo: downButton.topAnchor).isActive = true
+       
+       downButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -24).isActive = true
+       downButton.leftAnchor.constraint(equalTo: leftButton.rightAnchor).isActive = true
+       
+       upButton.bottomAnchor.constraint(equalTo: leftButton.topAnchor).isActive = true
+       upButton.leftAnchor.constraint(equalTo: leftButton.rightAnchor).isActive = true
+       
+       rightButton.bottomAnchor.constraint(equalTo: downButton.topAnchor).isActive = true
+       rightButton.leftAnchor.constraint(equalTo: downButton.rightAnchor).isActive = true
+       
+       heavyAttackButton.widthAnchor.constraint(equalToConstant: 75).isActive = true
+       heavyAttackButton.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor, constant: -24).isActive = true
+       heavyAttackButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -64).isActive = true
+       
+       lightAttackButton.widthAnchor.constraint(equalToConstant: 75).isActive = true
+       lightAttackButton.rightAnchor.constraint(equalTo: heavyAttackButton.leftAnchor, constant: -24).isActive = true
+       lightAttackButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -64).isActive = true
     }
     // MARK: Arrow Button Logics
     func isValidMove() -> Bool{
