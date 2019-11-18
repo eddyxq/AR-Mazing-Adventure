@@ -2,10 +2,11 @@ class Maze
 {
     var maze: [[Int]] = []
 	//identifying value in array
-    let FLOOR = 1
-    let WALL = 0
+    let FLOOR = 0
+    let WALL = 1
     let PLAYER = 2
 	let BOSS = 3
+    let MINION = 4
     let FINISHPOINT = 9
 	//size of the maze
     let HEIGHT = 15
@@ -16,22 +17,22 @@ class Maze
     {
         for _ in 0 ..< HEIGHT 
         {
-            maze.append([Int](repeating: FLOOR, count: WIDTH))
+            maze.append([Int](repeating: WALL, count: WIDTH))
         }
         for i in 0 ..< WIDTH 
         {
-            maze[0][i] = WALL
-            maze[HEIGHT - 1][i] = WALL
+            maze[0][i] = FLOOR
+            maze[HEIGHT - 1][i] = FLOOR
         }
         for i in 0 ..< HEIGHT 
         {
-            maze[i][0] = WALL
-            maze[i][WIDTH - 1] = WALL
+            maze[i][0] = FLOOR
+            maze[i][WIDTH - 1] = FLOOR
         }
-        maze[2][2] = WALL
+        maze[2][2] = FLOOR
         self.carve(x: 2, y: 2)
-        maze[1][2] = WALL
-        maze[HEIGHT - 2][WIDTH - 3] = WALL
+        maze[1][2] = FLOOR
+        maze[HEIGHT - 2][WIDTH - 3] = FLOOR
     }
 
     //recursively carve out floor and walls of the maze
@@ -47,10 +48,10 @@ class Maze
             let y1 = y + upy[dir]
             let x2 = x1 + upx[dir]
             let y2 = y1 + upy[dir]
-            if maze[y1][x1] == FLOOR && maze[y2][x2] == FLOOR 
+            if maze[y1][x1] == WALL && maze[y2][x2] == WALL 
             {
-                maze[y1][x1] = WALL
-                maze[y2][x2] = WALL
+                maze[y1][x1] = FLOOR
+                maze[y2][x2] = FLOOR
                 carve(x: x2, y: y2)
             } 
             else 
@@ -65,10 +66,11 @@ class Maze
     func newStage() -> [[Int]]
     {
         generateRandomMaze()
-        setPlayer()
-		setBoss()
-        setFinishPoint()
         fillOuterWall()
+        setFinishPoint()
+        setPlayer()
+        setBoss()
+        setMinions()
         return maze
     }
 
@@ -76,6 +78,27 @@ class Maze
     func setPlayer()
     {
         maze[1][2] = PLAYER
+    }
+
+    //set minion spawn locations
+    func setMinions()
+    {
+        //number of mininons to spawn
+        var numMinions = 5
+        //counter to keep track of number of minions
+        var count = 0
+        while count < numMinions
+        {
+            //randomly generated locations
+            var i = Int.random(in: 2 ... 12)
+            var j = Int.random(in: 2 ... 12)
+            //ensure minions only spawn on the floors
+            if maze[i][j] == FLOOR
+            {
+                maze[i][j] = MINION
+                count += 1
+            }
+        }
     }
 	
 	//set boss spawn location
@@ -88,7 +111,6 @@ class Maze
     func setFinishPoint()
     {
         maze[14][12] = FINISHPOINT
-        //maze[2][1] = FINISHPOINT
     }
 	
     //returns height of maze
@@ -112,7 +134,6 @@ class Maze
             maze[14][i] = 1
             maze[i][0] = 1
             maze[i][14] = 1
-            maze[14][12] = 9
         }
     }
     

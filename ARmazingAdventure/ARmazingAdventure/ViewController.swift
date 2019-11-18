@@ -5,6 +5,15 @@ import SceneKit
 
 class ViewController: UIViewController
 {
+    enum GameState: String {
+        case playerTurn
+        case enemyTurn
+        
+        func state() -> String
+        {
+            return self.rawValue
+        }
+    }
     
     //setting scene to AR
     var config = ARWorldTrackingConfiguration()
@@ -35,8 +44,17 @@ class ViewController: UIViewController
     var mazeFloorNode = SCNNode()
     var location = Position(xCoord: 0.0, yCoord: 0.0, zCoord: 0.0, cRad: 0.0)
     
+    var currentGameState = GameState.playerTurn.state()
+    
+    
     let player = Player()
     let boss = Boss()
+    
+    @IBOutlet weak var APLabel: UILabel!
+
+    @IBOutlet weak var APTitleLabel: UILabel!
+    
+    @IBOutlet weak var turnIndicator: UILabel!
     
     var stageLevel = 1
     
@@ -82,12 +100,13 @@ class ViewController: UIViewController
         ARCanvas.debugOptions = [ARSCNDebugOptions.showFeaturePoints]
         ARCanvas.scene.rootNode.castsShadow = true
         
+        turnIndicator.isHidden = true
+        APTitleLabel.isHidden = true
         setupDungeonMusic()
         //setupARLight()
         //setupFog()
         //enables user to tap detected plane for maze placement
         addTapGestureToSceneView()
-        
         //adds arrow pad to screen
         createGamepad()
     }
@@ -97,6 +116,48 @@ class ViewController: UIViewController
         super.viewWillAppear(animated)
     }
     
+    // MARK: Action Points & Game State Change
+    func updateAP(){
+        APTitleLabel.isHidden = false
+        APTitleLabel.textColor = UIColor.white
+        APTitleLabel.shadowColor = UIColor.black
+        APLabel.text = player.getAPCount()
+        
+        if player.apCount == 0{
+            stateChange()
+        }
+    }
+    
+    // updates the turn indicator
+    func updateIndicator(){
+        if currentGameState == "playerTurn"{
+            turnIndicator.text = "Your Turn"
+            turnIndicator.textColor = UIColor.green
+        }else if currentGameState == "enemyTurn"{
+            turnIndicator.text = "Enemy Turn"
+            turnIndicator.textColor = UIColor.red
+        }
+        turnIndicator.isHidden = false
+        turnIndicator.shadowColor = UIColor.black
+    }
+    
+    // changes the game state
+    func stateChange(){
+        if currentGameState == "playerTurn"{
+            currentGameState = GameState.enemyTurn.state()
+            APTitleLabel.isHidden = true
+            APLabel.isHidden = true
+            updateIndicator()
+        }else if currentGameState == "enemyTurn"{
+            currentGameState = GameState.playerTurn.state()
+            player.apCount = 3
+            APTitleLabel.isHidden = false
+            APLabel.isHidden = false
+            updateIndicator()
+            updateAP()
+        }
+    }
+    // MARK: Add maze on tap
     @objc func addMazeToSceneView(withGestureRecognizer recognizer: UIGestureRecognizer)
     {
         //adds maze only if it has not been placed and a plane is found
@@ -123,7 +184,8 @@ class ViewController: UIViewController
             
             //flip flag to true so you cannot spawn multiple mazes
             mazePlaced = true
-            
+            updateIndicator()
+            updateAP()
             //disable plane detection by resetting configurations
             config.planeDetection = []
             self.ARCanvas.session.run(config)
@@ -199,10 +261,17 @@ class ViewController: UIViewController
         self.view.addSubview(heavyAttackButton)
     }
     // MARK: Arrow Button Logics
+    func isValidMove() -> Bool{
+        if mazePlaced && move(direction: "forward") && player.apCount > 0 && currentGameState == "playerTurn"{
+            return true
+        }
+        return false
+    }
+    
     //right button logic
     @objc func rightButtonClicked(sender : UIButton)
     {
-        if mazePlaced == true
+        if mazePlaced == true && currentGameState != "enemyTurn"
         {
             sender.preventRepeatedPresses()
             player.turnRight(direction: player.currentPlayerDirection)
@@ -215,7 +284,7 @@ class ViewController: UIViewController
     //left button logic
     @objc func leftButtonClicked(sender : UIButton)
     {
-        if mazePlaced == true
+        if mazePlaced == true && currentGameState != "enemyTurn"
         {
             sender.preventRepeatedPresses()
             player.turnLeft(direction: player.currentPlayerDirection)
@@ -228,21 +297,25 @@ class ViewController: UIViewController
     //up button logic
     @objc func upButtonClicked(sender : UIButton)
     {
-        if mazePlaced && move(direction: "forward")
+        if isValidMove()
         {
             sender.preventRepeatedPresses()
             player.playAnimation(ARCanvas, key: "walk")
             player.getPlayerNode().runAction(player.moveForward(direction: player.currentPlayerDirection))
+            player.apCount -= 1
+            updateAP()
         }
     }
     //down button logic
     @objc func downButtonClicked(sender : UIButton)
     {
-        if mazePlaced && move(direction: "backward")
+        if isValidMove()
         {
             sender.preventRepeatedPresses()
             player.playAnimation(ARCanvas, key: "walkBack")
             player.getPlayerNode().runAction(player.moveBackward(direction: player.currentPlayerDirection))
+            player.apCount -= 1
+            updateAP()
         }
     }
     // MARK: Attack Buttons
@@ -257,6 +330,10 @@ class ViewController: UIViewController
             let audio = SCNAudioSource(named: "art.scnassets/audios/lightAttack.wav")
             let audioAction = SCNAction.playAudio(audio!, waitForCompletion: true)
             player.getPlayerNode().runAction(audioAction)
+            
+            // DEBUG
+            stateChange()
+            
             if enemyNearBy(direction: "forward")
             {
                 boss.playAnimation(ARCanvas, key: "impact")
@@ -472,7 +549,7 @@ class ViewController: UIViewController
         var location = Position(xCoord: x, yCoord: y, zCoord: z, cRad: c)
         var playerLocation = Position(xCoord: x, yCoord: y, zCoord: z, cRad: c)
         var bossLocation = Position(xCoord: x, yCoord: y, zCoord: z, cRad: c)
-
+        var minionLocation = Position(xCoord: x, yCoord: y, zCoord: z, cRad: c)
         let NUMROW = Maze().getHeight()
         let NUMCOL = Maze().getWidth()
         
@@ -506,6 +583,12 @@ class ViewController: UIViewController
                 {
                     bossLocation = Position(xCoord: x, yCoord: y-WIDTH, zCoord: z, cRad: c)
                     boss.loadBossAnimations(ARCanvas, bossLocation)
+                }
+				else if flag == 4
+                {
+                    let minion = Minion()
+					minionLocation = Position(xCoord: x, yCoord: y-WIDTH, zCoord: z, cRad: c)
+                    minion.loadMinionAnimations(ARCanvas, minionLocation)
                 }
                 //increment each block so it lines up horizontally
                 x += WIDTH

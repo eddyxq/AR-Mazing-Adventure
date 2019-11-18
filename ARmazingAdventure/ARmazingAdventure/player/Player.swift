@@ -21,6 +21,9 @@ class Player
         }
     }
     
+    var playerHP = 10
+    var apCount = 3
+    
     // MARK: Animations & Models
     // creates a player character model with its animations
     func loadPlayerAnimations(_ sceneView: ARSCNView, _ position: ViewController.Position)
@@ -171,6 +174,10 @@ class Player
     func getPlayerNode() -> SCNNode
     {
         return playerNode
+    }
+    
+    func getAPCount() -> String{
+        return String(apCount)
     }
     
 }
