@@ -13,7 +13,7 @@ class Boss: Enemy
     func loadBossAnimations(_ sceneView: ARSCNView, _ position: ViewController.Position)
     {
         // Load the character in the idle animation
-        let idleScene = SCNScene(named: "art.scnassets/characters/enemy/IdleEnemyFixed.dae")!
+        let idleScene = SCNScene(named: "art.scnassets/characters/enemy/boss/IdleEnemyFixed.dae")!
         
         // Add all the child nodes to the parent node
         for child in idleScene.rootNode.childNodes
@@ -30,7 +30,7 @@ class Boss: Enemy
         bossNode.castsShadow = true
         bossNode.name = "enemy"
         //TODO: load more animations if available
-        loadAnimation(withKey: "impact", sceneName: "art.scnassets/characters/enemy/ImpactFixed", animationIdentifier: "ImpactFixed-1")
+        loadAnimation(withKey: "impact", sceneName: "art.scnassets/characters/enemy/boss/ImpactFixed", animationIdentifier: "ImpactFixed-1")
         sceneView.scene.rootNode.addChildNode(bossNode)
     }
     

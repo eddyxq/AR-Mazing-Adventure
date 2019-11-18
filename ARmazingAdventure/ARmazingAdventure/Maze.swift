@@ -87,7 +87,6 @@ class Maze
         var numMinions = 5
         //counter to keep track of number of minions
         var count = 0
-    
         while count < numMinions
         {
             //randomly generated locations
