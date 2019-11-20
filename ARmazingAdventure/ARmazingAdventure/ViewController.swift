@@ -5,7 +5,9 @@ import SceneKit
 
 class ViewController: UIViewController
 {
-    enum GameState: String {
+    //set up game states
+    enum GameState: String
+    {
         case playerTurn
         case enemyTurn
         
@@ -56,12 +58,14 @@ class ViewController: UIViewController
     
     @IBOutlet weak var turnIndicator: UILabel!
     
+    //count of number of maze stages completed
     var stageLevel = 1
     
     //true when user has placed the maze on surface
     var mazePlaced = false
     var planeFound = false
-    // Player directions
+    
+    //tracks the player direction states
     enum playerDirection: String
     {
         case up
@@ -75,8 +79,9 @@ class ViewController: UIViewController
         }
     }
     
+    //creates a new random maze stage that is tracked in a 2d array
     var maze = Maze().newStage()
-    
+    //the dimensions of the maze
     let NUMROW = Maze().getHeight()
     let NUMCOL = Maze().getWidth()
     
@@ -117,23 +122,29 @@ class ViewController: UIViewController
     }
     
     // MARK: Action Points & Game State Change
-    func updateAP(){
+    func updateAP()
+    {
         APTitleLabel.isHidden = false
         APTitleLabel.textColor = UIColor.white
         APTitleLabel.shadowColor = UIColor.black
         APLabel.text = player.getAPCount()
         
-        if player.apCount == 0{
+        if player.apCount == 0
+        {
             stateChange()
         }
     }
     
     // updates the turn indicator
-    func updateIndicator(){
-        if currentGameState == "playerTurn"{
+    func updateIndicator()
+    {
+        if currentGameState == "playerTurn"
+        {
             turnIndicator.text = "Your Turn"
             turnIndicator.textColor = UIColor.green
-        }else if currentGameState == "enemyTurn"{
+        }
+        else if currentGameState == "enemyTurn"
+        {
             turnIndicator.text = "Enemy Turn"
             turnIndicator.textColor = UIColor.red
         }
@@ -142,13 +153,17 @@ class ViewController: UIViewController
     }
     
     // changes the game state
-    func stateChange(){
-        if currentGameState == "playerTurn"{
+    func stateChange()
+    {
+        if currentGameState == "playerTurn"
+        {
             currentGameState = GameState.enemyTurn.state()
             APTitleLabel.isHidden = true
             APLabel.isHidden = true
             updateIndicator()
-        }else if currentGameState == "enemyTurn"{
+        }
+        else if currentGameState == "enemyTurn"
+        {
             currentGameState = GameState.playerTurn.state()
             player.apCount = 3
             APTitleLabel.isHidden = false
@@ -288,11 +303,17 @@ class ViewController: UIViewController
        lightAttackButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -64).isActive = true
     }
     // MARK: Arrow Button Logics
-    func isValidMove() -> Bool{
-        if mazePlaced && move(direction: "forward") && player.apCount > 0 && currentGameState == "playerTurn"{
-            return true
-        }
-        return false
+    func canMove(direction: String) -> Bool
+    {
+        return
+            //ensures game is setup in AR
+            (mazePlaced
+            //allows movement only when player has available action points
+            && player.apCount > 0
+            //ensures movement only happens during player phase
+            && currentGameState == "playerTurn"
+            //checks for obstacles and collisions
+            && move(direction: direction)) ? true : false
     }
     
     //right button logic
@@ -324,7 +345,7 @@ class ViewController: UIViewController
     //up button logic
     @objc func upButtonClicked(sender : UIButton)
     {
-        if isValidMove()
+        if canMove(direction: "forward")
         {
             sender.preventRepeatedPresses()
             player.playAnimation(ARCanvas, key: "walk")
@@ -336,7 +357,7 @@ class ViewController: UIViewController
     //down button logic
     @objc func downButtonClicked(sender : UIButton)
     {
-        if isValidMove()
+        if canMove(direction: "backward")
         {
             sender.preventRepeatedPresses()
             player.playAnimation(ARCanvas, key: "walkBack")

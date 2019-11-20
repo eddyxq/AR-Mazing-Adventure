@@ -84,14 +84,14 @@ class Maze
     func setMinions()
     {
         //number of mininons to spawn
-        var numMinions = 5
+        let numMinions = 5
         //counter to keep track of number of minions
         var count = 0
         while count < numMinions
         {
             //randomly generated locations
-            var i = Int.random(in: 2 ... 12)
-            var j = Int.random(in: 2 ... 12)
+            let i = Int.random(in: 2 ... 12)
+            let j = Int.random(in: 2 ... 12)
             //ensure minions only spawn on the floors
             if maze[i][j] == FLOOR
             {
