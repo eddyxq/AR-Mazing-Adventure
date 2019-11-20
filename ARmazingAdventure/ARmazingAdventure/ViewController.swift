@@ -165,7 +165,7 @@ class ViewController: UIViewController
         else if currentGameState == "enemyTurn"
         {
             currentGameState = GameState.playerTurn.state()
-            player.apCount = 3
+            player.apCount = 5
             APTitleLabel.isHidden = false
             APLabel.isHidden = false
             updateIndicator()
@@ -275,32 +275,47 @@ class ViewController: UIViewController
         heavyAttackButton.frame = CGRect(x: buttonX+200, y: buttonY-12, width: attackButtonRadius, height: attackButtonRadius)
         self.view.addSubview(heavyAttackButton)
         
+        //end turn
+        let endTurnButton = UIButton(type: .system)
+        let endButton = UIImage(named: "attackButton")
+        endTurnButton.setImage(endButton, for: .normal)
+        endTurnButton.addTarget(self, action: #selector(endTurnButtonClicked), for: .touchUpInside)
+        endTurnButton.frame = CGRect(x: 50, y: 50, width: attackButtonRadius, height: attackButtonRadius)
+        self.view.addSubview(endTurnButton)
+        
         //constraints
                
-       for button in [rightButton, upButton, downButton, leftButton, rightButton, heavyAttackButton, lightAttackButton] {
-           button.translatesAutoresizingMaskIntoConstraints = false
-           button.heightAnchor.constraint(equalTo: button.widthAnchor, multiplier: 1).isActive = true
-       }
+        for button in [rightButton, upButton, downButton, leftButton, rightButton, heavyAttackButton, lightAttackButton]
+        {
+            button.translatesAutoresizingMaskIntoConstraints = false
+            button.heightAnchor.constraint(equalTo: button.widthAnchor, multiplier: 1).isActive = true
+        }
 
-       leftButton.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor, constant: 24).isActive = true
-       leftButton.bottomAnchor.constraint(equalTo: downButton.topAnchor).isActive = true
-       
-       downButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -24).isActive = true
-       downButton.leftAnchor.constraint(equalTo: leftButton.rightAnchor).isActive = true
-       
-       upButton.bottomAnchor.constraint(equalTo: leftButton.topAnchor).isActive = true
-       upButton.leftAnchor.constraint(equalTo: leftButton.rightAnchor).isActive = true
-       
-       rightButton.bottomAnchor.constraint(equalTo: downButton.topAnchor).isActive = true
-       rightButton.leftAnchor.constraint(equalTo: downButton.rightAnchor).isActive = true
-       
-       heavyAttackButton.widthAnchor.constraint(equalToConstant: 75).isActive = true
-       heavyAttackButton.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor, constant: -24).isActive = true
-       heavyAttackButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -64).isActive = true
-       
-       lightAttackButton.widthAnchor.constraint(equalToConstant: 75).isActive = true
-       lightAttackButton.rightAnchor.constraint(equalTo: heavyAttackButton.leftAnchor, constant: -24).isActive = true
-       lightAttackButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -64).isActive = true
+        rightButton.bottomAnchor.constraint(equalTo: downButton.topAnchor).isActive = true
+        rightButton.leftAnchor.constraint(equalTo: downButton.rightAnchor).isActive = true
+        
+        leftButton.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor, constant: 24).isActive = true
+        leftButton.bottomAnchor.constraint(equalTo: downButton.topAnchor).isActive = true
+
+        upButton.bottomAnchor.constraint(equalTo: leftButton.topAnchor).isActive = true
+        upButton.leftAnchor.constraint(equalTo: leftButton.rightAnchor).isActive = true
+
+        downButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -24).isActive = true
+        downButton.leftAnchor.constraint(equalTo: leftButton.rightAnchor).isActive = true
+
+        lightAttackButton.widthAnchor.constraint(equalToConstant: 75).isActive = true
+        lightAttackButton.rightAnchor.constraint(equalTo: heavyAttackButton.leftAnchor, constant: -24).isActive = true
+        lightAttackButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -64).isActive = true
+
+        heavyAttackButton.widthAnchor.constraint(equalToConstant: 75).isActive = true
+        heavyAttackButton.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor, constant: -24).isActive = true
+        heavyAttackButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -64).isActive = true
+
+        endTurnButton.widthAnchor.constraint(equalToConstant: 75).isActive = true
+        endTurnButton.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor, constant: -24).isActive = true
+        endTurnButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: -64).isActive = true
+
+        
     }
     // MARK: Arrow Button Logics
     func canMove(direction: String) -> Bool
@@ -378,14 +393,6 @@ class ViewController: UIViewController
             let audio = SCNAudioSource(named: "art.scnassets/audios/lightAttack.wav")
             let audioAction = SCNAction.playAudio(audio!, waitForCompletion: true)
             player.getPlayerNode().runAction(audioAction)
-            
-            // DEBUG
-            stateChange()
-            
-            if enemyNearBy(direction: "forward")
-            {
-                boss.playAnimation(ARCanvas, key: "impact")
-            }
         }
     }
     //heavy attack button logic
@@ -399,6 +406,19 @@ class ViewController: UIViewController
             let audio = SCNAudioSource(named: "art.scnassets/audios/heavyAttack.wav")
             let audioAction = SCNAction.playAudio(audio!, waitForCompletion: true)
             player.getPlayerNode().runAction(audioAction)
+        }
+    }
+    //end turn button logic
+    @objc func endTurnButtonClicked(sender : UIButton)
+    {
+        if (mazePlaced)
+        {
+           stateChange()
+           
+           if enemyNearBy(direction: "forward")
+           {
+               boss.playAnimation(ARCanvas, key: "impact")
+           }
         }
     }
     // MARK: Player Movement
