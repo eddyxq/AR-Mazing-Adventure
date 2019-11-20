@@ -17,6 +17,7 @@
 		4E9887C9237B710C002A4F45 /* Boss.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E9887C8237B710C002A4F45 /* Boss.swift */; };
 		4EAEE61F235E3A170041EBDF /* art.scnassets in Resources */ = {isa = PBXBuildFile; fileRef = 4EAEE61E235E3A170041EBDF /* art.scnassets */; };
 		4EAEE621235E5EAC0041EBDF /* MainMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EAEE620235E5EAC0041EBDF /* MainMenuViewController.swift */; };
+		833193222385085E0046F9B0 /* Multipeer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 833193212385085E0046F9B0 /* Multipeer.swift */; };
 		DB6B716E235D1F94003276B2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB6B716D235D1F94003276B2 /* AppDelegate.swift */; };
 		DB6B7170235D1F94003276B2 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB6B716F235D1F94003276B2 /* ViewController.swift */; };
 		DB6B7175235D1F94003276B2 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DB6B7173235D1F94003276B2 /* Main.storyboard */; };
@@ -53,6 +54,7 @@
 		4E9887C8237B710C002A4F45 /* Boss.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Boss.swift; sourceTree = "<group>"; };
 		4EAEE61E235E3A170041EBDF /* art.scnassets */ = {isa = PBXFileReference; lastKnownFileType = wrapper.scnassets; path = art.scnassets; sourceTree = "<group>"; };
 		4EAEE620235E5EAC0041EBDF /* MainMenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MainMenuViewController.swift; path = ARmazingAdventure/MainMenuViewController.swift; sourceTree = SOURCE_ROOT; };
+		833193212385085E0046F9B0 /* Multipeer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Multipeer.swift; sourceTree = "<group>"; };
 		DB6B716A235D1F94003276B2 /* ARmazingAdventure.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ARmazingAdventure.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DB6B716D235D1F94003276B2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = ARmazingAdventure/AppDelegate.swift; sourceTree = SOURCE_ROOT; };
 		DB6B716F235D1F94003276B2 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -146,6 +148,7 @@
 				4EAEE620235E5EAC0041EBDF /* MainMenuViewController.swift */,
 				DB6B7178235D1F96003276B2 /* LaunchScreen.storyboard */,
 				DB6B717B235D1F96003276B2 /* Info.plist */,
+				833193212385085E0046F9B0 /* Multipeer.swift */,
 			);
 			path = ARmazingAdventure;
 			sourceTree = "<group>";
@@ -302,6 +305,7 @@
 			files = (
 				4E9887C7237B7103002A4F45 /* Minion.swift in Sources */,
 				4E9887BF237B632B002A4F45 /* HelperFunctions.swift in Sources */,
+				833193222385085E0046F9B0 /* Multipeer.swift in Sources */,
 				4EAEE621235E5EAC0041EBDF /* MainMenuViewController.swift in Sources */,
 				4E9887BE237B632B002A4F45 /* ARSCNViewDelegate.swift in Sources */,
 				DB6B7170235D1F94003276B2 /* ViewController.swift in Sources */,
