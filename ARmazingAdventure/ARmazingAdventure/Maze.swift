@@ -352,4 +352,64 @@ class Maze
         }
         return false
     }
+    
+    //returns the optimal index location of the next move
+    func calculateNextOptimalMove(currentLocation: (x: Int, y: Int)) -> (Int, Int)
+    {
+        //look for the 0 next to the current location
+
+        //right
+        if (currentLocation.x < 6)
+        {
+            if sol[currentLocation.x+1][currentLocation.y] == 0
+            {
+                print("Down")
+                return (currentLocation.x+1, currentLocation.y)
+            }
+        }
+        //up
+        if (currentLocation.y < 6)
+        {
+            if sol[currentLocation.x][currentLocation.y+1] == 0
+            {
+                print("Right")
+                return (currentLocation.x, currentLocation.y+1)
+            }
+        }
+        //left
+        if (currentLocation.x > 0)
+        {
+            if sol[currentLocation.x-1][currentLocation.y] == 0
+            {
+                print("Up")
+                return (currentLocation.x-1, currentLocation.y)
+            }
+        }
+        //down
+        if (currentLocation.y > 0)
+        {
+            if sol[currentLocation.x][currentLocation.y-1] == 0
+            {
+                print("Left")
+                return (currentLocation.x, currentLocation.y-1)
+            }
+        }
+        //code should not reach here
+        print("ERROR")
+        return (0,0)
+    }
+    
+    //moves a random minion to a new location
+    func moveRandomMinion()
+    {
+        let origin = selectRandomMinion(locations: getAllMinionLocations())
+
+        //remove minion from current location
+        maze[origin.0][origin.1] = 0
+
+        let destination = calculateNextOptimalMove(currentLocation: origin)
+        //move minion to new location
+        maze[destination.0][destination.1] = 4
+
+    }
 }
