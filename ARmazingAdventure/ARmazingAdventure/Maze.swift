@@ -220,4 +220,136 @@ class Maze
     {
         return locations[Int.random(in: 0 ..< locations.count)]
     }
+    
+    
+    //initialize array that will contain the correct path out of the maze
+    var sol = [[Int]](repeating: [Int](repeating: 1, count: 15), count: 15)
+    
+    //bounds check to prevent index out of bounds error
+    func isSafe(maze: [[Int]], x: Int, y: Int) -> Bool
+    {
+        if x >= 0 && x < 15 && y >= 0 && y < 15 && maze[x][y] == 0
+        {
+            return true
+        }
+        return false
+    }
+    
+    //marks the correct maze path on the sol array
+    func solveMaze(maze: [[Int]], start: (x: Int, y: Int), end: (x: Int, y: Int))
+    {
+        var direction = ""
+        //find direction of origin to destination
+
+        //west of origin
+        if (start.x <= end.x)
+        {
+            if (start.y <= end.y)
+            {
+                //north of origin
+                direction = "NW"
+            }
+            else
+            {
+                //south of origin
+                direction = "SW"
+            }
+        }
+        //east of origin
+        else
+        {
+            if (start.y <= end.y)
+            {
+                //north of origin
+                direction = "NE"
+            }
+            else
+            {
+                //south of origin
+                direction = "SE"
+            }
+        }
+
+
+        if (solveMazeUtil(maze: maze, start_x: start.x, start_y: start.y, end_x: end.x, end_y: end.y, direction: direction) == false)
+        {
+            print("ERROR!!! NO Solution")
+        }
+
+    }
+    
+    //solves the maze problem recursively
+    func solveMazeUtil(maze: [[Int]], start_x: Int, start_y: Int, end_x: Int, end_y: Int, direction: String) -> Bool
+    {
+        //base case
+        if (start_x == end_x && start_y == end_y)
+        {
+            sol[start_x][start_y] = 0
+            return true
+        }
+
+        //check we are not going out of bounds
+        if (isSafe(maze: maze, x: start_x, y: start_y) == true)
+        {
+            //mark x and y as part of the path
+            sol[start_x][start_y] = 0
+
+            if (direction == "SE")
+            {
+                //move forward in x direction
+                if (solveMazeUtil(maze: maze, start_x: start_x - 1, start_y: start_y, end_x: end_x, end_y: end_y, direction: direction) == true)
+                {
+                    return true
+                }
+                //if x direction is incorrect we try y direction
+                if (solveMazeUtil(maze: maze, start_x: start_x, start_y: start_y - 1, end_x: end_x, end_y: end_y, direction: direction) == true)
+                {
+                    return true
+                }
+            }
+            else if (direction == "NW")
+            {
+                //move forward in x direction
+                if (solveMazeUtil(maze: maze, start_x: start_x + 1, start_y: start_y, end_x: end_x, end_y: end_y, direction: direction) == true)
+                {
+                    return true
+                }
+                //if x direction is incorrect we try y direction
+                if (solveMazeUtil(maze: maze, start_x: start_x, start_y: start_y + 1, end_x: end_x, end_y: end_y, direction: direction) == true)
+                {
+                    return true
+                }
+            }
+            else if (direction == "SW")
+            {
+                //move forward in x direction
+                if (solveMazeUtil(maze: maze, start_x: start_x + 1, start_y: start_y, end_x: end_x, end_y: end_y, direction: direction) == true)
+                {
+                    return true
+                }
+                //if x direction is incorrect we try y direction
+                if (solveMazeUtil(maze: maze, start_x: start_x, start_y: start_y - 1, end_x: end_x, end_y: end_y, direction: direction) == true)
+                {
+                    return true
+                }
+            }
+            else if (direction == "NE")
+            {
+                //move forward in x direction
+                if (solveMazeUtil(maze: maze, start_x: start_x - 1, start_y: start_y, end_x: end_x, end_y: end_y, direction: direction) == true)
+                {
+                    return true
+                }
+                //if x direction is incorrect we try y direction
+                if (solveMazeUtil(maze: maze, start_x: start_x, start_y: start_y + 1, end_x: end_x, end_y: end_y, direction: direction) == true)
+                {
+                    return true
+                }
+            }
+            //if neither directions are correct, unmark x and y then backtrack
+            sol[start_x][start_y] = 1
+            return false
+        }
+        return false
+    }
 }
