@@ -149,9 +149,9 @@ class ViewController: UIViewController
         hud.addChild(enemyHPBorder)
         ARCanvas.overlaySKScene = hud
         
-//        enemyHPBarLabel.isHidden = true
-//        enemyHPBar.isHidden = true
-//        enemyHPBorder.isHidden = true
+        enemyHPBarLabel.isHidden = true
+        enemyHPBar.isHidden = true
+        enemyHPBorder.isHidden = true
     }
     
     func updateEnemyHPBarLabel(){
