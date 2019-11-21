@@ -8,6 +8,12 @@ class Minion: Enemy
     let minionNode = SCNNode()
     var animations = [String: CAAnimation]()
     let enemyType = Enemy.EnemyTypes.minion.type()
+    var currentPosition = ViewController.Position(xCoord: 0.0, yCoord: 0.0, zCoord: 0.0, cRad: 0.0)
+    
+    init(position: ViewController.Position) {
+        super.init(name: "Zombie", health: 5, attackValue: 1, level: 1)
+        currentPosition = position
+    }
     
     // MARK: Animations & Models
     // creates a player character model with its animations
@@ -31,7 +37,7 @@ class Minion: Enemy
         minionNode.castsShadow = true
         minionNode.name = "minion"
         //TODO: load more animations if available
-        
+        loadAnimation(withKey: "impact", sceneName: "art.scnassets/characters/enemy/minion/MinionImpactFixed", animationIdentifier: "MinionImpactFixed-1")
         sceneView.scene.rootNode.addChildNode(minionNode)
     }
     
@@ -65,16 +71,22 @@ class Minion: Enemy
         // Stop the animation with a smooth transition
         sceneView.scene.rootNode.childNode(withName: "minion", recursively: true)?.removeAnimation(forKey: key, blendOutDuration: CGFloat(0.5))
     }
-    
-    //Spawns the boss model at the given sceneview
-    func spawnBoss(_ sceneView: ARSCNView, _ position: ViewController.Position)
+    // MARK: Getters & Setters
+    //Spawns the minion model at the given sceneview
+    func spawnMinion(_ sceneView: ARSCNView, _ position: ViewController.Position) -> Minion
     {
         loadMinionAnimations(sceneView, position)
+        return self
+        
     }
     
     func getMinionNode() -> SCNNode
     {
         return minionNode
+    }
+    
+    func getHP() -> Int{
+        return health
     }
     
 }
