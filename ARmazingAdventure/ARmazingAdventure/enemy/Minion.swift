@@ -85,6 +85,14 @@ class Minion: Enemy
         return minionNode
     }
     
+    func setCurrentPosition(position: ViewController.Position){
+        currentPosition = position
+    }
+    
+    func getCurrentPosition() -> ViewController.Position{
+        return currentPosition
+    }
+    
     func getHP() -> Int{
         return health
     }

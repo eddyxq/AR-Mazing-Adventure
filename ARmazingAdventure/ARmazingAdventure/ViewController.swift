@@ -329,7 +329,9 @@ class ViewController: UIViewController
             //ensures movement only happens during player phase
             && currentGameState == "playerTurn"
             //checks for obstacles and collisions
-            && move(direction: direction)) ? true : false
+            && move(direction: direction)
+            && !enemyNearBy(direction: direction)) ? true : false
+            
     }
     
     //right button logic
@@ -373,7 +375,8 @@ class ViewController: UIViewController
     //down button logic
     @objc func downButtonClicked(sender : UIButton)
     {
-        if canMove(direction: "backward")
+        if canMove(direction: "backward") &&
+            !enemyNearBy(direction: "backward")
         {
             sender.preventRepeatedPresses()
             player.playAnimation(ARCanvas, key: "walkBack")
@@ -491,8 +494,7 @@ class ViewController: UIViewController
     // MARK: Combat
     func enemyNearBy(direction: String) -> Bool
     {
-        var enemyNearby = false
-        
+        var enemyNearBy = false
         var playerRow = Maze().getRow(maze: maze)
         let playerCol = Maze().getCol(maze: maze)
         
@@ -503,19 +505,22 @@ class ViewController: UIViewController
             case "forward":
                 playerRow -= 1
             default:
-                print("error")
+                break
         }
         
-        if maze[playerRow][playerCol] == 3 || maze[playerRow][playerCol] == 4
+        if maze[playerRow][playerCol] == 4 || maze[playerRow][playerCol] == 3
         {
-            enemyNearby = true
+            enemyNearBy = true
         }
-        else
-        {
-            enemyNearby = false
-        }
-        return enemyNearby
+        return enemyNearBy
     }
+
+    func searchMinionNode(){
+//        for minion in minionPool{
+//
+//        }
+    }
+    
     // MARK: Music
     //plays background music
     func setupDungeonMusic()
