@@ -329,8 +329,7 @@ class ViewController: UIViewController
             //ensures movement only happens during player phase
             && currentGameState == "playerTurn"
             //checks for obstacles and collisions
-            && move(direction: direction)
-            && !enemyNearBy(direction: direction)) ? true : false
+            && move(direction: direction) ? true : false)
             
     }
     
@@ -375,8 +374,7 @@ class ViewController: UIViewController
     //down button logic
     @objc func downButtonClicked(sender : UIButton)
     {
-        if canMove(direction: "backward") &&
-            !enemyNearBy(direction: "backward")
+        if canMove(direction: "backward")
         {
             sender.preventRepeatedPresses()
             player.playAnimation(ARCanvas, key: "walkBack")
@@ -469,11 +467,42 @@ class ViewController: UIViewController
             //setupARLight()
             //setupFog()
         }
-        
-        else if maze[playerRow][playerCol] != 1
+        else if maze[playerRow][playerCol] != 1 && maze[playerRow][playerCol] != 4
         {
-            maze[playerRow][playerCol] = 2
-            canMove = true
+            //if encounter minion
+            if (maze[playerRow][playerCol] == 3)
+            {
+                //DO MINION STUFF HERE
+                
+                //minion beside the player
+                let minion = findMinionByLocation(location: (row: playerRow, col: playerCol))
+               
+                //do a test to see if my thing is correct, maybe display something to screen to check
+                
+                
+                //DO MINION STUFF HERE
+                
+                
+                
+                //reset player and not let him move through minion
+                switch (direction)
+                {
+                    case "backward":
+                        playerRow -= 1
+                    case "forward":
+                        playerRow += 1
+                    default:
+                        break
+                }
+                maze[playerRow][playerCol] = 2;
+                return false
+            }
+            //else let the player move
+            else
+            {
+                maze[playerRow][playerCol] = 2
+                canMove = true
+            }
         }
         else // player does not move, returns to origin
         {
@@ -492,34 +521,19 @@ class ViewController: UIViewController
     }
     
     // MARK: Combat
-    func enemyNearBy(direction: String) -> Bool
+    func findMinionByLocation(location: (row: Int, col: Int)) -> Minion
     {
-        var enemyNearBy = false
-        var playerRow = Maze().getRow(maze: maze)
-        let playerCol = Maze().getCol(maze: maze)
-        
-        switch (direction)
+        for minion in minionPool
         {
-            case "backward":
-                playerRow += 1
-            case "forward":
-                playerRow -= 1
-            default:
-                break
+            if minion.arrayLocation == location
+            {
+                return minion
+            }
         }
-        
-        if maze[playerRow][playerCol] == 4 || maze[playerRow][playerCol] == 3
-        {
-            enemyNearBy = true
-        }
-        return enemyNearBy
+        //code shouldn't reach here, all minions should be in list
+        return nil!
     }
-
-    func searchMinionNode(){
-//        for minion in minionPool{
-//
-//        }
-    }
+    
     
     // MARK: Music
     //plays background music
@@ -658,6 +672,7 @@ class ViewController: UIViewController
                 {
                     minionLocation = Position(xCoord: x, yCoord: y-WIDTH, zCoord: z, cRad: c)
                     let minion = Minion(position: minionLocation)
+                    minion.setLocation(location: (row: i, col: j))
                     minionPool.append(minion.spawnMinion(ARCanvas, minionLocation))
                 }
                 //increment each block so it lines up horizontally

@@ -4,6 +4,8 @@ import ARKit
 
 class Minion: Enemy
 {
+    //location of the minion on the maze array
+    var arrayLocation = (0, 0)
     
     let minionNode = SCNNode()
     var animations = [String: CAAnimation]()
@@ -97,4 +99,8 @@ class Minion: Enemy
         return health
     }
     
+    func setLocation(location: (row: Int, col: Int))
+    {
+        arrayLocation = location
+    }
 }
