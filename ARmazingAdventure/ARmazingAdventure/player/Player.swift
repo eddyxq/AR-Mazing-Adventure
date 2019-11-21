@@ -9,13 +9,18 @@ class Player
     
     var name: String
     var health : Int
-    var attackValue : Int
-    var level : Int
     
-    init(name: String, health: Int, attackValue: Int, level: Int) {
+    var minAtkVal : Int
+    var maxAtkVal : Int
+    
+    var level : Int
+    var canAttackEnemy = false
+    
+    init(name: String, health: Int, minAtkVal: Int,maxAtkVal: Int, level: Int) {
         self.name = name
         self.health = health
-        self.attackValue = attackValue
+        self.minAtkVal = minAtkVal
+        self.maxAtkVal = maxAtkVal
         self.level = level
     }
     
@@ -191,5 +196,29 @@ class Player
     func getAPCount() -> String{
         return String(apCount)
     }
+    
+    func setCanAttackEnemy(_ bool: Bool){
+        canAttackEnemy = bool
+    }
+    
+    func getHP() -> Int{
+        return health
+    }
+    
+    func setHP(val: Int){
+        health = val
+    }
+    
+    // MARK: Combat Functions
+    func attackEnemy(target: Enemy) -> CGFloat{
+        let targetCurrentHP = target.getHP()
+        
+        let dmg = Int.random(in: minAtkVal ... maxAtkVal)
+        target.setHP(val: targetCurrentHP-dmg)
+        
+        let convertToHPBar = CGFloat(dmg) * target.convertHPBar()
+        return convertToHPBar
+    }
+    
     
 }
