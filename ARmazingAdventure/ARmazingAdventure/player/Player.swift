@@ -214,7 +214,12 @@ class Player
         let targetCurrentHP = target.getHP()
         
         let dmg = Int.random(in: minAtkVal ... maxAtkVal)
-        target.setHP(val: targetCurrentHP-dmg)
+        let newHP = targetCurrentHP-dmg
+        if newHP < 0{
+            target.setHP(val: 0)
+        }else{
+            target.setHP(val: newHP)
+        }
         
         let convertToHPBar = CGFloat(dmg) * target.convertHPBar()
         return convertToHPBar

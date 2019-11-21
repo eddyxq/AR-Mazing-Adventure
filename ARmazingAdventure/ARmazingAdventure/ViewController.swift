@@ -63,6 +63,8 @@ class ViewController: UIViewController
     
     @IBOutlet weak var turnIndicator: UILabel!
     
+    @IBOutlet weak var enemyHPBarLabel: UILabel!
+    
     //count of number of maze stages completed
     var stageLevel = 1
     
@@ -140,16 +142,24 @@ class ViewController: UIViewController
         enemyHPBar = SKSpriteNode(color: .red, size: CGSize(width: 200, height: 20))
         enemyHPBar.anchorPoint = CGPoint(x: 0.0, y: 0.5)
         enemyHPBar.position = CGPoint(x: 580, y: 200)
-//        enemyHPBar.size = CGSize(width: enemyHPBar.size.width, height: enemyHPBar.size.height)
+        
+        
         
         hud.addChild(enemyHPBar)
         hud.addChild(enemyHPBorder)
         ARCanvas.overlaySKScene = hud
         
-        enemyHPBar.isHidden = true
-        enemyHPBorder.isHidden = true
+//        enemyHPBarLabel.isHidden = true
+//        enemyHPBar.isHidden = true
+//        enemyHPBorder.isHidden = true
     }
     
+    func updateEnemyHPBarLabel(){
+        enemyHPBarLabel.textColor = UIColor.white
+        enemyHPBarLabel.shadowColor = UIColor.black
+        enemyHPBarLabel.text = "\(targetMinion.getName()) HP: \(targetMinion.getHP()) \\ \(targetMinion.getMaxHP())"
+        enemyHPBarLabel.isHidden = false
+    }
     
     
     // MARK: Action Points & Game State Change
@@ -428,6 +438,7 @@ class ViewController: UIViewController
             player.getPlayerNode().runAction(audioAction)
             
             if player.canAttackEnemy == true && player.apCount > 0{
+                targetMinion.playAnimation(ARCanvas, key: "impact")
                 player.apCount -= 1
                 updateAP()
                 var action = SKAction()
@@ -435,18 +446,16 @@ class ViewController: UIViewController
                 // updates the HP bar
                 if newBarWidth <= 0.0{
                     action = SKAction.resize(toWidth: 0.0, duration: 0.25)
+                    targetMinion.getMinionNode().removeFromParentNode()
+                    player.setCanAttackEnemy(false)
                 }else{
                     action = SKAction.resize(toWidth: CGFloat(newBarWidth), duration: 0.25)
                 }
+                updateEnemyHPBarLabel()
                 enemyHPBar.run(action)
-                // check if enemy is dead
-                if targetMinion.isDead()
-                {
-                    targetMinion.getMinionNode().removeFromParentNode()
-                    player.setCanAttackEnemy(false)
+                    
                 }
             }
-        }
     }
     
     //heavy attack button logic
@@ -530,6 +539,7 @@ class ViewController: UIViewController
                 
                 enemyHPBorder.isHidden = false
                 enemyHPBar.isHidden = false
+                updateEnemyHPBarLabel()
                 //reset player and not let him move through minion
                 switch (direction)
                 {

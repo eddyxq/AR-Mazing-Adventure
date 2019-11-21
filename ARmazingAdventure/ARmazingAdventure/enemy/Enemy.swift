@@ -33,6 +33,14 @@ class Enemy
         self.name = name
     }
     
+    func getName() -> String{
+        return name
+    }
+    
+    func getMaxHP() -> Int{
+        return maxHP
+    }
+    
     func getHP() -> Int{
         return health
     }
