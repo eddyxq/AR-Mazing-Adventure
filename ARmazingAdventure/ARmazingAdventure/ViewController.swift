@@ -116,8 +116,8 @@ class ViewController: UIViewController
         
         setupOverlay()
         setupDungeonMusic()
-        //setupARLight()
-        //setupFog()
+//        setupARLight()
+//        setupFog()
         //enables user to tap detected plane for maze placement
         addTapGestureToSceneView()
         //adds arrow pad to screen

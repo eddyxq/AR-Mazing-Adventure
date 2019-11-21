@@ -47,15 +47,12 @@ class Player
     {
         // Load the character in the idle animation
         let idleScene = SCNScene(named: "art.scnassets/characters/player/IdleFixed.dae")!
-        
-        // Set up parent node of all animation models
-        //let node = SCNNode()
-        
         // Add all the child nodes to the parent node
         for child in idleScene.rootNode.childNodes
         {
             playerNode.addChildNode(child)
         }
+        
         playerNode.position = SCNVector3(CGFloat(position.xCoord), CGFloat(position.yCoord), CGFloat(position.zCoord))
         //size of the player model
         let playerModelSize = 0.00036
