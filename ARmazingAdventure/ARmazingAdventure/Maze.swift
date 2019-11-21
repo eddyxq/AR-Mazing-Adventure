@@ -169,7 +169,7 @@ class Maze
          {
               for col in 0 ..< WIDTH
               {
-                  if (maze[row][col] == 2)
+                  if (maze[row][col] == PLAYER)
                   {
                       playerRow = row;
                   }
@@ -186,7 +186,7 @@ class Maze
          {
               for col in 0 ..< WIDTH
               {
-                  if (maze[row][col] == 2)
+                  if (maze[row][col] == PLAYER)
                   {
                       playerCol = col;
                   }
@@ -194,4 +194,30 @@ class Maze
          }
          return playerCol;
      }
+    
+    //returns a list of all the index locations of minions
+    func getAllMinionLocations() -> [(Int, Int)]
+    {
+        //list containing all the minion locations
+        var locations = [(Int, Int)]()
+
+        //loops through maze, finds and adds all minions to the list
+        for i in 0 ..< 15
+        {
+            for j in 0 ..< 15
+            {
+                if maze[i][j] == MINION
+                {
+                    locations.append((i,j))
+                }
+            }
+        }
+        return locations
+    }
+
+    //selects a random minion from a list and returns its index locations
+    func selectRandomMinion(locations: [(Int, Int)]) -> (Int, Int)
+    {
+        return locations[Int.random(in: 0 ..< locations.count)]
+    }
 }
