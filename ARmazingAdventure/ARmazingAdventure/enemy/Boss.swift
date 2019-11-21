@@ -7,6 +7,12 @@ class Boss: Enemy
     let bossNode = SCNNode()
     var animations = [String: CAAnimation]()
     let enemyType = Enemy.EnemyTypes.boss.type()
+    var currentPosition = ViewController.Position(xCoord: 0.0, yCoord: 0.0, zCoord: 0.0, cRad: 0.0)
+    
+     init(position: ViewController.Position) {
+        super.init(name: "Mutant", health: 20, attackValue: 3, level: 3)
+        currentPosition = position
+    }
     
     // MARK: Animations & Models
     // creates a player character model with its animations
@@ -65,10 +71,12 @@ class Boss: Enemy
         sceneView.scene.rootNode.childNode(withName: "enemy", recursively: true)?.removeAnimation(forKey: key, blendOutDuration: CGFloat(0.5))
     }
     
+    // MARK: Getters & Setters
     //Spawns the boss model at the given sceneview
-    func spawnBoss(_ sceneView: ARSCNView, _ position: ViewController.Position)
+    func spawnBoss(_ sceneView: ARSCNView, _ position: ViewController.Position) -> Boss
     {
         loadBossAnimations(sceneView, position)
+        return self
     }
     
     func getBossNode() -> SCNNode
@@ -76,4 +84,5 @@ class Boss: Enemy
         return bossNode
     }
 
+    
 }

@@ -7,6 +7,18 @@ class Player
     let playerNode = SCNNode()
     var animations = [String: CAAnimation]()
     
+    var name: String
+    var health : Int
+    var attackValue : Int
+    var level : Int
+    
+    init(name: String, health: Int, attackValue: Int, level: Int) {
+        self.name = name
+        self.health = health
+        self.attackValue = attackValue
+        self.level = level
+    }
+    
     // Player directions
     enum playerDirection: String
     {

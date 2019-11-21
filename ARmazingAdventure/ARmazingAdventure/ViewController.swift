@@ -49,8 +49,9 @@ class ViewController: UIViewController
     var currentGameState = GameState.playerTurn.state()
     
     
-    let player = Player()
-    let boss = Boss()
+    let player = Player(name: "noobMaster69", health: 10, attackValue: 3, level: 1)
+    var minionPool = [Minion]()
+    var bossPool = [Boss]()
     
     @IBOutlet weak var APLabel: UILabel!
 
@@ -385,7 +386,7 @@ class ViewController: UIViewController
     //light attack button logic
     @objc func lightAttackButtonClicked(sender : UIButton)
     {
-        if mazePlaced == true
+        if mazePlaced == true && currentGameState == "playerTurn"
         {
             sender.preventRepeatedPresses()
             //play animation
@@ -398,7 +399,7 @@ class ViewController: UIViewController
     //heavy attack button logic
     @objc func heavyAttackButtonClicked(sender : UIButton)
     {
-        if mazePlaced == true
+        if mazePlaced == true && currentGameState == "playerTurn"
         {
             sender.preventRepeatedPresses()
             //play animation
@@ -414,11 +415,6 @@ class ViewController: UIViewController
         if (mazePlaced)
         {
            stateChange()
-           
-           if enemyNearBy(direction: "forward")
-           {
-               boss.playAnimation(ARCanvas, key: "impact")
-           }
         }
     }
     // MARK: Player Movement
@@ -492,7 +488,7 @@ class ViewController: UIViewController
         return canMove
     }
     
-    // MARK: Basic Combat
+    // MARK: Combat
     func enemyNearBy(direction: String) -> Bool
     {
         var enemyNearby = false
@@ -510,7 +506,7 @@ class ViewController: UIViewController
                 print("error")
         }
         
-        if maze[playerRow][playerCol] == 3
+        if maze[playerRow][playerCol] == 3 || maze[playerRow][playerCol] == 4
         {
             enemyNearby = true
         }
@@ -650,13 +646,14 @@ class ViewController: UIViewController
                 else if flag == 3
                 {
                     bossLocation = Position(xCoord: x, yCoord: y-WIDTH, zCoord: z, cRad: c)
-                    boss.loadBossAnimations(ARCanvas, bossLocation)
+                    let boss = Boss(position: bossLocation)
+                    bossPool.append(boss.spawnBoss(ARCanvas, bossLocation))
                 }
 				else if flag == 4
                 {
-                    let minion = Minion()
-					minionLocation = Position(xCoord: x, yCoord: y-WIDTH, zCoord: z, cRad: c)
-                    minion.loadMinionAnimations(ARCanvas, minionLocation)
+                    minionLocation = Position(xCoord: x, yCoord: y-WIDTH, zCoord: z, cRad: c)
+                    let minion = Minion(position: minionLocation)
+                    minionPool.append(minion.spawnMinion(ARCanvas, minionLocation))
                 }
                 //increment each block so it lines up horizontally
                 x += WIDTH
