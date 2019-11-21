@@ -2,6 +2,7 @@ import UIKit
 import RealityKit
 import ARKit
 import SceneKit
+import SpriteKit
 
 class ViewController: UIViewController
 {
@@ -48,10 +49,13 @@ class ViewController: UIViewController
     
     var currentGameState = GameState.playerTurn.state()
     
-    
-    let player = Player(name: "noobMaster69", health: 10, attackValue: 3, level: 1)
+    let player = Player(name: "noobMaster69", health: 10, minAtkVal: 1, maxAtkVal: 3, level: 1)
     var minionPool = [Minion]()
+    var targetMinion = Minion()
     var bossPool = [Boss]()
+    
+    var enemyHPBorder = SKSpriteNode()
+    var enemyHPBar = SKSpriteNode(color: .red, size: CGSize(width: 200, height: 20))
     
     @IBOutlet weak var APLabel: UILabel!
 
@@ -98,7 +102,6 @@ class ViewController: UIViewController
 
         //apply configurations
         ARCanvas.session.run(config)
-        
         //display the detected plane
         ARCanvas.delegate = self
         ARCanvas.autoenablesDefaultLighting = false
@@ -108,6 +111,8 @@ class ViewController: UIViewController
         
         turnIndicator.isHidden = true
         APTitleLabel.isHidden = true
+        
+        setupOverlay()
         setupDungeonMusic()
         //setupARLight()
         //setupFog()
@@ -121,6 +126,31 @@ class ViewController: UIViewController
     {
         super.viewWillAppear(animated)
     }
+    
+    func setupOverlay(){
+        let hud = SKScene()
+        hud.scaleMode = .resizeFill
+        
+        enemyHPBorder = SKSpriteNode()
+        let hpBorderImage = UIImage(named: "minionHPBorder")
+        let hpBorderTexture = SKTexture(image: hpBorderImage!)
+        enemyHPBorder = SKSpriteNode(texture: hpBorderTexture)
+        enemyHPBorder.position = CGPoint(x: 680, y: 200)
+        
+        enemyHPBar = SKSpriteNode(color: .red, size: CGSize(width: 200, height: 20))
+        enemyHPBar.anchorPoint = CGPoint(x: 0.0, y: 0.5)
+        enemyHPBar.position = CGPoint(x: 580, y: 200)
+//        enemyHPBar.size = CGSize(width: enemyHPBar.size.width, height: enemyHPBar.size.height)
+        
+        hud.addChild(enemyHPBar)
+        hud.addChild(enemyHPBorder)
+        ARCanvas.overlaySKScene = hud
+        
+        enemyHPBar.isHidden = true
+        enemyHPBorder.isHidden = true
+    }
+    
+    
     
     // MARK: Action Points & Game State Change
     func updateAP()
@@ -159,6 +189,7 @@ class ViewController: UIViewController
         if currentGameState == "playerTurn"
         {
             currentGameState = GameState.enemyTurn.state()
+            player.setCanAttackEnemy(false)
             APTitleLabel.isHidden = true
             APLabel.isHidden = true
             updateIndicator()
@@ -166,7 +197,7 @@ class ViewController: UIViewController
         else if currentGameState == "enemyTurn"
         {
             currentGameState = GameState.playerTurn.state()
-            player.apCount = 5
+            player.apCount = 3
             APTitleLabel.isHidden = false
             APLabel.isHidden = false
             updateIndicator()
@@ -395,8 +426,29 @@ class ViewController: UIViewController
             let audio = SCNAudioSource(named: "art.scnassets/audios/lightAttack.wav")
             let audioAction = SCNAction.playAudio(audio!, waitForCompletion: true)
             player.getPlayerNode().runAction(audioAction)
+            
+            if player.canAttackEnemy == true && player.apCount > 0{
+                player.apCount -= 1
+                updateAP()
+                var action = SKAction()
+                let newBarWidth = enemyHPBar.size.width - player.attackEnemy(target: targetMinion)
+                // updates the HP bar
+                if newBarWidth <= 0.0{
+                    action = SKAction.resize(toWidth: 0.0, duration: 0.25)
+                }else{
+                    action = SKAction.resize(toWidth: CGFloat(newBarWidth), duration: 0.25)
+                }
+                enemyHPBar.run(action)
+                // check if enemy is dead
+                if targetMinion.isDead()
+                {
+                    targetMinion.getMinionNode().removeFromParentNode()
+                    player.setCanAttackEnemy(false)
+                }
+            }
         }
     }
+    
     //heavy attack button logic
     @objc func heavyAttackButtonClicked(sender : UIButton)
     {
@@ -467,23 +519,17 @@ class ViewController: UIViewController
             //setupARLight()
             //setupFog()
         }
-        else if maze[playerRow][playerCol] != 1 && maze[playerRow][playerCol] != 4
+        else if maze[playerRow][playerCol] != 1
         {
             //if encounter minion
-            if (maze[playerRow][playerCol] == 3)
+            if (maze[playerRow][playerCol] == 4)
             {
-                //DO MINION STUFF HERE
-                
                 //minion beside the player
-                let minion = findMinionByLocation(location: (row: playerRow, col: playerCol))
-               
-                //do a test to see if my thing is correct, maybe display something to screen to check
+                targetMinion = findMinionByLocation(location: (row: playerRow, col: playerCol))
+                player.setCanAttackEnemy(true)
                 
-                
-                //DO MINION STUFF HERE
-                
-                
-                
+                enemyHPBorder.isHidden = false
+                enemyHPBar.isHidden = false
                 //reset player and not let him move through minion
                 switch (direction)
                 {
@@ -531,7 +577,7 @@ class ViewController: UIViewController
             }
         }
         //code shouldn't reach here, all minions should be in list
-        return nil!
+        return minionPool[0]
     }
     
     
@@ -671,7 +717,7 @@ class ViewController: UIViewController
 				else if flag == 4
                 {
                     minionLocation = Position(xCoord: x, yCoord: y-WIDTH, zCoord: z, cRad: c)
-                    let minion = Minion(position: minionLocation)
+                    let minion = Minion()
                     minion.setLocation(location: (row: i, col: j))
                     minionPool.append(minion.spawnMinion(ARCanvas, minionLocation))
                 }

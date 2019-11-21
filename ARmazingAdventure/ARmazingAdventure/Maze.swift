@@ -83,9 +83,9 @@ class Maze
     //set minion spawn locations
     func setMinions()
     {
-        //number of mininons to spawn
+//        //number of mininons to spawn
 //        let numMinions = 5
-        //counter to keep track of number of minions
+//        //counter to keep track of number of minions
 //        var count = 0
 //        while count < numMinions
 //        {

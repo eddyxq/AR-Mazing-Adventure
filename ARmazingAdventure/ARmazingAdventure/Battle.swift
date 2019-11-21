@@ -12,7 +12,7 @@ import SceneKit
 import UIKit
 
 class Battle{
-
+    
     
     
     

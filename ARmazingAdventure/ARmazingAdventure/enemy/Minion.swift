@@ -10,11 +10,9 @@ class Minion: Enemy
     let minionNode = SCNNode()
     var animations = [String: CAAnimation]()
     let enemyType = Enemy.EnemyTypes.minion.type()
-    var currentPosition = ViewController.Position(xCoord: 0.0, yCoord: 0.0, zCoord: 0.0, cRad: 0.0)
     
-    init(position: ViewController.Position) {
-        super.init(name: "Zombie", health: 5, attackValue: 1, level: 1)
-        currentPosition = position
+    init() {
+        super.init(name: "Zombie", maxHP: 5, health: 5, minAtkVal: 1, maxAtkVal: 1, level: 1)
     }
     
     // MARK: Animations & Models
@@ -87,20 +85,9 @@ class Minion: Enemy
         return minionNode
     }
     
-    func setCurrentPosition(position: ViewController.Position){
-        currentPosition = position
-    }
-    
-    func getCurrentPosition() -> ViewController.Position{
-        return currentPosition
-    }
-    
-    func getHP() -> Int{
-        return health
-    }
-    
     func setLocation(location: (row: Int, col: Int))
     {
         arrayLocation = location
     }
+    
 }

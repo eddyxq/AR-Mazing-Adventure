@@ -5,8 +5,12 @@ import ARKit
 class Enemy
 {
     var name: String
+    var maxHP : Int
     var health: Int
-    var attackValue: Int
+    
+    var minAtkVal: Int
+    var maxAtkVal: Int
+    
     var level: Int
     
     //enemy types
@@ -20,11 +24,38 @@ class Enemy
         }
     }
 
-    init(name: String, health: Int, attackValue: Int, level: Int) {
+    init(name: String, maxHP: Int, health: Int, minAtkVal: Int, maxAtkVal: Int, level: Int) {
+        self.maxHP = maxHP
         self.health = health
-        self.attackValue = attackValue
+        self.minAtkVal = minAtkVal
+        self.maxAtkVal = maxAtkVal
         self.level = level
         self.name = name
     }
     
+    func getHP() -> Int{
+        return health
+    }
+    
+    func setHP(val: Int){
+        health = val
+    }
+    
+    // MARK: Combat Functions
+    func attackPlayer(target: Player){
+        let dmg = Int.random(in: minAtkVal ... maxAtkVal)
+        target.setHP(val: target.getHP()-dmg)
+    }
+    
+    func isDead() -> Bool{
+        if health <= 0{
+            return true
+        }
+        return false
+    }
+    
+    func convertHPBar() -> CGFloat{
+        return CGFloat(200 / maxHP)
+    }
 }
+
