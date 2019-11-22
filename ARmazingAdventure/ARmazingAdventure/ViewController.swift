@@ -196,12 +196,10 @@ class ViewController: UIViewController
     // changes the game state
     func stateChange()
     {
-        player.setCanAttackEnemy(enemyInRange(row: currentPlayerLocation.0, col: currentPlayerLocation.1))
         
         if currentGameState == "playerTurn"
         {
             currentGameState = GameState.enemyTurn.state()
-            player.setCanAttackEnemy(false)
             APTitleLabel.isHidden = true
             APLabel.isHidden = true
             updateIndicator()
@@ -439,7 +437,7 @@ class ViewController: UIViewController
             let audioAction = SCNAction.playAudio(audio!, waitForCompletion: true)
             player.getPlayerNode().runAction(audioAction)
             //logic for when player swings at a enemy
-            if player.canAttackEnemy == true && player.apCount > 0
+            if  player.apCount > 0
             {
                 targetMinion.playAnimation(ARCanvas, key: "impact")
                 //consumes ap per attack
@@ -455,8 +453,6 @@ class ViewController: UIViewController
                     targetMinion.getMinionNode().removeFromParentNode()
                     //remove enemy data from maze
                     maze[adjacentEnemyLocation.0][adjacentEnemyLocation.1] = 0
-                    //reset flag
-                    player.setCanAttackEnemy(false)
                 }
                 else
                 {
@@ -563,16 +559,10 @@ class ViewController: UIViewController
         {
             //get the instance of the minion that is near the player
             targetMinion = findMinionByLocation(location: (row: playerRow, col: playerCol))
-            //enable player attack actions
-            player.setCanAttackEnemy(true)
             //display hit points bar
             enemyHPBorder.isHidden = false
             enemyHPBar.isHidden = false
             updateEnemyHPBarLabel()
-        }
-        else
-        {
-            player.setCanAttackEnemy(false)
         }
         return canMove
     }
