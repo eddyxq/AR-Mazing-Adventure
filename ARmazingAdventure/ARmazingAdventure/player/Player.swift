@@ -14,7 +14,7 @@ class Player
     var maxAtkVal : Int
     
     var level : Int
-    var canAttackEnemy = false
+    var canAttackEnemy = true
     
     init(name: String, health: Int, minAtkVal: Int,maxAtkVal: Int, level: Int) {
         self.name = name
@@ -39,7 +39,7 @@ class Player
     }
     
     var playerHP = 10
-    var apCount = 3
+    var apCount = 5
     
     // MARK: Animations & Models
     // creates a player character model with its animations
@@ -190,37 +190,43 @@ class Player
         return playerNode
     }
     
-    func getAPCount() -> String{
+    func getAPCount() -> String
+    {
         return String(apCount)
     }
     
-    func setCanAttackEnemy(_ bool: Bool){
+    func setCanAttackEnemy(_ bool: Bool)
+    {
         canAttackEnemy = bool
     }
     
-    func getHP() -> Int{
+    func getHP() -> Int
+    {
         return health
     }
     
-    func setHP(val: Int){
+    func setHP(val: Int)
+    {
         health = val
     }
     
     // MARK: Combat Functions
-    func attackEnemy(target: Enemy) -> CGFloat{
+    func attackEnemy(target: Enemy) -> CGFloat
+    {
         let targetCurrentHP = target.getHP()
-        
         let dmg = Int.random(in: minAtkVal ... maxAtkVal)
         let newHP = targetCurrentHP-dmg
-        if newHP < 0{
+        
+        if newHP < 0
+        {
             target.setHP(val: 0)
-        }else{
+        }
+        else
+        {
             target.setHP(val: newHP)
         }
         
         let convertToHPBar = CGFloat(dmg) * target.convertHPBar()
         return convertToHPBar
     }
-    
-    
 }

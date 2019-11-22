@@ -71,35 +71,41 @@ class Maze
         setPlayer()
         setBoss()
         setMinions()
+        setTestMinion()
         return maze
     }
 
     //set player spawn location
     func setPlayer()
     {
-        maze[6][2] = PLAYER
+        maze[1][2] = PLAYER
+    }
+    
+    //set a minion near player for testing
+    func setTestMinion()
+    {
+        maze[3][2] = MINION
     }
 
     //set minion spawn locations
     func setMinions()
     {
-//        //number of mininons to spawn
-//        let numMinions = 5
-//        //counter to keep track of number of minions
-//        var count = 0
-//        while count < numMinions
-//        {
-//            //randomly generated locations
-//            let i = Int.random(in: 2 ... 12)
-//            let j = Int.random(in: 2 ... 12)
-//            //ensure minions only spawn on the floors
-//            if maze[i][j] == FLOOR
-//            {
-//                maze[i][j] = MINION
-//                count += 1
-//            }
-//        }
-        maze[7][2] = MINION
+        //number of mininons to spawn
+        let numMinions = 5
+        //counter to keep track of number of minions
+        var count = 0
+        while count < numMinions
+        {
+            //randomly generated locations
+            let i = Int.random(in: 2 ... 12)
+            let j = Int.random(in: 2 ... 12)
+            //ensure minions only spawn on the floors
+            if maze[i][j] == FLOOR
+            {
+                maze[i][j] = MINION
+                count += 1
+            }
+        }
     }
 	
 	//set boss spawn location

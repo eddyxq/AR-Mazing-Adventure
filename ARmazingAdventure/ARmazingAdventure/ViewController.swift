@@ -129,7 +129,8 @@ class ViewController: UIViewController
         super.viewWillAppear(animated)
     }
     
-    func setupOverlay(){
+    func setupOverlay()
+    {
         let hud = SKScene()
         hud.scaleMode = .resizeFill
         
@@ -143,8 +144,6 @@ class ViewController: UIViewController
         enemyHPBar.anchorPoint = CGPoint(x: 0.0, y: 0.5)
         enemyHPBar.position = CGPoint(x: 580, y: 200)
         
-        
-        
         hud.addChild(enemyHPBar)
         hud.addChild(enemyHPBorder)
         ARCanvas.overlaySKScene = hud
@@ -154,7 +153,8 @@ class ViewController: UIViewController
         enemyHPBorder.isHidden = true
     }
     
-    func updateEnemyHPBarLabel(){
+    func updateEnemyHPBarLabel()
+    {
         enemyHPBarLabel.textColor = UIColor.white
         enemyHPBarLabel.shadowColor = UIColor.black
         enemyHPBarLabel.text = "\(targetMinion.getName()) HP: \(targetMinion.getHP()) \\ \(targetMinion.getMaxHP())"
@@ -196,6 +196,8 @@ class ViewController: UIViewController
     // changes the game state
     func stateChange()
     {
+        player.setCanAttackEnemy(enemyInRange(row: currentPlayerLocation.0, col: currentPlayerLocation.1))
+        
         if currentGameState == "playerTurn"
         {
             currentGameState = GameState.enemyTurn.state()
@@ -436,19 +438,28 @@ class ViewController: UIViewController
             let audio = SCNAudioSource(named: "art.scnassets/audios/lightAttack.wav")
             let audioAction = SCNAction.playAudio(audio!, waitForCompletion: true)
             player.getPlayerNode().runAction(audioAction)
-            
-            if player.canAttackEnemy == true && player.apCount > 0{
+            //logic for when player swings at a enemy
+            if player.canAttackEnemy == true && player.apCount > 0
+            {
                 targetMinion.playAnimation(ARCanvas, key: "impact")
+                //consumes ap per attack
                 player.apCount -= 1
                 updateAP()
                 var action = SKAction()
                 let newBarWidth = enemyHPBar.size.width - player.attackEnemy(target: targetMinion)
-                // updates the HP bar
-                if newBarWidth <= 0.0{
+                //if enemy is dead
+                if newBarWidth <= 0.0
+                {
                     action = SKAction.resize(toWidth: 0.0, duration: 0.25)
+                    //remove enemy model from scene
                     targetMinion.getMinionNode().removeFromParentNode()
+                    //remove enemy data from maze
+                    maze[adjacentEnemyLocation.0][adjacentEnemyLocation.1] = 0
+                    //reset flag
                     player.setCanAttackEnemy(false)
-                }else{
+                }
+                else
+                {
                     action = SKAction.resize(toWidth: CGFloat(newBarWidth), duration: 0.25)
                 }
                 updateEnemyHPBarLabel()
@@ -485,9 +496,9 @@ class ViewController: UIViewController
     func move(direction: String) -> Bool
     {
         var canMove = false
-        
         var playerRow = Maze().getRow(maze: maze)
         let playerCol = Maze().getCol(maze: maze)
+        currentPlayerLocation = (playerRow, playerCol)
         // remove player from current position
         maze[playerRow][playerCol] = 0
         switch (direction)
@@ -528,37 +539,10 @@ class ViewController: UIViewController
             //setupARLight()
             //setupFog()
         }
-        else if maze[playerRow][playerCol] != 1
+        else if maze[playerRow][playerCol] != 1 && maze[playerRow][playerCol] != 4
         {
-            //if encounter minion
-            if (maze[playerRow][playerCol] == 4)
-            {
-                //minion beside the player
-                targetMinion = findMinionByLocation(location: (row: playerRow, col: playerCol))
-                player.setCanAttackEnemy(true)
-                
-                enemyHPBorder.isHidden = false
-                enemyHPBar.isHidden = false
-                updateEnemyHPBarLabel()
-                //reset player and not let him move through minion
-                switch (direction)
-                {
-                    case "backward":
-                        playerRow -= 1
-                    case "forward":
-                        playerRow += 1
-                    default:
-                        break
-                }
-                maze[playerRow][playerCol] = 2;
-                return false
-            }
-            //else let the player move
-            else
-            {
-                maze[playerRow][playerCol] = 2
-                canMove = true
-            }
+            maze[playerRow][playerCol] = 2
+            canMove = true
         }
         else // player does not move, returns to origin
         {
@@ -573,8 +557,71 @@ class ViewController: UIViewController
             }
             maze[playerRow][playerCol] = 2;
         }
+        
+        //check if minion is nearby
+        if enemyInRange(row: playerRow, col: playerCol) == true
+        {
+            //get the instance of the minion that is near the player
+            targetMinion = findMinionByLocation(location: (row: playerRow, col: playerCol))
+            //enable player attack actions
+            player.setCanAttackEnemy(true)
+            //display hit points bar
+            enemyHPBorder.isHidden = false
+            enemyHPBar.isHidden = false
+            updateEnemyHPBarLabel()
+        }
+        else
+        {
+            player.setCanAttackEnemy(false)
+        }
         return canMove
     }
+    
+    var adjacentEnemyLocation = (0,0)
+    var currentPlayerLocation = (1,2)
+    
+    func enemyInRange(row: Int, col: Int) -> Bool
+    {
+        var minionInRange = false
+        //check south of player
+        if (row < NUMROW-1)
+        {
+            if maze[row+1][col] == 4
+            {
+                adjacentEnemyLocation = (row+1, col)
+                minionInRange = true
+            }
+        }
+        //check east of player
+        if (col < NUMCOL-1)
+        {
+            if maze[row][col+1] == 4
+            {
+                adjacentEnemyLocation = (row, col+1)
+                minionInRange = true
+            }
+        }
+        //check west of player
+        if (row > 0)
+        {
+            if maze[row-1][col] == 4
+            {
+                adjacentEnemyLocation = (row-1, col)
+                minionInRange = true
+            }
+        }
+        //check north of player
+        if (col > 0)
+        {
+            if maze[row][col-1] == 4
+            {
+                adjacentEnemyLocation = (row, col-1)
+                minionInRange = true
+            }
+        }
+        return minionInRange
+    }
+    
     
     // MARK: Combat
     func findMinionByLocation(location: (row: Int, col: Int)) -> Minion
