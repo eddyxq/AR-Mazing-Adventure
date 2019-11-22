@@ -158,7 +158,6 @@ class ViewController: UIViewController
         enemyHPBarLabel.textColor = UIColor.white
         enemyHPBarLabel.shadowColor = UIColor.black
         enemyHPBarLabel.text = "\(targetMinion.getName()) HP: \(targetMinion.getHP()) \\ \(targetMinion.getMaxHP())"
-        enemyHPBarLabel.isHidden = false
     }
     
     
@@ -203,16 +202,33 @@ class ViewController: UIViewController
             APTitleLabel.isHidden = true
             APLabel.isHidden = true
             updateIndicator()
+            
+            enemyHPBorder.isHidden = true
+            enemyHPBar.isHidden = true
         }
         else if currentGameState == "enemyTurn"
         {
             currentGameState = GameState.playerTurn.state()
-            player.apCount = 3
+            player.apCount = 5
             APTitleLabel.isHidden = false
             APLabel.isHidden = false
             updateIndicator()
             updateAP()
+            
+            
+            //re-display hp bars after enemy turn
+            if enemyInRange(row: currentPlayerLocation.0, col: currentPlayerLocation.1) == true
+            {
+                //get the instance of the minion that is near the player
+                targetMinion = findMinionByLocation(location: (row: currentPlayerLocation.0, col: currentPlayerLocation.1))
+                //display hit points bar
+                updateEnemyHPBarLabel()
+                enemyHPBorder.isHidden = false
+                enemyHPBar.isHidden = false
+            }
         }
+        
+        
     }
     // MARK: Add maze on tap
     @objc func addMazeToSceneView(withGestureRecognizer recognizer: UIGestureRecognizer)
@@ -411,6 +427,21 @@ class ViewController: UIViewController
             player.apCount -= 1
             updateAP()
         }
+        
+        //check if minion is nearby
+        if enemyInRange(row: currentPlayerLocation.0, col: currentPlayerLocation.1) == true
+        {
+            //get the instance of the minion that is near the player
+            targetMinion = findMinionByLocation(location: (row: currentPlayerLocation.0, col: currentPlayerLocation.1))
+            //display hit points bar
+            enemyHPBorder.isHidden = false
+            enemyHPBar.isHidden = false
+        }
+        else
+        {
+            enemyHPBorder.isHidden = true
+            enemyHPBar.isHidden = true
+        }
     }
     //down button logic
     @objc func downButtonClicked(sender : UIButton)
@@ -423,6 +454,21 @@ class ViewController: UIViewController
             player.apCount -= 1
             updateAP()
         }
+        
+       //check if minion is nearby
+       if enemyInRange(row: currentPlayerLocation.0, col: currentPlayerLocation.1) == true
+       {
+           //get the instance of the minion that is near the player
+           targetMinion = findMinionByLocation(location: (row: currentPlayerLocation.0, col: currentPlayerLocation.1))
+           //display hit points bar
+           enemyHPBorder.isHidden = false
+           enemyHPBar.isHidden = false
+       }
+       else
+       {
+           enemyHPBorder.isHidden = true
+           enemyHPBar.isHidden = true
+       }
     }
     // MARK: Attack Buttons
     //light attack button logic
@@ -446,13 +492,18 @@ class ViewController: UIViewController
                 var action = SKAction()
                 let newBarWidth = enemyHPBar.size.width - player.attackEnemy(target: targetMinion)
                 //if enemy is dead
-                if newBarWidth <= 0.0
+                if newBarWidth <= 0
                 {
                     action = SKAction.resize(toWidth: 0.0, duration: 0.25)
                     //remove enemy model from scene
                     targetMinion.getMinionNode().removeFromParentNode()
                     //remove enemy data from maze
                     maze[adjacentEnemyLocation.0][adjacentEnemyLocation.1] = 0
+                    
+                    updateEnemyHPBarLabel()
+                    //hide hp bars
+                    enemyHPBorder.isHidden = true
+                    enemyHPBar.isHidden = true
                 }
                 else
                 {
@@ -553,21 +604,11 @@ class ViewController: UIViewController
             }
             maze[playerRow][playerCol] = 2;
         }
-        
-        //check if minion is nearby
-        if enemyInRange(row: playerRow, col: playerCol) == true
-        {
-            //get the instance of the minion that is near the player
-            targetMinion = findMinionByLocation(location: (row: playerRow, col: playerCol))
-            //display hit points bar
-            enemyHPBorder.isHidden = false
-            enemyHPBar.isHidden = false
-            updateEnemyHPBarLabel()
-        }
+        currentPlayerLocation = (playerRow, playerCol)
         return canMove
     }
     
-    var adjacentEnemyLocation = (0,0)
+    var adjacentEnemyLocation = (9999,9999)
     var currentPlayerLocation = (1,2)
     
     func enemyInRange(row: Int, col: Int) -> Bool
