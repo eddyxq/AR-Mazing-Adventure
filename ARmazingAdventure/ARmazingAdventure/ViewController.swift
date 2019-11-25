@@ -2,6 +2,7 @@ import UIKit
 import RealityKit
 import ARKit
 import SceneKit
+import MultipeerConnectivity
 
 class ViewController: UIViewController
 {
@@ -80,13 +81,15 @@ class ViewController: UIViewController
     let NUMROW = Maze().getHeight()
     let NUMCOL = Maze().getWidth()
     
+    var multiplayersession : Multipeer!
+    
     // MARK: ViewController Functions
     override func viewDidLoad()
     {
         super.viewDidLoad()
         //setting scene to AR
         config = ARWorldTrackingConfiguration()
-        
+        multiplayersession = Multipeer(receivedDataHandler: receivedData)
         //search for horizontal planes
         config.planeDetection = .horizontal
 
@@ -623,6 +626,34 @@ class ViewController: UIViewController
             //line up blocks on a new row
             x -= WIDTH * Double(NUMCOL)
             z += LENGTH
+        }
+    }
+    
+    var mapProvider : MCPeerID?
+    
+    func receivedData(_ data: Data, from peer: MCPeerID) {
+        
+        do {
+            if let worldMap = try NSKeyedUnarchiver.unarchivedObject(ofClass: ARWorldMap.self, from: data) {
+                // Run the session with the received world map.
+                let configuration = ARWorldTrackingConfiguration()
+                configuration.planeDetection = .horizontal
+                configuration.initialWorldMap = worldMap
+                ARCanvas.session.run(configuration, options: [.resetTracking, .removeExistingAnchors])
+                
+                // Remember who provided the map for showing UI feedback.
+                mapProvider = peer
+            }
+            else
+            if let anchor = try NSKeyedUnarchiver.unarchivedObject(ofClass: ARAnchor.self, from: data) {
+                // Add anchor to the session, ARSCNView delegate adds visible content.
+                ARCanvas.session.add(anchor: anchor)
+            }
+            else {
+                print("unknown data recieved from \(peer)")
+            }
+        } catch {
+            print("can't decode data recieved from \(peer)")
         }
     }
 }

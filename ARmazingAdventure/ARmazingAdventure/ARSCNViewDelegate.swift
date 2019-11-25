@@ -11,6 +11,7 @@ import Foundation
 // MARK: Class Extension
 extension ViewController: ARSCNViewDelegate
 {
+    //Setting anchors
     func renderer(_ renderer: SCNSceneRenderer, didAdd node: SCNNode, for anchor: ARAnchor)
     {
         //unwrap anchor as ARPlaneAnchor
@@ -33,6 +34,7 @@ extension ViewController: ARSCNViewDelegate
         planeNode.eulerAngles.x = -.pi / 2
         
         node.addChildNode(planeNode)
+        
         
         //ensures the setup maze is not run without an anchor plane
         planeFound = true
