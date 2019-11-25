@@ -18,6 +18,9 @@
 		4EAEE61F235E3A170041EBDF /* art.scnassets in Resources */ = {isa = PBXBuildFile; fileRef = 4EAEE61E235E3A170041EBDF /* art.scnassets */; };
 		4EAEE621235E5EAC0041EBDF /* MainMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EAEE620235E5EAC0041EBDF /* MainMenuViewController.swift */; };
 		4EE6404623864CC8004F304C /* Battle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EE6404523864CC8004F304C /* Battle.swift */; };
+		4EE6404B238C847E004F304C /* MultipeerSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EE64049238C847E004F304C /* MultipeerSession.swift */; };
+		4EE6404C238C847E004F304C /* RoundedButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EE6404A238C847E004F304C /* RoundedButton.swift */; };
+		4EE6404E238C8610004F304C /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EE6404D238C8610004F304C /* Utilities.swift */; };
 		DB6B716E235D1F94003276B2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB6B716D235D1F94003276B2 /* AppDelegate.swift */; };
 		DB6B7170235D1F94003276B2 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB6B716F235D1F94003276B2 /* ViewController.swift */; };
 		DB6B7175235D1F94003276B2 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DB6B7173235D1F94003276B2 /* Main.storyboard */; };
@@ -55,6 +58,9 @@
 		4EAEE61E235E3A170041EBDF /* art.scnassets */ = {isa = PBXFileReference; lastKnownFileType = wrapper.scnassets; path = art.scnassets; sourceTree = "<group>"; };
 		4EAEE620235E5EAC0041EBDF /* MainMenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MainMenuViewController.swift; path = ARmazingAdventure/MainMenuViewController.swift; sourceTree = SOURCE_ROOT; };
 		4EE6404523864CC8004F304C /* Battle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Battle.swift; sourceTree = "<group>"; };
+		4EE64049238C847E004F304C /* MultipeerSession.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MultipeerSession.swift; sourceTree = "<group>"; };
+		4EE6404A238C847E004F304C /* RoundedButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoundedButton.swift; sourceTree = "<group>"; };
+		4EE6404D238C8610004F304C /* Utilities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
 		DB6B716A235D1F94003276B2 /* ARmazingAdventure.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ARmazingAdventure.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DB6B716D235D1F94003276B2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = ARmazingAdventure/AppDelegate.swift; sourceTree = SOURCE_ROOT; };
 		DB6B716F235D1F94003276B2 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -139,7 +145,10 @@
 				4E9887C3237B6E18002A4F45 /* enemy */,
 				4E9887C0237B636F002A4F45 /* player */,
 				4E810A2923714FDB009D87D6 /* Assets.xcassets */,
+				4EE6404D238C8610004F304C /* Utilities.swift */,
 				4E9887BB237B632B002A4F45 /* ARSCNViewDelegate.swift */,
+				4EE64049238C847E004F304C /* MultipeerSession.swift */,
+				4EE6404A238C847E004F304C /* RoundedButton.swift */,
 				4E9887BC237B632B002A4F45 /* HelperFunctions.swift */,
 				4E9887BA237B632B002A4F45 /* Maze.swift */,
 				DB6B716D235D1F94003276B2 /* AppDelegate.swift */,
@@ -303,7 +312,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4EE6404B238C847E004F304C /* MultipeerSession.swift in Sources */,
 				4E9887C7237B7103002A4F45 /* Minion.swift in Sources */,
+				4EE6404E238C8610004F304C /* Utilities.swift in Sources */,
 				4E9887BF237B632B002A4F45 /* HelperFunctions.swift in Sources */,
 				4EAEE621235E5EAC0041EBDF /* MainMenuViewController.swift in Sources */,
 				4E9887BE237B632B002A4F45 /* ARSCNViewDelegate.swift in Sources */,
@@ -314,6 +325,7 @@
 				4EE6404623864CC8004F304C /* Battle.swift in Sources */,
 				4E9887C9237B710C002A4F45 /* Boss.swift in Sources */,
 				4E9887BD237B632B002A4F45 /* Maze.swift in Sources */,
+				4EE6404C238C847E004F304C /* RoundedButton.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

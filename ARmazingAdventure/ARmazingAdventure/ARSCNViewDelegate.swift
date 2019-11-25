@@ -36,6 +36,10 @@ extension ViewController: ARSCNViewDelegate
         
         //ensures the setup maze is not run without an anchor plane
         planeFound = true
+        
+        if let name = anchor.name, name.hasPrefix("panda") {
+            node.addChildNode(loadMaze())
+        }
     }
     
     func renderer(_ renderer: SCNSceneRenderer, didUpdate node: SCNNode, for anchor: ARAnchor)

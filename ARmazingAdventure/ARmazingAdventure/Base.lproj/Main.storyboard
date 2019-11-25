@@ -222,6 +222,7 @@
                         <subviews>
                             <arscnView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qRL-3N-FWy">
                                 <rect key="frame" x="0.0" y="0.0" width="1366" height="1004"/>
+                                <gestureRecognizers/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="320" id="q0D-iA-Uz6"/>
                                 </constraints>
@@ -235,6 +236,9 @@
                                         <exclude reference="q0D-iA-Uz6"/>
                                     </mask>
                                 </variation>
+                                <connections>
+                                    <outletCollection property="gestureRecognizers" destination="L9D-rJ-5bW" appends="YES" id="6DN-nq-R8W"/>
+                                </connections>
                             </arscnView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sy6-aP-7Sx">
                                 <rect key="frame" x="808" y="173" width="47" height="86"/>
@@ -261,6 +265,35 @@
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="name HP: 0/0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0Yh-3B-9Km">
                                 <rect key="frame" x="622" y="816" width="154" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fSs-JA-p51">
+                                <rect key="frame" x="114" y="265" width="288" height="127"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="sessionInfoLabel" lineBreakMode="tailTruncation" numberOfLines="5" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8dW-UC-vmz">
+                                        <rect key="frame" x="0.0" y="0.0" width="288" height="127"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="8"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                            </view>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="csI-uW-EiT">
+                                <rect key="frame" x="730" y="302" width="110" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Send World Info"/>
+                                <connections>
+                                    <action selector="shareSession:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Yyr-xb-KSC"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="mapping status" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2KG-Ac-DaU">
+                                <rect key="frame" x="726" y="333" width="119" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
@@ -298,10 +331,19 @@
                         <outlet property="APTitleLabel" destination="8S7-0R-f8x" id="xzN-xx-Xj4"/>
                         <outlet property="ARCanvas" destination="qRL-3N-FWy" id="RKZ-3D-Sch"/>
                         <outlet property="enemyHPBarLabel" destination="0Yh-3B-9Km" id="CQp-Yt-pPb"/>
+                        <outlet property="mappingStatusLabel" destination="2KG-Ac-DaU" id="blF-Mt-cXX"/>
+                        <outlet property="sendMapButton" destination="csI-uW-EiT" id="6nn-PI-XVh"/>
+                        <outlet property="sessionInfoLabel" destination="8dW-UC-vmz" id="wbv-8M-8Qd"/>
+                        <outlet property="sessionInfoView" destination="fSs-JA-p51" id="R9g-eg-LUe"/>
                         <outlet property="turnIndicator" destination="1s8-u1-MEj" id="3cU-Gw-McY"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer id="L9D-rJ-5bW">
+                    <connections>
+                        <action selector="handleSceneTap:" destination="BYZ-38-t0r" id="AgJ-TF-jVb"/>
+                    </connections>
+                </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="136.60322108345534" y="131.8359375"/>
         </scene>
