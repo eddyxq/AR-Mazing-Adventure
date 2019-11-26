@@ -115,8 +115,8 @@ class ViewController: UIViewController
         
         setupOverlay()
         setupDungeonMusic()
-//        setupARLight()
-//        setupFog()
+        setupARLight()
+        setupFog()
         //enables user to tap detected plane for maze placement
         addTapGestureToSceneView()
         //adds arrow pad to screen
@@ -262,21 +262,22 @@ class ViewController: UIViewController
             }else{
                 
             }
+            var action = SKAction()
+            let newBarWidth = playerHPBar.size.width - targetMinion.attackPlayer(target: player)
+            //if enemy is dead
+            if newBarWidth <= 0
+            {
+                action = SKAction.resize(toWidth: 0.0, duration: 0.25)
+            }
+            else
+            {
+                action = SKAction.resize(toWidth: CGFloat(newBarWidth), duration: 0.25)
+            }
+            targetMinion.playAnimation(ARCanvas, key: "attack")
+            player.playAnimation(ARCanvas, key: "impact")
+            playerHPBar.run(action)
         }
-        var action = SKAction()
-        let newBarWidth = playerHPBar.size.width - targetMinion.attackPlayer(target: player)
-        //if enemy is dead
-        if newBarWidth <= 0
-        {
-            action = SKAction.resize(toWidth: 0.0, duration: 0.25)
-        }
-        else
-        {
-            action = SKAction.resize(toWidth: CGFloat(newBarWidth), duration: 0.25)
-        }
-        targetMinion.playAnimation(ARCanvas, key: "attack")
-        player.playAnimation(ARCanvas, key: "impact")
-        playerHPBar.run(action)
+        
         stateChange()
     }
     // check if the enemy's back is facing the player
