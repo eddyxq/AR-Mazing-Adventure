@@ -9,6 +9,7 @@ class Player
     
     var name: String
     var health : Int
+    var maxHP : Int
     
     var minAtkVal : Int
     var maxAtkVal : Int
@@ -16,9 +17,10 @@ class Player
     var level : Int
     var canAttackEnemy = true
     
-    init(name: String, health: Int, minAtkVal: Int,maxAtkVal: Int, level: Int) {
+    init(name: String, maxHP: Int, health: Int, minAtkVal: Int,maxAtkVal: Int, level: Int) {
         self.name = name
         self.health = health
+        self.maxHP = maxHP
         self.minAtkVal = minAtkVal
         self.maxAtkVal = maxAtkVal
         self.level = level
@@ -39,6 +41,7 @@ class Player
     }
     
     var playerHP = 10
+    var maxAP = 5
     var apCount = 5
     
     // MARK: Animations & Models
@@ -70,6 +73,7 @@ class Player
         loadAnimation(withKey: "turnRight", sceneName: "art.scnassets/characters/player/TurnRightFixed", animationIdentifier: "TurnRightFixed-1")
         loadAnimation(withKey: "lightAttack", sceneName: "art.scnassets/characters/player/LightAttackFixed", animationIdentifier: "LightAttackFixed-1")
         loadAnimation(withKey: "heavyAttack", sceneName: "art.scnassets/characters/player/HeavyAttackFixed", animationIdentifier: "HeavyAttackFixed-1")
+        loadAnimation(withKey: "impact", sceneName: "art.scnassets/characters/player/PlayerImpactFixed", animationIdentifier: "PlayerImpactFixed-1")
     }
     //load animations
     func loadAnimation(withKey: String, sceneName: String, animationIdentifier: String)
@@ -210,6 +214,11 @@ class Player
         health = val
     }
     
+    func setAP(val: Int)
+    {
+        apCount = val
+    }
+    
     // MARK: Combat Functions
     func attackEnemy(target: Enemy) -> CGFloat
     {
@@ -228,5 +237,26 @@ class Player
         
         let convertToHPBar = CGFloat(dmg) * target.convertHPBar()
         return convertToHPBar
+    }
+    
+    func convertHPBar() -> CGFloat{
+        return CGFloat(200 / maxHP)
+    }
+    
+    func convertAPBar() -> CGFloat{
+        return CGFloat(200 / maxAP)
+    }
+    
+    func useAP() -> CGFloat{
+        apCount -= 1
+        
+        if apCount > 0
+        {
+            setAP(val: apCount)
+        }
+
+        let convertToAPBar = convertAPBar()
+        
+        return convertToAPBar
     }
 }

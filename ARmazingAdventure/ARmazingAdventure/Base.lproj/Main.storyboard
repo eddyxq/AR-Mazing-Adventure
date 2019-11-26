@@ -236,22 +236,6 @@
                                     </mask>
                                 </variation>
                             </arscnView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sy6-aP-7Sx">
-                                <rect key="frame" x="808" y="173" width="47" height="86"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" weight="heavy" pointSize="72"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                                <color key="shadowColor" cocoaTouchSystemColor="darkTextColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="AP Remaining: " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8S7-0R-f8x">
-                                <rect key="frame" x="329" y="171" width="471" height="86"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" weight="heavy" pointSize="64"/>
-                                <color key="textColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
-                                <nil key="highlightedColor"/>
-                                <color key="shadowColor" cocoaTouchSystemColor="darkTextColor"/>
-                            </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Enemy Turn!" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1s8-u1-MEj">
                                 <rect key="frame" x="461" y="79" width="445" height="86"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -294,8 +278,6 @@
                     </view>
                     <navigationItem key="navigationItem" id="2hM-Pl-VQO"/>
                     <connections>
-                        <outlet property="APLabel" destination="sy6-aP-7Sx" id="CaF-Mf-vy6"/>
-                        <outlet property="APTitleLabel" destination="8S7-0R-f8x" id="xzN-xx-Xj4"/>
                         <outlet property="ARCanvas" destination="qRL-3N-FWy" id="RKZ-3D-Sch"/>
                         <outlet property="enemyHPBarLabel" destination="0Yh-3B-9Km" id="CQp-Yt-pPb"/>
                         <outlet property="turnIndicator" destination="1s8-u1-MEj" id="3cU-Gw-McY"/>

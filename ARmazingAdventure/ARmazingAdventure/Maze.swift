@@ -85,7 +85,7 @@ class Maze
     func setTestMinion()
     {
         maze[4][2] = MINION
-        maze[2][4] = MINION
+       // maze[2][4] = MINION
     }
 
     //set minion spawn locations

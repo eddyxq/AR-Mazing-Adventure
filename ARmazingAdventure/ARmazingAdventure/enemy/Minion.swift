@@ -4,6 +4,20 @@ import ARKit
 
 class Minion: Enemy
 {
+    // Player directions
+    enum minionDirection: String
+    {
+        case up
+        case down
+        case left
+        case right
+        
+        func direction() -> String
+        {
+            return self.rawValue
+        }
+    }
+    
     //location of the minion on the maze array
     var arrayLocation = (0, 0)
     
@@ -12,7 +26,7 @@ class Minion: Enemy
     let enemyType = Enemy.EnemyTypes.minion.type()
     
     init() {
-        super.init(name: "Zombie", maxHP: 5, health: 5, minAtkVal: 1, maxAtkVal: 1, level: 1)
+        super.init(name: "Zombie", maxHP: 10, health: 10, minAtkVal: 1, maxAtkVal: 1, level: 1)
     }
     
     // MARK: Animations & Models
@@ -33,11 +47,14 @@ class Minion: Enemy
         let enemyModelSize = 0.0014
         minionNode.scale = SCNVector3(enemyModelSize, enemyModelSize, enemyModelSize)
         // Rotating the character by 180 degrees
-        minionNode.rotation = SCNVector4Make(0, 1, 0, 0)
+        minionNode.rotation = SCNVector4Make(0, 1, 0, .pi)
         minionNode.castsShadow = true
         minionNode.name = "minion"
         //TODO: load more animations if available
         loadAnimation(withKey: "impact", sceneName: "art.scnassets/characters/enemy/minion/MinionImpactFixed", animationIdentifier: "MinionImpactFixed-1")
+        loadAnimation(withKey: "attack", sceneName: "art.scnassets/characters/enemy/minion/MinionAttackFixed", animationIdentifier: "MinionAttackFixed-1")
+        loadAnimation(withKey: "turnRight", sceneName: "art.scnassets/characters/enemy/minion/MinionRightTurnFixed", animationIdentifier: "MinionRightTurnFixed-1")
+        loadAnimation(withKey: "turnLeft", sceneName: "art.scnassets/characters/enemy/minion/MinionLeftTurnFixed", animationIdentifier: "MinionLeftTurnFixed-1")
         sceneView.scene.rootNode.addChildNode(minionNode)
     }
     
@@ -59,6 +76,7 @@ class Minion: Enemy
             animations[withKey] = animationObject
         }
     }
+
     //play animation
     func playAnimation(_ sceneView: ARSCNView, key: String)
     {
@@ -70,6 +88,64 @@ class Minion: Enemy
     {
         // Stop the animation with a smooth transition
         sceneView.scene.rootNode.childNode(withName: "minion", recursively: true)?.removeAnimation(forKey: key, blendOutDuration: CGFloat(0.5))
+    }
+    // MARK: Minion Movement Logics
+    // The direction minion is current facing.
+    // Default: Up
+    var currentMinionDirection = minionDirection.up.direction()
+    //turns the minion 90 degrees counter clockwise
+    func turnLeft(direction: String)
+    {
+        switch direction
+        {
+            case "up":
+                currentMinionDirection = minionDirection.left.direction()
+            case "down":
+                currentMinionDirection = minionDirection.right.direction()
+            case "left":
+                currentMinionDirection = minionDirection.down.direction()
+            case "right":
+                currentMinionDirection = minionDirection.up.direction()
+            default:
+                break
+        }
+        let turnAction = SCNAction.rotateBy(x: 0, y: -(.pi/2), z: 0, duration: 0.5)
+        minionNode.runAction(turnAction)
+    }
+    //turns the minion 90 degrees clockwise
+    func turnRight(direction: String)
+    {
+        switch direction{
+            case "up":
+                currentMinionDirection = minionDirection.right.direction()
+            case "down":
+                currentMinionDirection = minionDirection.left.direction()
+            case "left":
+                currentMinionDirection = minionDirection.up.direction()
+            case "right":
+                currentMinionDirection = minionDirection.down.direction()
+            default:
+                break
+        }
+        let turnAction = SCNAction.rotateBy(x: 0, y: .pi/2, z: 0, duration: 0.5)
+        minionNode.runAction(turnAction)
+    }
+
+    func turn180(direction: String){
+        switch direction{
+            case "up":
+                currentMinionDirection = minionDirection.down.direction()
+            case "down":
+                currentMinionDirection = minionDirection.up.direction()
+            case "left":
+                currentMinionDirection = minionDirection.right.direction()
+            case "right":
+                currentMinionDirection = minionDirection.left.direction()
+            default:
+                break
+        }
+        let turnAction = SCNAction.rotateBy(x: 0, y: .pi, z: 0, duration: 0.5)
+        minionNode.runAction(turnAction)
     }
     // MARK: Getters & Setters
     //Spawns the minion model at the given sceneview
