@@ -17,7 +17,6 @@ class ViewController: UIViewController
             return self.rawValue
         }
     }
-    
     //setting scene to AR
     var config = ARWorldTrackingConfiguration()
     
@@ -38,6 +37,7 @@ class ViewController: UIViewController
         var cRad = 0.0
     }
     
+    
     @IBOutlet var arView: ARView!
     @IBOutlet var ARCanvas: ARSCNView!
     
@@ -49,17 +49,17 @@ class ViewController: UIViewController
     
     var currentGameState = GameState.playerTurn.state()
     
-    let player = Player(name: "noobMaster69", health: 10, minAtkVal: 1, maxAtkVal: 3, level: 1)
+    let player = Player(name: "noobMaster69", maxHP: 10, health: 10, minAtkVal: 1, maxAtkVal: 3, level: 1)
     var minionPool = [Minion]()
     var targetMinion = Minion()
     var bossPool = [Boss]()
     
     var enemyHPBorder = SKSpriteNode()
     var enemyHPBar = SKSpriteNode(color: .red, size: CGSize(width: 200, height: 20))
-    
-    @IBOutlet weak var APLabel: UILabel!
-
-    @IBOutlet weak var APTitleLabel: UILabel!
+    var playerHPBorder = SKSpriteNode()
+    var playerHPBar = SKSpriteNode(color: .red, size: CGSize(width: 200, height: 40))
+    var playerAPBorder = SKSpriteNode()
+    var playerAPBar = SKSpriteNode(color: .green, size: CGSize(width: 200, height: 20))
     
     @IBOutlet weak var turnIndicator: UILabel!
     
@@ -112,7 +112,6 @@ class ViewController: UIViewController
         ARCanvas.scene.rootNode.castsShadow = true
         
         turnIndicator.isHidden = true
-        APTitleLabel.isHidden = true
         
         setupOverlay()
         setupDungeonMusic()
@@ -128,22 +127,38 @@ class ViewController: UIViewController
     {
         super.viewWillAppear(animated)
     }
-    
+    // MARK: HUD Overlay
     func setupOverlay()
     {
         let hud = SKScene()
         hud.scaleMode = .resizeFill
-        
-        enemyHPBorder = SKSpriteNode()
+        //Enemy HP Bar & Borders
         let hpBorderImage = UIImage(named: "minionHPBorder")
         let hpBorderTexture = SKTexture(image: hpBorderImage!)
         enemyHPBorder = SKSpriteNode(texture: hpBorderTexture)
-        enemyHPBorder.position = CGPoint(x: 680, y: 200)
-        
-        enemyHPBar = SKSpriteNode(color: .red, size: CGSize(width: 200, height: 20))
+        enemyHPBorder.position = CGPoint(x: 680, y: 600)
         enemyHPBar.anchorPoint = CGPoint(x: 0.0, y: 0.5)
-        enemyHPBar.position = CGPoint(x: 580, y: 200)
+        enemyHPBar.position = CGPoint(x: 580, y: 600)
+        // Player HP Bar & Borders
+        let playerHpBorderImage = UIImage(named: "playerHPBorder")
+        let playerHpBorderTexture = SKTexture(image: playerHpBorderImage!)
+        playerHPBorder = SKSpriteNode(texture: playerHpBorderTexture)
+        playerHPBorder.position = CGPoint(x: 680, y: 200)
+        playerHPBar.anchorPoint = CGPoint(x: 0.0, y: 0.5)
+        playerHPBar.position = CGPoint(x: 580, y: 200)
         
+        let playerApBorderImage = UIImage(named: "playerAPBorder")
+        let playerApBorderTexture = SKTexture(image: playerApBorderImage!)
+        playerAPBorder = SKSpriteNode(texture: playerApBorderTexture)
+        playerAPBorder.position = CGPoint(x: 680, y: 150)
+        playerAPBar.anchorPoint = CGPoint(x: 0.0, y: 0.5)
+        playerAPBar.position = CGPoint(x: 580, y: 150)
+        
+        
+        hud.addChild(playerAPBar)
+        hud.addChild(playerAPBorder)
+        hud.addChild(playerHPBar)
+        hud.addChild(playerHPBorder)
         hud.addChild(enemyHPBar)
         hud.addChild(enemyHPBorder)
         ARCanvas.overlaySKScene = hud
@@ -162,12 +177,25 @@ class ViewController: UIViewController
     
     
     // MARK: Action Points & Game State Change
+    func maxAP(){
+        let action = SKAction.resize(toWidth: CGFloat(200), duration: 0.25)
+        playerAPBar.run(action)
+    }
+    
     func updateAP()
     {
-        APTitleLabel.isHidden = false
-        APTitleLabel.textColor = UIColor.white
-        APTitleLabel.shadowColor = UIColor.black
-        APLabel.text = player.getAPCount()
+        var action = SKAction()
+        let newBarWidth = playerAPBar.size.width - player.useAP()
+        
+        if newBarWidth <= 0
+        {
+            action = SKAction.resize(toWidth: 0.0, duration: 0.25)
+        }
+        else
+        {
+            action = SKAction.resize(toWidth: CGFloat(newBarWidth), duration: 0.25)
+        }
+        playerAPBar.run(action)
         
         if player.apCount == 0
         {
@@ -199,21 +227,17 @@ class ViewController: UIViewController
         if currentGameState == "playerTurn"
         {
             currentGameState = GameState.enemyTurn.state()
-            APTitleLabel.isHidden = true
-            APLabel.isHidden = true
             updateIndicator()
-            
+            enemyAction()
             enemyHPBorder.isHidden = true
             enemyHPBar.isHidden = true
         }
         else if currentGameState == "enemyTurn"
         {
             currentGameState = GameState.playerTurn.state()
-            player.apCount = 5
-            APTitleLabel.isHidden = false
-            APLabel.isHidden = false
+            player.setAP(val: 5)
             updateIndicator()
-            updateAP()
+            maxAP()
             
             
             //re-display hp bars after enemy turn
@@ -230,6 +254,60 @@ class ViewController: UIViewController
         
         
     }
+    // MARK: Enemy Turn Logics
+    func enemyAction(){
+        if enemyInRange(row: currentPlayerLocation.0, col: currentPlayerLocation.1) == true{
+            if isFacingPlayer() == false && backToPlayer(){
+               targetMinion.turn180(direction: targetMinion.currentMinionDirection)
+            }else{
+                
+            }
+        }
+        var action = SKAction()
+        let newBarWidth = playerHPBar.size.width - targetMinion.attackPlayer(target: player)
+        //if enemy is dead
+        if newBarWidth <= 0
+        {
+            action = SKAction.resize(toWidth: 0.0, duration: 0.25)
+        }
+        else
+        {
+            action = SKAction.resize(toWidth: CGFloat(newBarWidth), duration: 0.25)
+        }
+        targetMinion.playAnimation(ARCanvas, key: "attack")
+        player.playAnimation(ARCanvas, key: "impact")
+        playerHPBar.run(action)
+        stateChange()
+    }
+    // check if the enemy's back is facing the player
+    func backToPlayer() -> Bool{
+        var flag = false
+        if player.currentPlayerDirection == "up" && targetMinion.currentMinionDirection == "up"{
+            flag = true
+        }else if player.currentPlayerDirection == "down" && targetMinion.currentMinionDirection == "down"{
+            flag = true
+        }else if player.currentPlayerDirection == "left" && targetMinion.currentMinionDirection == "left"{
+            flag = true
+        }else if player.currentPlayerDirection == "right" && targetMinion.currentMinionDirection == "right"{
+            flag = true
+        }
+        return flag
+    }
+    // check is player and enemy is facing each other
+    func isFacingPlayer() -> Bool{
+        var flag = false
+        if player.currentPlayerDirection == "up" && targetMinion.currentMinionDirection == "down"{
+            flag = true
+        }else if player.currentPlayerDirection == "down" && targetMinion.currentMinionDirection == "up"{
+            flag = true
+        }else if player.currentPlayerDirection == "left" && targetMinion.currentMinionDirection == "right"{
+            flag = true
+        }else if player.currentPlayerDirection == "right" && targetMinion.currentMinionDirection == "left"{
+            flag = true
+        }
+        return flag
+    }
+    
     // MARK: Add maze on tap
     @objc func addMazeToSceneView(withGestureRecognizer recognizer: UIGestureRecognizer)
     {
@@ -258,7 +336,6 @@ class ViewController: UIViewController
             //flip flag to true so you cannot spawn multiple mazes
             mazePlaced = true
             updateIndicator()
-            updateAP()
             //disable plane detection by resetting configurations
             config.planeDetection = []
             self.ARCanvas.session.run(config)
@@ -424,7 +501,6 @@ class ViewController: UIViewController
             sender.preventRepeatedPresses()
             player.playAnimation(ARCanvas, key: "walk")
             player.getPlayerNode().runAction(player.moveForward(direction: player.currentPlayerDirection))
-            player.apCount -= 1
             updateAP()
         }
         
@@ -451,7 +527,6 @@ class ViewController: UIViewController
             sender.preventRepeatedPresses()
             player.playAnimation(ARCanvas, key: "walkBack")
             player.getPlayerNode().runAction(player.moveBackward(direction: player.currentPlayerDirection))
-            player.apCount -= 1
             updateAP()
         }
         
@@ -487,7 +562,6 @@ class ViewController: UIViewController
             {
                 targetMinion.playAnimation(ARCanvas, key: "impact")
                 //consumes ap per attack
-                player.apCount -= 1
                 updateAP()
                 var action = SKAction()
                 let newBarWidth = enemyHPBar.size.width - player.attackEnemy(target: targetMinion)

@@ -50,9 +50,23 @@ class Enemy
     }
     
     // MARK: Combat Functions
-    func attackPlayer(target: Player){
+    func attackPlayer(target: Player) -> CGFloat
+    {
+        let targetCurrentHP = target.getHP()
         let dmg = Int.random(in: minAtkVal ... maxAtkVal)
-        target.setHP(val: target.getHP()-dmg)
+        let newHP = targetCurrentHP-dmg
+        
+        if newHP < 0
+        {
+            target.setHP(val: 0)
+        }
+        else
+        {
+            target.setHP(val: newHP)
+        }
+        
+        let convertToHPBar = CGFloat(dmg) * target.convertHPBar()
+        return convertToHPBar
     }
     
     func isDead() -> Bool{
