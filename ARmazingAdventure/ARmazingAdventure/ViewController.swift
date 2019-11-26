@@ -78,7 +78,8 @@ class ViewController: UIViewController
             return self.rawValue
         }
     }
-    
+    var minionPool = [String: Minion]()
+    var targetMinion = Minion()
     //creates a new random maze stage that is tracked in a 2d array
     var maze = Maze().newStage()
     //the dimensions of the maze
@@ -657,6 +658,7 @@ class ViewController: UIViewController
                     let minion = Minion()
 					minionLocation = Position(xCoord: x, yCoord: y-WIDTH, zCoord: z, cRad: c)
                     minion.loadMinionAnimations(ARCanvas, minionLocation)
+                    minionPool[String(i) + " " + String(j)] = minion
                 }
                 //increment each block so it lines up horizontally
                 x += WIDTH

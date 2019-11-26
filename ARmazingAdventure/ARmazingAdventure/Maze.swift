@@ -70,7 +70,8 @@ class Maze
         setFinishPoint()
         setPlayer()
         setBoss()
-        setMinions()
+        //setMinions()
+        setTestMinions()
         return maze
     }
 
@@ -99,6 +100,17 @@ class Maze
                 count += 1
             }
         }
+    }
+    
+    func setTestMinions()
+    {
+        maze[4][2] = MINION
+        maze[2][4] = MINION
+        
+        maze[2][2] = FLOOR
+        maze[3][2] = FLOOR
+        maze[2][3] = FLOOR
+        
     }
 	
 	//set boss spawn location
