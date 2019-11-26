@@ -369,6 +369,11 @@ class ViewController: UIViewController
             player.apCount -= 1
             updateAP()
         }
+        
+        if enemyInRange(row: Maze().getRow(maze: maze), col: Maze().getCol(maze: maze))
+        {
+            spawnTest(position: location, rrr: adjacentEnemyLocation.0, ccc: adjacentEnemyLocation.1)
+        }
     }
     //down button logic
     @objc func downButtonClicked(sender : UIButton)
@@ -472,7 +477,7 @@ class ViewController: UIViewController
             //setupFog()
         }
         
-        else if maze[playerRow][playerCol] != 1
+        else if maze[playerRow][playerCol] != 1 && maze[playerRow][playerCol] != 4
         {
             maze[playerRow][playerCol] = 2
             canMove = true
@@ -655,8 +660,98 @@ class ViewController: UIViewController
                 }
 				else if flag == 4
                 {
+                    //let minion = Minion()
+					//minionLocation = Position(xCoord: x, yCoord: y-WIDTH, zCoord: z, cRad: c)
+                    //minion.loadMinionAnimations(ARCanvas, minionLocation)
+                    //minionPool[String(i) + " " + String(j)] = minion
+                }
+                //increment each block so it lines up horizontally
+                x += WIDTH
+            }
+            //line up blocks on a new row
+            x -= WIDTH * Double(NUMCOL)
+            z += LENGTH
+        }
+    }
+    
+    var adjacentEnemyLocation = (9999,9999)
+    
+    func enemyInRange(row: Int, col: Int) -> Bool
+    {
+        var minionInRange = false
+        //check south of player
+        if (row < NUMROW-1)
+        {
+            if maze[row+1][col] == 4
+            {
+                adjacentEnemyLocation = (row+1, col)
+                minionInRange = true
+            }
+        }
+        //check east of player
+        if (col < NUMCOL-1)
+        {
+            if maze[row][col+1] == 4
+            {
+                adjacentEnemyLocation = (row, col+1)
+                minionInRange = true
+            }
+        }
+        //check west of player
+        if (row > 0)
+        {
+            if maze[row-1][col] == 4
+            {
+                adjacentEnemyLocation = (row-1, col)
+                minionInRange = true
+            }
+        }
+        //check north of player
+        if (col > 0)
+        {
+            if maze[row][col-1] == 4
+            {
+                adjacentEnemyLocation = (row, col-1)
+                minionInRange = true
+            }
+        }
+        return minionInRange
+    }
+    
+    func spawnTest(position: Position, rrr: Int, ccc: Int)
+    {
+        //dimensions of a box
+        let WIDTH = 0.04
+        let HEIGHT = 0.08
+        let LENGTH = 0.04
+        //init dimensions
+        let dimensions = Size(width: WIDTH, height: HEIGHT, length: LENGTH)
+        
+        let FLOORHEIGHT = 0.01
+        let floorDimensions = Size(width: WIDTH, height: FLOORHEIGHT, length: LENGTH)
+        //position of first box
+        var x = position.xCoord - WIDTH * Double(NUMCOL) / 2.0
+        var y = position.yCoord + 0.06
+        var z = position.zCoord - LENGTH * Double(NUMROW) / 2.0
+        let c = 0.0
+        //init position
+        var location = Position(xCoord: x, yCoord: y, zCoord: z, cRad: c)
+
+        var minionLocation = Position(xCoord: x, yCoord: y, zCoord: z, cRad: c)
+        let NUMROW = Maze().getHeight()
+        let NUMCOL = Maze().getWidth()
+        
+        for i in 0 ..< NUMROW
+        {
+            for j in 0 ..< NUMCOL
+            {
+                let row = maze[i]
+                let flag = row[j]
+                
+                if flag == 4 && i == rrr && j == ccc
+                {
                     let minion = Minion()
-					minionLocation = Position(xCoord: x, yCoord: y-WIDTH, zCoord: z, cRad: c)
+                    minionLocation = Position(xCoord: x, yCoord: y-WIDTH, zCoord: z, cRad: c)
                     minion.loadMinionAnimations(ARCanvas, minionLocation)
                     minionPool[String(i) + " " + String(j)] = minion
                 }
@@ -667,5 +762,6 @@ class ViewController: UIViewController
             x -= WIDTH * Double(NUMCOL)
             z += LENGTH
         }
+        
     }
 }
