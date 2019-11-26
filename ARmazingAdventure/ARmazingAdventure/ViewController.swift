@@ -242,7 +242,10 @@ class ViewController: UIViewController
             currentGameState = GameState.enemyTurn.state()
             updateIndicator()
             enemyAction()
-            toggleEnemyLabels(mode: "Off")
+            //toggleEnemyLabels(mode: "Off")
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+                // your code here
+            }
         }
         else if currentGameState == "enemyTurn"
         {
@@ -250,23 +253,24 @@ class ViewController: UIViewController
             player.setAP(val: 5)
             updateIndicator()
             maxAP()
+            //toggleEnemyLabels(mode: "On")
             
-            
-            //re-display hp bars after enemy turn
-            if enemyInRange(row: currentPlayerLocation.0, col: currentPlayerLocation.1) == true
-            {
-                //get the instance of the minion that is near the player
-                targetMinion = findMinionByLocation(location: (row: currentPlayerLocation.0, col: currentPlayerLocation.1))
-                //display hit points bar
-                updateEnemyHPBarLabel()
-                toggleEnemyLabels(mode: "On")
-            }
+//            //re-display hp bars after enemy turn
+//            if enemyInRange(row: currentPlayerLocation.0, col: currentPlayerLocation.1) == true
+//            {
+//                //get the instance of the minion that is near the player
+//                targetMinion = findMinionByLocation(location: (row: currentPlayerLocation.0, col: currentPlayerLocation.1))
+//                //display hit points bar
+//                updateEnemyHPBarLabel()
+//                toggleEnemyLabels(mode: "On")
+//            }
         }
     }
     // MARK: Enemy Turn Logics
     func enemyAction()
     {
-        if enemyInRange(row: currentPlayerLocation.0, col: currentPlayerLocation.1) == true{
+        if enemyInRange(row: currentPlayerLocation.0, col: currentPlayerLocation.1) == true
+        {
             if isFacingPlayer() == false && backToPlayer()
             {
                targetMinion.turn180(direction: targetMinion.currentMinionDirection)
@@ -290,7 +294,6 @@ class ViewController: UIViewController
             player.playAnimation(ARCanvas, key: "impact")
             playerHPBar.run(action)
         }
-        
         stateChange()
     }
     // check if the enemy's back is facing the player
