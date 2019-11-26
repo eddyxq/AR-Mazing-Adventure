@@ -115,8 +115,8 @@ class ViewController: UIViewController
         
         setupOverlay()
         setupDungeonMusic()
-        setupARLight()
-        setupFog()
+        //setupARLight()
+        //setupFog()
         //enables user to tap detected plane for maze placement
         addTapGestureToSceneView()
         //adds arrow pad to screen
@@ -136,24 +136,23 @@ class ViewController: UIViewController
         let hpBorderImage = UIImage(named: "minionHPBorder")
         let hpBorderTexture = SKTexture(image: hpBorderImage!)
         enemyHPBorder = SKSpriteNode(texture: hpBorderTexture)
-        enemyHPBorder.position = CGPoint(x: 680, y: 600)
+        enemyHPBorder.position = CGPoint(x: 900, y: 200)
         enemyHPBar.anchorPoint = CGPoint(x: 0.0, y: 0.5)
-        enemyHPBar.position = CGPoint(x: 580, y: 600)
+        enemyHPBar.position = CGPoint(x: 800, y: 200)
         // Player HP Bar & Borders
         let playerHpBorderImage = UIImage(named: "playerHPBorder")
         let playerHpBorderTexture = SKTexture(image: playerHpBorderImage!)
         playerHPBorder = SKSpriteNode(texture: playerHpBorderTexture)
-        playerHPBorder.position = CGPoint(x: 680, y: 200)
+        playerHPBorder.position = CGPoint(x: 480, y: 125)
         playerHPBar.anchorPoint = CGPoint(x: 0.0, y: 0.5)
-        playerHPBar.position = CGPoint(x: 580, y: 200)
+        playerHPBar.position = CGPoint(x: 380, y: 125)
         
         let playerApBorderImage = UIImage(named: "playerAPBorder")
         let playerApBorderTexture = SKTexture(image: playerApBorderImage!)
         playerAPBorder = SKSpriteNode(texture: playerApBorderTexture)
-        playerAPBorder.position = CGPoint(x: 680, y: 150)
+        playerAPBorder.position = CGPoint(x: 480, y: 75)
         playerAPBar.anchorPoint = CGPoint(x: 0.0, y: 0.5)
-        playerAPBar.position = CGPoint(x: 580, y: 150)
-        
+        playerAPBar.position = CGPoint(x: 380, y: 75)
         
         hud.addChild(playerAPBar)
         hud.addChild(playerAPBorder)
@@ -163,9 +162,7 @@ class ViewController: UIViewController
         hud.addChild(enemyHPBorder)
         ARCanvas.overlaySKScene = hud
         
-        enemyHPBarLabel.isHidden = true
-        enemyHPBar.isHidden = true
-        enemyHPBorder.isHidden = true
+        toggleEnemyLabels(mode: "Off")
     }
     
     func updateEnemyHPBarLabel()
@@ -175,9 +172,25 @@ class ViewController: UIViewController
         enemyHPBarLabel.text = "\(targetMinion.getName()) HP: \(targetMinion.getHP()) \\ \(targetMinion.getMaxHP())"
     }
     
+    func toggleEnemyLabels(mode: String)
+    {
+        if mode == "On"
+        {
+            enemyHPBarLabel.isHidden = false
+            enemyHPBar.isHidden = false
+            enemyHPBorder.isHidden = false
+        }
+        else
+        {
+            enemyHPBarLabel.isHidden = true
+            enemyHPBar.isHidden = true
+            enemyHPBorder.isHidden = true
+        }
+    }
     
     // MARK: Action Points & Game State Change
-    func maxAP(){
+    func maxAP()
+    {
         let action = SKAction.resize(toWidth: CGFloat(200), duration: 0.25)
         playerAPBar.run(action)
     }
@@ -229,8 +242,7 @@ class ViewController: UIViewController
             currentGameState = GameState.enemyTurn.state()
             updateIndicator()
             enemyAction()
-            enemyHPBorder.isHidden = true
-            enemyHPBar.isHidden = true
+            toggleEnemyLabels(mode: "Off")
         }
         else if currentGameState == "enemyTurn"
         {
@@ -247,19 +259,20 @@ class ViewController: UIViewController
                 targetMinion = findMinionByLocation(location: (row: currentPlayerLocation.0, col: currentPlayerLocation.1))
                 //display hit points bar
                 updateEnemyHPBarLabel()
-                enemyHPBorder.isHidden = false
-                enemyHPBar.isHidden = false
+                toggleEnemyLabels(mode: "On")
             }
         }
-        
-        
     }
     // MARK: Enemy Turn Logics
-    func enemyAction(){
+    func enemyAction()
+    {
         if enemyInRange(row: currentPlayerLocation.0, col: currentPlayerLocation.1) == true{
-            if isFacingPlayer() == false && backToPlayer(){
+            if isFacingPlayer() == false && backToPlayer()
+            {
                targetMinion.turn180(direction: targetMinion.currentMinionDirection)
-            }else{
+            }
+            else
+            {
                 
             }
             var action = SKAction()
@@ -511,13 +524,11 @@ class ViewController: UIViewController
             //get the instance of the minion that is near the player
             targetMinion = findMinionByLocation(location: (row: currentPlayerLocation.0, col: currentPlayerLocation.1))
             //display hit points bar
-            enemyHPBorder.isHidden = false
-            enemyHPBar.isHidden = false
+            toggleEnemyLabels(mode: "On")
         }
         else
         {
-            enemyHPBorder.isHidden = true
-            enemyHPBar.isHidden = true
+            toggleEnemyLabels(mode: "Off")
         }
     }
     //down button logic
@@ -534,16 +545,14 @@ class ViewController: UIViewController
        //check if minion is nearby
        if enemyInRange(row: currentPlayerLocation.0, col: currentPlayerLocation.1) == true
        {
-           //get the instance of the minion that is near the player
-           targetMinion = findMinionByLocation(location: (row: currentPlayerLocation.0, col: currentPlayerLocation.1))
-           //display hit points bar
-           enemyHPBorder.isHidden = false
-           enemyHPBar.isHidden = false
+            //get the instance of the minion that is near the player
+            targetMinion = findMinionByLocation(location: (row: currentPlayerLocation.0, col: currentPlayerLocation.1))
+            //display hit points bar
+            toggleEnemyLabels(mode: "On")
        }
        else
        {
-           enemyHPBorder.isHidden = true
-           enemyHPBar.isHidden = true
+            toggleEnemyLabels(mode: "Off")
        }
     }
     // MARK: Attack Buttons
@@ -577,8 +586,7 @@ class ViewController: UIViewController
                     
                     updateEnemyHPBarLabel()
                     //hide hp bars
-                    enemyHPBorder.isHidden = true
-                    enemyHPBar.isHidden = true
+                    toggleEnemyLabels(mode: "Off")
                 }
                 else
                 {
