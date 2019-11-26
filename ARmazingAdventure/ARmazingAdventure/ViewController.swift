@@ -556,62 +556,43 @@ class ViewController: UIViewController
     //light attack button logic
     @objc func lightAttackButtonClicked(sender : UIButton)
     {
-        if mazePlaced == true && currentGameState == "playerTurn"
-        {
-            sender.preventRepeatedPresses()
-            //play animation
-            player.playAnimation(ARCanvas, key: "lightAttack")
-            let audio = SCNAudioSource(named: "art.scnassets/audios/lightAttack.wav")
-            let audioAction = SCNAction.playAudio(audio!, waitForCompletion: true)
-            player.getPlayerNode().runAction(audioAction)
-            
-            if enemyInRange(row: currentPlayerLocation.0, col: currentPlayerLocation.1)
-            {
-                //logic for when player swings at a enemy
-                if  player.apCount > 0
-                {
-                    targetMinion.playAnimation(ARCanvas, key: "impact")
-                    //consumes ap per attack
-                    updateAP()
-                    var action = SKAction()
-                    let newBarWidth = enemyHPBar.size.width - player.attackEnemy(target: targetMinion)
-                    //if enemy is dead
-                    if newBarWidth <= 0
-                    {
-                        action = SKAction.resize(toWidth: 0.0, duration: 0.25)
-                        //remove enemy model from scene
-                        targetMinion.getMinionNode().removeFromParentNode()
-                        //remove enemy data from maze
-                        maze[adjacentEnemyLocation.0][adjacentEnemyLocation.1] = 0
-                        
-                        updateEnemyHPBarLabel()
-                        //hide hp bars
-                        toggleEnemyLabels(mode: "Off")
-                    }
-                    else
-                    {
-                        action = SKAction.resize(toWidth: CGFloat(newBarWidth), duration: 0.25)
-                    }
-                    updateEnemyHPBarLabel()
-                    enemyHPBar.run(action)
-                }
-            }
-        }
+        sender.preventRepeatedPresses()
+        attack(type: "light")
     }
     
     //heavy attack button logic
     @objc func heavyAttackButtonClicked(sender : UIButton)
     {
-        if mazePlaced == true && currentGameState == "playerTurn"
+        sender.preventRepeatedPresses()
+        attack(type: "heavy")
+    }
+    //end turn button logic
+    @objc func endTurnButtonClicked(sender : UIButton)
+    {
+        if (mazePlaced)
         {
-            sender.preventRepeatedPresses()
+           stateChange()
+        }
+    }
+    
+    func attack(type: String)
+    {
+        if type == "light"
+        {
+            //play animation
+            player.playAnimation(ARCanvas, key: "lightAttack")
+            let audio = SCNAudioSource(named: "art.scnassets/audios/lightAttack.wav")
+            let audioAction = SCNAction.playAudio(audio!, waitForCompletion: true)
+            player.getPlayerNode().runAction(audioAction)
+        }
+        else if type == "heavy"
+        {
             //play animation
             player.playAnimation(ARCanvas, key: "heavyAttack")
             let audio = SCNAudioSource(named: "art.scnassets/audios/heavyAttack.wav")
             let audioAction = SCNAction.playAudio(audio!, waitForCompletion: true)
             player.getPlayerNode().runAction(audioAction)
         }
-        
         if enemyInRange(row: currentPlayerLocation.0, col: currentPlayerLocation.1)
         {
             //logic for when player swings at a enemy
@@ -642,14 +623,6 @@ class ViewController: UIViewController
                 updateEnemyHPBarLabel()
                 enemyHPBar.run(action)
             }
-        }
-    }
-    //end turn button logic
-    @objc func endTurnButtonClicked(sender : UIButton)
-    {
-        if (mazePlaced)
-        {
-           stateChange()
         }
     }
     // MARK: Player Movement
