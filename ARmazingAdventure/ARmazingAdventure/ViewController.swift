@@ -37,7 +37,6 @@ class ViewController: UIViewController
         var cRad = 0.0
     }
     
-    
     @IBOutlet var arView: ARView!
     @IBOutlet var ARCanvas: ARSCNView!
     
@@ -236,35 +235,18 @@ class ViewController: UIViewController
     // changes the game state
     func stateChange()
     {
-        
         if currentGameState == "playerTurn"
         {
             currentGameState = GameState.enemyTurn.state()
-            updateIndicator()
             enemyAction()
-            //toggleEnemyLabels(mode: "Off")
-            DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
-                // your code here
-            }
         }
         else if currentGameState == "enemyTurn"
         {
             currentGameState = GameState.playerTurn.state()
             player.setAP(val: 5)
-            updateIndicator()
             maxAP()
-            //toggleEnemyLabels(mode: "On")
-            
-//            //re-display hp bars after enemy turn
-//            if enemyInRange(row: currentPlayerLocation.0, col: currentPlayerLocation.1) == true
-//            {
-//                //get the instance of the minion that is near the player
-//                targetMinion = findMinionByLocation(location: (row: currentPlayerLocation.0, col: currentPlayerLocation.1))
-//                //display hit points bar
-//                updateEnemyHPBarLabel()
-//                toggleEnemyLabels(mode: "On")
-//            }
         }
+        updateIndicator()
     }
     // MARK: Enemy Turn Logics
     func enemyAction()
@@ -297,29 +279,45 @@ class ViewController: UIViewController
         stateChange()
     }
     // check if the enemy's back is facing the player
-    func backToPlayer() -> Bool{
+    func backToPlayer() -> Bool
+    {
         var flag = false
-        if player.currentPlayerDirection == "up" && targetMinion.currentMinionDirection == "up"{
+        if player.currentPlayerDirection == "up" && targetMinion.currentMinionDirection == "up"
+        {
             flag = true
-        }else if player.currentPlayerDirection == "down" && targetMinion.currentMinionDirection == "down"{
+        }
+        else if player.currentPlayerDirection == "down" && targetMinion.currentMinionDirection == "down"
+        {
             flag = true
-        }else if player.currentPlayerDirection == "left" && targetMinion.currentMinionDirection == "left"{
+        }
+        else if player.currentPlayerDirection == "left" && targetMinion.currentMinionDirection == "left"
+        {
             flag = true
-        }else if player.currentPlayerDirection == "right" && targetMinion.currentMinionDirection == "right"{
+        }
+        else if player.currentPlayerDirection == "right" && targetMinion.currentMinionDirection == "right"
+        {
             flag = true
         }
         return flag
     }
     // check is player and enemy is facing each other
-    func isFacingPlayer() -> Bool{
+    func isFacingPlayer() -> Bool
+    {
         var flag = false
-        if player.currentPlayerDirection == "up" && targetMinion.currentMinionDirection == "down"{
+        if player.currentPlayerDirection == "up" && targetMinion.currentMinionDirection == "down"
+        {
             flag = true
-        }else if player.currentPlayerDirection == "down" && targetMinion.currentMinionDirection == "up"{
+        }
+        else if player.currentPlayerDirection == "down" && targetMinion.currentMinionDirection == "up"
+        {
             flag = true
-        }else if player.currentPlayerDirection == "left" && targetMinion.currentMinionDirection == "right"{
+        }
+        else if player.currentPlayerDirection == "left" && targetMinion.currentMinionDirection == "right"
+        {
             flag = true
-        }else if player.currentPlayerDirection == "right" && targetMinion.currentMinionDirection == "left"{
+        }
+        else if player.currentPlayerDirection == "right" && targetMinion.currentMinionDirection == "left"
+        {
             flag = true
         }
         return flag
@@ -436,7 +434,6 @@ class ViewController: UIViewController
         self.view.addSubview(endTurnButton)
         
         //constraints
-               
         for button in [rightButton, upButton, downButton, leftButton, rightButton, heavyAttackButton, lightAttackButton]
         {
             button.translatesAutoresizingMaskIntoConstraints = false
@@ -466,8 +463,6 @@ class ViewController: UIViewController
         endTurnButton.widthAnchor.constraint(equalToConstant: 75).isActive = true
         endTurnButton.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor, constant: -24).isActive = true
         endTurnButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: -64).isActive = true
-
-        
     }
     // MARK: Arrow Button Logics
     func canMove(direction: String) -> Bool
@@ -481,7 +476,6 @@ class ViewController: UIViewController
             && currentGameState == "playerTurn"
             //checks for obstacles and collisions
             && move(direction: direction) ? true : false)
-            
     }
     
     //right button logic
@@ -562,7 +556,7 @@ class ViewController: UIViewController
     //light attack button logic
     @objc func lightAttackButtonClicked(sender : UIButton)
     {
-        if mazePlaced == true && currentGameState == "playerTurn"
+        if mazePlaced == true && currentGameState == "playerTurn" && enemyInRange(row: currentPlayerLocation.0, col: currentPlayerLocation.1)
         {
             sender.preventRepeatedPresses()
             //play animation
@@ -598,8 +592,8 @@ class ViewController: UIViewController
                 updateEnemyHPBarLabel()
                 enemyHPBar.run(action)
                     
-                }
             }
+        }
     }
     
     //heavy attack button logic
