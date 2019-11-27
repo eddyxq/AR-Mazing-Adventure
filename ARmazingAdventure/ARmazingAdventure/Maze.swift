@@ -69,7 +69,7 @@ class Maze
         fillOuterWall()
         setFinishPoint()
         setPlayer()
-        setBoss()
+        //setBoss()
         //setMinions()
         setTestMinion()
         return maze
@@ -84,9 +84,10 @@ class Maze
     //set a minion near player for testing
     func setTestMinion()
     {
-        maze[4][2] = MINION
-        maze[3][2] = FLOOR
-        maze[2][2] = FLOOR
+        maze[13][12] = MINION
+        //maze[4][2] = MINION
+        //maze[3][2] = FLOOR
+        //maze[2][2] = FLOOR
         //maze[2][4] = MINION
     }
 

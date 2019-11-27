@@ -113,8 +113,8 @@ class ViewController: UIViewController
         
         setupOverlay()
         setupDungeonMusic()
-        //setupARLight()
-        //setupFog()
+        setupARLight()
+        setupFog()
         //enables user to tap detected plane for maze placement
         addTapGestureToSceneView()
         //adds arrow pad to screen
@@ -639,6 +639,10 @@ class ViewController: UIViewController
                 node.removeFromParentNode()
             }
             
+            //reload light and fog
+            setupARLight()
+            setupFog()
+            
             if stageLevel % 2 != 0
             {
                 //load a new stage and rotate maze 180 degrees so player
@@ -658,8 +662,6 @@ class ViewController: UIViewController
             stageLevel += 1
             //reload music and settings
             setupDungeonMusic()
-            //setupARLight()
-            //setupFog()
         }
         else if maze[playerRow][playerCol] != 1 && maze[playerRow][playerCol] != 4
         {
