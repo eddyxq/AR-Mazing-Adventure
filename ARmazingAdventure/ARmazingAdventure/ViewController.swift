@@ -514,12 +514,9 @@ class ViewController: UIViewController
             player.getPlayerNode().runAction(player.moveForward(direction: player.currentPlayerDirection))
             updateAP()
         }
-        
         //check if minion is nearby
         if enemyInRange(row: currentPlayerLocation.0, col: currentPlayerLocation.1) == true
         {
-            //get the instance of the minion that is near the player
-            targetMinion = findMinionByLocation(location: (row: currentPlayerLocation.0, col: currentPlayerLocation.1))
             //display hit points bar
             toggleEnemyLabels(mode: "On")
         }
@@ -542,8 +539,6 @@ class ViewController: UIViewController
        //check if minion is nearby
        if enemyInRange(row: currentPlayerLocation.0, col: currentPlayerLocation.1) == true
        {
-            //get the instance of the minion that is near the player
-            targetMinion = findMinionByLocation(location: (row: currentPlayerLocation.0, col: currentPlayerLocation.1))
             //display hit points bar
             toggleEnemyLabels(mode: "On")
        }
@@ -741,20 +736,7 @@ class ViewController: UIViewController
         return minionInRange
     }
     
-    
-    // MARK: Combat
-    func findMinionByLocation(location: (row: Int, col: Int)) -> Minion
-    {
-        for minion in minionPool
-        {
-            if minion.arrayLocation == location
-            {
-                return minion
-            }
-        }
-        //code shouldn't reach here, all minions should be in list
-        return minionPool[0]
-    }
+
     // MARK: Music
     //plays background music
     func setupDungeonMusic()
@@ -891,9 +873,7 @@ class ViewController: UIViewController
 				else if flag == 4
                 {
                     minionLocation = Position(xCoord: x, yCoord: y-WIDTH, zCoord: z, cRad: c)
-                    let minion = Minion()
-                    minion.setLocation(location: (row: i, col: j))
-                    minionPool.append(minion.spawnMinion(ARCanvas, minionLocation))
+                    targetMinion = Minion().spawnMinion(ARCanvas, minionLocation)
                 }
                 //increment each block so it lines up horizontally
                 x += WIDTH
