@@ -17,10 +17,7 @@ class Minion: Enemy
             return self.rawValue
         }
     }
-    
-    //location of the minion on the maze array
-    var arrayLocation = (0, 0)
-    
+
     let minionNode = SCNNode()
     var animations = [String: CAAnimation]()
     let enemyType = Enemy.EnemyTypes.minion.type()
@@ -160,10 +157,4 @@ class Minion: Enemy
     {
         return minionNode
     }
-    
-    func setLocation(location: (row: Int, col: Int))
-    {
-        arrayLocation = location
-    }
-    
 }

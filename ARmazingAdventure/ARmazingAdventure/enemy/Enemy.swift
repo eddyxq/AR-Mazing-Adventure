@@ -7,14 +7,13 @@ class Enemy
     var name: String
     var maxHP : Int
     var health: Int
-    
     var minAtkVal: Int
     var maxAtkVal: Int
-    
     var level: Int
     
     //enemy types
-    enum EnemyTypes: String {
+    enum EnemyTypes: String
+    {
         case minion
         case boss
         
@@ -24,29 +23,14 @@ class Enemy
         }
     }
 
-    init(name: String, maxHP: Int, health: Int, minAtkVal: Int, maxAtkVal: Int, level: Int) {
+    init(name: String, maxHP: Int, health: Int, minAtkVal: Int, maxAtkVal: Int, level: Int)
+    {
         self.maxHP = maxHP
         self.health = health
         self.minAtkVal = minAtkVal
         self.maxAtkVal = maxAtkVal
         self.level = level
         self.name = name
-    }
-    
-    func getName() -> String{
-        return name
-    }
-    
-    func getMaxHP() -> Int{
-        return maxHP
-    }
-    
-    func getHP() -> Int{
-        return health
-    }
-    
-    func setHP(val: Int){
-        health = val
     }
     
     // MARK: Combat Functions
@@ -69,15 +53,38 @@ class Enemy
         return convertToHPBar
     }
     
-    func isDead() -> Bool{
-        if health <= 0{
+    func isDead() -> Bool
+    {
+        if health <= 0
+        {
             return true
         }
         return false
     }
     
-    func convertHPBar() -> CGFloat{
+    // MARK: Getters and Setters
+    func convertHPBar() -> CGFloat
+    {
         return CGFloat(200 / maxHP)
     }
+    
+    func getName() -> String
+    {
+        return name
+    }
+    
+    func getMaxHP() -> Int
+    {
+        return maxHP
+    }
+    
+    func getHP() -> Int
+    {
+        return health
+    }
+    
+    func setHP(val: Int)
+    {
+        health = val
+    }
 }
-
