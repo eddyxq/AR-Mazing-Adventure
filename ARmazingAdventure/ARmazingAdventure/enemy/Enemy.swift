@@ -11,6 +11,20 @@ class Enemy
     var maxAtkVal: Int
     var level: Int
     
+    var location : (Int,Int)
+    
+    func getLocation() -> (Int,Int)
+    {
+        return location
+    }
+    
+    func setLocation(x: Int, y: Int)
+    {
+        location.0 = x
+        location.1 = y
+    }
+    
+    
     //enemy types
     enum EnemyTypes: String
     {
@@ -31,6 +45,7 @@ class Enemy
         self.maxAtkVal = maxAtkVal
         self.level = level
         self.name = name
+        self.location = (0,0)
     }
     
     // MARK: Combat Functions

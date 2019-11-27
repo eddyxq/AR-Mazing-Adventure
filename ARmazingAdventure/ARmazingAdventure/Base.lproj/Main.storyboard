@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="piv-Am-WE7">
-    <device id="retina6_1" orientation="landscape" appearance="light"/>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15504" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="piv-Am-WE7">
+    <device id="ipad12_9rounded" orientation="landscape" layout="fullscreen" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15510"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15508"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -12,14 +12,14 @@
             <objects>
                 <viewController id="piv-Am-WE7" customClass="MainMenuViewController" customModule="ARmazingAdventure" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="1wm-eR-ElM">
-                        <rect key="frame" x="0.0" y="0.0" width="896" height="414"/>
+                        <rect key="frame" x="0.0" y="0.0" width="1366" height="1024"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <arscnView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Nib-Mu-Aij">
-                                <rect key="frame" x="0.0" y="0.0" width="896" height="414"/>
+                                <rect key="frame" x="0.0" y="0.0" width="1366" height="1024"/>
                             </arscnView>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="2" translatesAutoresizingMaskIntoConstraints="NO" id="dAO-Ou-ldq">
-                                <rect key="frame" x="178" y="39.5" width="540" height="335"/>
+                                <rect key="frame" x="413" y="344.5" width="540" height="335"/>
                                 <subviews>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="title" translatesAutoresizingMaskIntoConstraints="NO" id="4Oc-Wk-JeY">
                                         <rect key="frame" x="0.0" y="0.0" width="540" height="176"/>
@@ -73,7 +73,7 @@
             <objects>
                 <viewController modalPresentationStyle="fullScreen" id="BYZ-38-t0r" userLabel="ARView" customClass="ViewController" customModule="ARmazingAdventure" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Y6D-8r-5nc">
-                        <rect key="frame" x="0.0" y="0.0" width="896" height="414"/>
+                        <rect key="frame" x="0.0" y="0.0" width="1366" height="1024"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Enemy Turn!" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1s8-u1-MEj">
@@ -91,8 +91,15 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <arscnView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qRL-3N-FWy">
-                                <rect key="frame" x="0.0" y="0.0" width="896" height="414"/>
+                                <rect key="frame" x="0.0" y="0.0" width="1366" height="1024"/>
                             </arscnView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="EnemyCoord: x, y" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GSk-pO-tgQ">
+                                <rect key="frame" x="408" y="204" width="590" height="43"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="36"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
@@ -112,6 +119,7 @@
                     <navigationItem key="navigationItem" id="2hM-Pl-VQO"/>
                     <connections>
                         <outlet property="ARCanvas" destination="qRL-3N-FWy" id="RKZ-3D-Sch"/>
+                        <outlet property="enemyCoordLabel" destination="GSk-pO-tgQ" id="udC-b3-cwZ"/>
                         <outlet property="enemyHPBarLabel" destination="0Yh-3B-9Km" id="CQp-Yt-pPb"/>
                         <outlet property="turnIndicator" destination="1s8-u1-MEj" id="3cU-Gw-McY"/>
                     </connections>

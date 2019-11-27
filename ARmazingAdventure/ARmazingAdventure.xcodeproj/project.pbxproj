@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4E54FF86238F367100E17BE7 /* MinionNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E54FF85238F367100E17BE7 /* MinionNode.swift */; };
 		4E810A2A23714FDB009D87D6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4E810A2923714FDB009D87D6 /* Assets.xcassets */; };
 		4E9887BD237B632B002A4F45 /* Maze.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E9887BA237B632B002A4F45 /* Maze.swift */; };
 		4E9887BE237B632B002A4F45 /* ARSCNViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E9887BB237B632B002A4F45 /* ARSCNViewDelegate.swift */; };
@@ -44,6 +45,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		4E54FF85238F367100E17BE7 /* MinionNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MinionNode.swift; sourceTree = "<group>"; };
 		4E810A2923714FDB009D87D6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		4E9887BA237B632B002A4F45 /* Maze.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Maze.swift; sourceTree = "<group>"; };
 		4E9887BB237B632B002A4F45 /* ARSCNViewDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ARSCNViewDelegate.swift; sourceTree = "<group>"; };
@@ -107,6 +109,7 @@
 			children = (
 				4E9887C4237B6E2B002A4F45 /* Enemy.swift */,
 				4E9887C6237B7103002A4F45 /* Minion.swift */,
+				4E54FF85238F367100E17BE7 /* MinionNode.swift */,
 				4E9887C8237B710C002A4F45 /* Boss.swift */,
 			);
 			path = enemy;
@@ -306,6 +309,7 @@
 				4E9887C7237B7103002A4F45 /* Minion.swift in Sources */,
 				4E9887BF237B632B002A4F45 /* HelperFunctions.swift in Sources */,
 				4EAEE621235E5EAC0041EBDF /* MainMenuViewController.swift in Sources */,
+				4E54FF86238F367100E17BE7 /* MinionNode.swift in Sources */,
 				4E9887BE237B632B002A4F45 /* ARSCNViewDelegate.swift in Sources */,
 				DB6B7170235D1F94003276B2 /* ViewController.swift in Sources */,
 				4E9887C5237B6E2B002A4F45 /* Enemy.swift in Sources */,

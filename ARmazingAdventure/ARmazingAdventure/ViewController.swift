@@ -49,8 +49,8 @@ class ViewController: UIViewController
     var currentGameState = GameState.playerTurn.state()
     
     let player = Player(name: "noobMaster69", maxHP: 10, health: 10, minAtkVal: 1, maxAtkVal: 3, level: 1)
-    var minionPool = [Minion]()
-    var targetMinion = Minion()
+    var minionPool = [Enemy]()
+    var targetMinion = Enemy(name: "Zombie", maxHP: 10, health: 10, minAtkVal: 1, maxAtkVal: 1, level: 1)
     var bossPool = [Boss]()
     
     var enemyHPBorder = SKSpriteNode()
@@ -63,6 +63,7 @@ class ViewController: UIViewController
     @IBOutlet weak var turnIndicator: UILabel!
     @IBOutlet weak var enemyHPBarLabel: UILabel!
     
+    @IBOutlet weak var enemyCoordLabel: UILabel!
     //count of number of maze stages completed
     var stageLevel = 1
     
@@ -113,8 +114,8 @@ class ViewController: UIViewController
         
         setupOverlay()
         setupDungeonMusic()
-        setupARLight()
-        setupFog()
+        //setupARLight()
+        //setupFog()
         //enables user to tap detected plane for maze placement
         addTapGestureToSceneView()
         //adds arrow pad to screen
@@ -257,14 +258,14 @@ class ViewController: UIViewController
     {
         if enemyInRange(row: currentPlayerLocation.0, col: currentPlayerLocation.1) == true
         {
-            if isFacingPlayer() == false && backToPlayer()
-            {
-               targetMinion.turn180(direction: targetMinion.currentMinionDirection)
-            }
-            else
-            {
-                
-            }
+//            if isFacingPlayer() == false && backToPlayer()
+//            {
+//               targetMinion.turn180(direction: targetMinion.currentMinionDirection)
+//            }
+//            else
+//            {
+//
+//            }
             var action = SKAction()
             let newBarWidth = playerHPBar.size.width - targetMinion.attackPlayer(target: player)
             //if enemy is dead
@@ -276,56 +277,56 @@ class ViewController: UIViewController
             {
                 action = SKAction.resize(toWidth: CGFloat(newBarWidth), duration: 0.25)
             }
-            targetMinion.playAnimation(ARCanvas, key: "attack")
+//            targetMinion.playAnimation(ARCanvas, key: "attack")
             player.playAnimation(ARCanvas, key: "impact")
             playerHPBar.run(action)
         }
         stateChange()
     }
     // check if the enemy's back is facing the player
-    func backToPlayer() -> Bool
-    {
-        var flag = false
-        if player.currentPlayerDirection == "up" && targetMinion.currentMinionDirection == "up"
-        {
-            flag = true
-        }
-        else if player.currentPlayerDirection == "down" && targetMinion.currentMinionDirection == "down"
-        {
-            flag = true
-        }
-        else if player.currentPlayerDirection == "left" && targetMinion.currentMinionDirection == "left"
-        {
-            flag = true
-        }
-        else if player.currentPlayerDirection == "right" && targetMinion.currentMinionDirection == "right"
-        {
-            flag = true
-        }
-        return flag
-    }
+//    func backToPlayer() -> Bool
+//    {
+//        var flag = false
+//        if player.currentPlayerDirection == "up" && targetMinion.currentMinionDirection == "up"
+//        {
+//            flag = true
+//        }
+//        else if player.currentPlayerDirection == "down" && targetMinion.currentMinionDirection == "down"
+//        {
+//            flag = true
+//        }
+//        else if player.currentPlayerDirection == "left" && targetMinion.currentMinionDirection == "left"
+//        {
+//            flag = true
+//        }
+//        else if player.currentPlayerDirection == "right" && targetMinion.currentMinionDirection == "right"
+//        {
+//            flag = true
+//        }
+//        return flag
+//    }
     // check is player and enemy is facing each other
-    func isFacingPlayer() -> Bool
-    {
-        var flag = false
-        if player.currentPlayerDirection == "up" && targetMinion.currentMinionDirection == "down"
-        {
-            flag = true
-        }
-        else if player.currentPlayerDirection == "down" && targetMinion.currentMinionDirection == "up"
-        {
-            flag = true
-        }
-        else if player.currentPlayerDirection == "left" && targetMinion.currentMinionDirection == "right"
-        {
-            flag = true
-        }
-        else if player.currentPlayerDirection == "right" && targetMinion.currentMinionDirection == "left"
-        {
-            flag = true
-        }
-        return flag
-    }
+//    func isFacingPlayer() -> Bool
+//    {
+//        var flag = false
+//        if player.currentPlayerDirection == "up" && targetMinion.currentMinionDirection == "down"
+//        {
+//            flag = true
+//        }
+//        else if player.currentPlayerDirection == "down" && targetMinion.currentMinionDirection == "up"
+//        {
+//            flag = true
+//        }
+//        else if player.currentPlayerDirection == "left" && targetMinion.currentMinionDirection == "right"
+//        {
+//            flag = true
+//        }
+//        else if player.currentPlayerDirection == "right" && targetMinion.currentMinionDirection == "left"
+//        {
+//            flag = true
+//        }
+//        return flag
+//    }
     
     // MARK: Add maze on tap
     @objc func addMazeToSceneView(withGestureRecognizer recognizer: UIGestureRecognizer)
@@ -364,13 +365,29 @@ class ViewController: UIViewController
         }
     }
     
+    func findMinionByLocation(location: (row: Int, col: Int)) -> Enemy
+   {
+       for minion in minionPool
+       {
+           if minion.getLocation() == location
+           {
+                
+               return minion
+           }
+       }
+       enemyCoordLabel.text = "EnemyCoord: \(location.0), \(location.1)"
+       //code shouldn't reach here, all minions should be in list
+        endTurnButton.isHidden = true
+       return minionPool[0]
+   }
+    
     //accepts tap input for placing maze
     func addTapGestureToSceneView()
     {
         let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(ViewController.addMazeToSceneView(withGestureRecognizer:)))
         ARCanvas.addGestureRecognizer(tapGestureRecognizer)
     }
-
+    var endTurnButton = UIButton()
     // MARK: Buttons & Controlls
     //creates 4 buttons
     func createGamepad()
@@ -418,7 +435,7 @@ class ViewController: UIViewController
         self.view.addSubview(heavyAttackButton)
         
         //end turn
-        let endTurnButton = UIButton(type: .system)
+         endTurnButton = UIButton(type: .system)
         let endButton = UIImage(named: "attackButton")
         endTurnButton.setImage(endButton, for: .normal)
         endTurnButton.addTarget(self, action: #selector(endTurnButtonClicked), for: .touchUpInside)
@@ -585,23 +602,24 @@ class ViewController: UIViewController
             //logic for when player swings at a enemy
             if  player.apCount > 0
             {
-                targetMinion.playAnimation(ARCanvas, key: "impact")
+//                targetMinion.playAnimation(ARCanvas, key: "impact")
                 //consumes ap per attack
                 updateAP()
                 var action = SKAction()
                 let newBarWidth = enemyHPBar.size.width - player.attackEnemy(target: targetMinion)
                 //if enemy is dead
-                if newBarWidth <= 0
+                if targetMinion.isDead()
                 {
                     action = SKAction.resize(toWidth: 0.0, duration: 0.25)
                     //remove enemy model from scene
-                    targetMinion.getMinionNode().removeFromParentNode()
+//                    targetMinion.getMinionNode().removeFromParentNode()
                     //remove enemy data from maze
                     maze[adjacentEnemyLocation.0][adjacentEnemyLocation.1] = 0
                     
                     updateEnemyHPBarLabel()
                     //hide hp bars
                     toggleEnemyLabels(mode: "Off")
+                    enemyHPBar.size.width = 200
                 }
                 else
                 {
@@ -609,6 +627,8 @@ class ViewController: UIViewController
                 }
                 updateEnemyHPBarLabel()
                 enemyHPBar.run(action)
+                
+                
             }
         }
     }
@@ -640,8 +660,8 @@ class ViewController: UIViewController
             }
             
             //reload light and fog
-            setupARLight()
-            setupFog()
+            //setupARLight()
+            //setupFog()
             
             if stageLevel % 2 != 0
             {
@@ -727,6 +747,10 @@ class ViewController: UIViewController
                 minionInRange = true
             }
         }
+        
+        if minionInRange == true{
+            targetMinion = findMinionByLocation(location: (row: adjacentEnemyLocation.0, col: adjacentEnemyLocation.1))
+        }
         return minionInRange
     }
 
@@ -775,6 +799,7 @@ class ViewController: UIViewController
         wall.materials = [imageMaterial1, imageMaterial1, imageMaterial1, imageMaterial1, imageMaterial1, imageMaterial1]
         //add box to scene
         let wallNode = SCNNode(geometry: wall)
+        wallNode.name = "wall"
         wallNode.position = SCNVector3(CGFloat(position.xCoord), CGFloat(position.yCoord), CGFloat(position.zCoord))
         mazeWallNode.addChildNode(wallNode)
         mazeWallNode.castsShadow = true
@@ -800,6 +825,7 @@ class ViewController: UIViewController
         floor.materials = [imageMaterial2, imageMaterial2, imageMaterial2, imageMaterial2, imageMaterial1, imageMaterial2]
         //add box to scene
         let floorNode = SCNNode(geometry: floor)
+        floorNode.name = "floor"
         floorNode.position = SCNVector3(CGFloat(position.xCoord), CGFloat(position.yCoord), CGFloat(position.zCoord))
         mazeFloorNode.addChildNode(floorNode)
         mazeWallNode.castsShadow = true
@@ -866,7 +892,10 @@ class ViewController: UIViewController
 				else if flag == 4
                 {
                     minionLocation = Position(xCoord: x, yCoord: y-WIDTH, zCoord: z, cRad: c)
-                    targetMinion = Minion().spawnMinion(ARCanvas, minionLocation)
+                    MinionNode().loadMinionAnimations(ARCanvas, minionLocation)
+                    let e = Enemy(name: "Zombie", maxHP: 10, health: 10, minAtkVal: 1, maxAtkVal: 1, level: 1)
+                    e.setLocation(x: i, y: j)
+                    minionPool.append(e)
                 }
                 //increment each block so it lines up horizontally
                 x += WIDTH
