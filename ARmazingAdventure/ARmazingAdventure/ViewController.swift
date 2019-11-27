@@ -61,7 +61,7 @@ class ViewController: UIViewController
     var playerAPBar = SKSpriteNode(color: .green, size: CGSize(width: 200, height: 20))
     
     @IBOutlet weak var turnIndicator: UILabel!
-    
+
     @IBOutlet weak var enemyHPBarLabel: UILabel!
     
     //count of number of maze stages completed
@@ -168,7 +168,7 @@ class ViewController: UIViewController
     {
         enemyHPBarLabel.textColor = UIColor.white
         enemyHPBarLabel.shadowColor = UIColor.black
-        enemyHPBarLabel.text = "\(targetMinion.getName()) HP: \(targetMinion.getHP()) \\ \(targetMinion.getMaxHP())"
+        enemyHPBarLabel.text = "\(targetMinion.getName()) HP: \(targetMinion.getHP())"  + " / " + "\(targetMinion.getMaxHP())"
     }
     
     func toggleEnemyLabels(mode: String)
@@ -246,7 +246,7 @@ class ViewController: UIViewController
             player.setAP(val: 5)
             maxAP()
         }
-        updateIndicator()
+        //updateIndicator()
     }
     // MARK: Enemy Turn Logics
     func enemyAction()
@@ -350,7 +350,7 @@ class ViewController: UIViewController
             
             //flip flag to true so you cannot spawn multiple mazes
             mazePlaced = true
-            updateIndicator()
+            //updateIndicator()
             //disable plane detection by resetting configurations
             config.planeDetection = []
             self.ARCanvas.session.run(config)
