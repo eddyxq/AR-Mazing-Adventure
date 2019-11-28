@@ -230,6 +230,7 @@ class ViewController: UIViewController
         if currentGameState == "playerTurn"
         {
             currentGameState = GameState.enemyTurn.state()
+            enemyMove()
             enemyAction()
         }
         else if currentGameState == "enemyTurn"
@@ -663,6 +664,40 @@ class ViewController: UIViewController
         }
     }
     
+    func enemyMove()
+    {
+        let results = Solver(maze: maze).moveRandomMinion()
+        maze = results.0
+        let directionMoved = results.1
+        let origin = results.2
+        
+        var targetMinion = findMinionByLocation(location: (row: origin.0, col: origin.1))
+        
+        if origin != (0,0)
+        {
+            if directionMoved == "up"
+            {
+                turnFace(direction: "north", targetMinion: &targetMinion)
+                targetMinion.getMinionNode().runAction(player.newMove(direction: "up"))
+            }
+            else if directionMoved == "down"
+            {
+                turnFace(direction: "south", targetMinion: &targetMinion)
+                targetMinion.getMinionNode().runAction(player.newMove(direction: "down"))
+            }
+            else if directionMoved == "left"
+            {
+                turnFace(direction: "west", targetMinion: &targetMinion)
+                targetMinion.getMinionNode().runAction(player.newMove(direction: "left"))
+            }
+            else if directionMoved == "right"
+            {
+                turnFace(direction: "east", targetMinion: &targetMinion)
+                targetMinion.getMinionNode().runAction(player.newMove(direction: "right"))
+            }
+        }
+    }
+    
     func attack(type: String)
     {
         if type == "light"
@@ -781,6 +816,71 @@ class ViewController: UIViewController
         return canMove
     }
     
+    func turnFace(direction: String, targetMinion: inout Minion)
+    {
+        
+        if direction == "north"
+        {
+            if targetMinion.currentMinionDirection == "down"
+            {
+                targetMinion.turn180(direction: targetMinion.currentMinionDirection)
+            }
+            else if targetMinion.currentMinionDirection == "left"
+            {
+                targetMinion.turnRight(direction: targetMinion.currentMinionDirection)
+            }
+            else if targetMinion.currentMinionDirection == "right"
+            {
+                targetMinion.turnLeft(direction: targetMinion.currentMinionDirection)
+            }
+        }
+        else if direction == "south"
+        {
+            if targetMinion.currentMinionDirection == "up"
+            {
+                targetMinion.turn180(direction: targetMinion.currentMinionDirection)
+            }
+            else if targetMinion.currentMinionDirection == "left"
+            {
+                targetMinion.turnLeft(direction: targetMinion.currentMinionDirection)
+            }
+            else if targetMinion.currentMinionDirection == "right"
+            {
+                targetMinion.turnRight(direction: targetMinion.currentMinionDirection)
+            }
+        }
+        else if direction == "west"
+        {
+            if targetMinion.currentMinionDirection == "up"
+            {
+                targetMinion.turnLeft(direction: targetMinion.currentMinionDirection)
+            }
+            else if targetMinion.currentMinionDirection == "down"
+            {
+                targetMinion.turnRight(direction: targetMinion.currentMinionDirection)
+            }
+            else if targetMinion.currentMinionDirection == "right"
+            {
+                targetMinion.turn180(direction: targetMinion.currentMinionDirection)
+            }
+        }
+        else if direction == "east"
+        {
+            if targetMinion.currentMinionDirection == "up"
+            {
+                targetMinion.turnRight(direction: targetMinion.currentMinionDirection)
+            }
+            else if targetMinion.currentMinionDirection == "down"
+            {
+                targetMinion.turnLeft(direction: targetMinion.currentMinionDirection)
+            }
+            else if targetMinion.currentMinionDirection == "left"
+            {
+                targetMinion.turn180(direction: targetMinion.currentMinionDirection)
+            }
+        }
+    }
+    
     var adjacentEnemyLocation = (9999,9999)
     func enemyInRange(row: Int, col: Int) -> Bool
     {
@@ -795,22 +895,7 @@ class ViewController: UIViewController
                 
                 targetMinion = findMinionByLocation(location: (row: adjacentEnemyLocation.0, col: adjacentEnemyLocation.1))
                 
-                if targetMinion.currentMinionDirection == "up"
-                {
-                    
-                }
-                else if targetMinion.currentMinionDirection == "down"
-                {
-                    targetMinion.turn180(direction: targetMinion.currentMinionDirection)
-                }
-                else if targetMinion.currentMinionDirection == "left"
-                {
-                    targetMinion.turnRight(direction: targetMinion.currentMinionDirection)
-                }
-                else if targetMinion.currentMinionDirection == "right"
-                {
-                    targetMinion.turnLeft(direction: targetMinion.currentMinionDirection)
-                }
+                turnFace(direction: "north", targetMinion: &targetMinion)
             }
         }
         //check east of player
@@ -823,22 +908,7 @@ class ViewController: UIViewController
                 
                 targetMinion = findMinionByLocation(location: (row: adjacentEnemyLocation.0, col: adjacentEnemyLocation.1))
                 
-                if targetMinion.currentMinionDirection == "up"
-                {
-                    targetMinion.turnLeft(direction: targetMinion.currentMinionDirection)
-                }
-                else if targetMinion.currentMinionDirection == "down"
-                {
-                    targetMinion.turnRight(direction: targetMinion.currentMinionDirection)
-                }
-                else if targetMinion.currentMinionDirection == "left"
-                {
-
-                }
-                else if targetMinion.currentMinionDirection == "right"
-                {
-                    targetMinion.turn180(direction: targetMinion.currentMinionDirection)
-                }
+                turnFace(direction: "west", targetMinion: &targetMinion)
             }
         }
         //check west of player
@@ -851,22 +921,7 @@ class ViewController: UIViewController
                 
                 targetMinion = findMinionByLocation(location: (row: adjacentEnemyLocation.0, col: adjacentEnemyLocation.1))
                 
-                if targetMinion.currentMinionDirection == "up"
-                {
-                    targetMinion.turnRight(direction: targetMinion.currentMinionDirection)
-                }
-                else if targetMinion.currentMinionDirection == "down"
-                {
-                    targetMinion.turnLeft(direction: targetMinion.currentMinionDirection)
-                }
-                else if targetMinion.currentMinionDirection == "left"
-                {
-                    targetMinion.turn180(direction: targetMinion.currentMinionDirection)
-                }
-                else if targetMinion.currentMinionDirection == "right"
-                {
-                    
-                }
+                turnFace(direction: "east", targetMinion: &targetMinion)
             }
         }
         //check north of player
@@ -879,22 +934,7 @@ class ViewController: UIViewController
                 
                 targetMinion = findMinionByLocation(location: (row: adjacentEnemyLocation.0, col: adjacentEnemyLocation.1))
                 
-                if targetMinion.currentMinionDirection == "up"
-                {
-                    targetMinion.turn180(direction: targetMinion.currentMinionDirection)
-                }
-                else if targetMinion.currentMinionDirection == "down"
-                {
-                    
-                }
-                else if targetMinion.currentMinionDirection == "left"
-                {
-                    targetMinion.turnLeft(direction: targetMinion.currentMinionDirection)
-                }
-                else if targetMinion.currentMinionDirection == "right"
-                {
-                    targetMinion.turnRight(direction: targetMinion.currentMinionDirection)
-                }
+                turnFace(direction: "south", targetMinion: &targetMinion)
             }
         }
         if minionInRange == true

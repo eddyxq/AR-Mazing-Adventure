@@ -147,6 +147,27 @@ class Minion: Enemy
         let turnAction = SCNAction.rotateBy(x: 0, y: .pi, z: 0, duration: 0.5)
         minionNode.runAction(turnAction)
     }
+    
+    //translates minion
+    func newMove(direction: String) -> SCNAction
+    {
+        let tileSize = CGFloat(0.04)
+        var walkAction = SCNAction()
+        switch direction
+        {
+            case "up":
+                walkAction = SCNAction.moveBy(x: 0, y: 0, z: -tileSize, duration: 1.5)
+            case "down":
+                walkAction = SCNAction.moveBy(x: 0, y: 0, z: tileSize, duration: 1.5)
+            case "left":
+                walkAction = SCNAction.moveBy(x: -tileSize, y: 0, z: 0, duration: 1.5)
+            case "right":
+                walkAction = SCNAction.moveBy(x: tileSize, y: 0, z: 0, duration: 1.5)
+            default:
+                break
+        }
+        return walkAction
+    }
     // MARK: Getters & Setters
     //Spawns the minion model at the given sceneview
     func spawnMinion(_ sceneView: ARSCNView, _ position: ViewController.Position) -> Minion
