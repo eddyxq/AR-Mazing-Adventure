@@ -111,6 +111,40 @@ class Player
     // Default: Up
     var currentPlayerDirection = playerDirection.up.direction()
     
+    //turns the player 90 degrees counter clockwise
+    func turnLeft(direction: String)
+    {
+        switch direction
+        {
+            case "up":
+                currentPlayerDirection = playerDirection.left.direction()
+            case "down":
+                currentPlayerDirection = playerDirection.right.direction()
+            case "left":
+                currentPlayerDirection = playerDirection.down.direction()
+            case "right":
+                currentPlayerDirection = playerDirection.up.direction()
+            default:
+                break
+        }
+    }
+    //turns the player 90 degrees clockwise
+    func turnRight(direction: String)
+    {
+        switch direction{
+            case "up":
+                currentPlayerDirection = playerDirection.right.direction()
+            case "down":
+                currentPlayerDirection = playerDirection.left.direction()
+            case "left":
+                currentPlayerDirection = playerDirection.up.direction()
+            case "right":
+                currentPlayerDirection = playerDirection.down.direction()
+            default:
+                break
+        }
+    }
+    
     //translates player
     func newMove(direction: String) -> SCNAction
     {
