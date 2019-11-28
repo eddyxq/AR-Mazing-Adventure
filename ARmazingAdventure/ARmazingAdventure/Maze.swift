@@ -70,7 +70,7 @@ class Maze
         setFinishPoint()
         setPlayer()
         setBoss()
-        //setMinions()
+        setMinions()
         setTestMinion()
         return maze
     }
@@ -85,10 +85,14 @@ class Maze
     func setTestMinion()
     {
         maze[4][2] = MINION
+        maze[2][4] = MINION
+        
         maze[3][2] = FLOOR
         maze[2][2] = FLOOR
-        maze[2][4] = MINION
         maze[2][3] = FLOOR
+        maze[3][3] = FLOOR
+        maze[4][3] = FLOOR
+        maze[4][4] = FLOOR
     }
 
     //set minion spawn locations
