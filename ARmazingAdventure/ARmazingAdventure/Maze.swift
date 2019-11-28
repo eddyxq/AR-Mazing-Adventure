@@ -70,7 +70,7 @@ class Maze
         setFinishPoint()
         setPlayer()
         setBoss()
-        setMinions()
+        //setMinions()
         setTestMinion()
         return maze
     }

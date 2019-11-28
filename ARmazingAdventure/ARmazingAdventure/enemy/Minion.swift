@@ -17,11 +17,13 @@ class Minion: Enemy
             return self.rawValue
         }
     }
-
+    
+    //location of the minion on the maze array
+    var arrayLocation = (0, 0)
+    
     let minionNode = SCNNode()
     var animations = [String: CAAnimation]()
     let enemyType = Enemy.EnemyTypes.minion.type()
-    var location = (0, 0)
     
     init() {
         super.init(name: "Zombie", maxHP: 10, health: 10, minAtkVal: 1, maxAtkVal: 1, level: 1)
@@ -159,13 +161,9 @@ class Minion: Enemy
         return minionNode
     }
     
-    func getLocation() -> (Int, Int)
+    func setLocation(location: (row: Int, col: Int))
     {
-        return location
+        arrayLocation = location
     }
     
-    func setLocation(coord: (Int, Int))
-    {
-        location = (coord.0, coord.1)
-    }
 }

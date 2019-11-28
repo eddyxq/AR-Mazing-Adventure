@@ -41,7 +41,7 @@ class Player
     }
     
     var playerHP = 10
-    var maxAP = 5
+    var maxAP = 50
     var apCount = 5
     
     // MARK: Animations & Models
@@ -112,9 +112,41 @@ class Player
     // Default: Up
     var currentPlayerDirection = playerDirection.up.direction()
     
-
-    //moves player forward
-    func movePlayer(direction: String) -> SCNAction
+//    //turns the player 90 degrees counter clockwise
+//    func turnLeft(direction: String)
+//    {
+//        switch direction
+//        {
+//            case "up":
+//                currentPlayerDirection = playerDirection.left.direction()
+//            case "down":
+//                currentPlayerDirection = playerDirection.right.direction()
+//            case "left":
+//                currentPlayerDirection = playerDirection.down.direction()
+//            case "right":
+//                currentPlayerDirection = playerDirection.up.direction()
+//            default:
+//                break
+//        }
+//    }
+//    //turns the player 90 degrees clockwise
+//    func turnRight(direction: String)
+//    {
+//        switch direction{
+//            case "up":
+//                currentPlayerDirection = playerDirection.right.direction()
+//            case "down":
+//                currentPlayerDirection = playerDirection.left.direction()
+//            case "left":
+//                currentPlayerDirection = playerDirection.up.direction()
+//            case "right":
+//                currentPlayerDirection = playerDirection.down.direction()
+//            default:
+//                break
+//        }
+//    }
+    //moves player
+    func newMove(direction: String) -> SCNAction
     {
         var walkAction = SCNAction()
         switch direction
@@ -132,6 +164,45 @@ class Player
         }
         return walkAction
     }
+    
+//    //moves player forward
+//    func moveForward(direction: String) -> SCNAction
+//    {
+//        var walkAction = SCNAction()
+//        switch direction
+//        {
+//            case "up":
+//                walkAction = SCNAction.moveBy(x: 0, y: 0, z: -0.04, duration: 1.5)
+//            case "down":
+//                walkAction = SCNAction.moveBy(x: 0, y: 0, z: 0.04, duration: 1.5)
+//            case "left":
+//                walkAction = SCNAction.moveBy(x: -0.04, y: 0, z: 0, duration: 1.5)
+//            case "right":
+//                walkAction = SCNAction.moveBy(x: 0.04, y: 0, z: 0, duration: 1.5)
+//            default:
+//                break
+//        }
+//        return walkAction
+//    }
+//    //moves player backward
+//    func moveBackward(direction: String) -> SCNAction
+//    {
+//        var walkAction = SCNAction()
+//        switch direction
+//        {
+//            case "up":
+//                walkAction = SCNAction.moveBy(x: 0, y: 0, z: 0.04, duration: 1.5)
+//            case "down":
+//                walkAction = SCNAction.moveBy(x: 0, y: 0, z: -0.04, duration: 1.5)
+//            case "left":
+//                walkAction = SCNAction.moveBy(x: 0.04, y: 0, z: 0, duration: 1.5)
+//            case "right":
+//                walkAction = SCNAction.moveBy(x: -0.04, y: 0, z: 0, duration: 1.5)
+//            default:
+//                break
+//        }
+//        return walkAction
+//    }
     
     func spawnPlayer(_ sceneView: ARSCNView, _ position: ViewController.Position)
     {

@@ -61,6 +61,9 @@ class ViewController: UIViewController
     var playerAPBar = SKSpriteNode(color: .green, size: CGSize(width: 200, height: 20))
     
     @IBOutlet weak var turnIndicator: UILabel!
+    
+    @IBOutlet weak var debugLabel: UILabel!
+    @IBOutlet weak var testLabel: UILabel!
     @IBOutlet weak var enemyHPBarLabel: UILabel!
     
     //count of number of maze stages completed
@@ -130,32 +133,27 @@ class ViewController: UIViewController
     {
         let hud = SKScene()
         hud.scaleMode = .resizeFill
-        let centerx = view.bounds.midX
-        let topY = view.bounds.maxY
-        
         //Enemy HP Bar & Borders
         let hpBorderImage = UIImage(named: "minionHPBorder")
         let hpBorderTexture = SKTexture(image: hpBorderImage!)
         enemyHPBorder = SKSpriteNode(texture: hpBorderTexture)
-        enemyHPBorder.position = CGPoint(x: centerx*1.5, y: topY-50)
+        enemyHPBorder.position = CGPoint(x: 900, y: 200)
         enemyHPBar.anchorPoint = CGPoint(x: 0.0, y: 0.5)
-        enemyHPBar.position = CGPoint(x: (centerx*1.5)-100, y: topY-50)
-        
+        enemyHPBar.position = CGPoint(x: 800, y: 200)
         // Player HP Bar & Borders
         let playerHpBorderImage = UIImage(named: "playerHPBorder")
         let playerHpBorderTexture = SKTexture(image: playerHpBorderImage!)
         playerHPBorder = SKSpriteNode(texture: playerHpBorderTexture)
-        playerHPBorder.position = CGPoint(x: centerx, y: 100)
+        playerHPBorder.position = CGPoint(x: 480, y: 125)
         playerHPBar.anchorPoint = CGPoint(x: 0.0, y: 0.5)
-        //This anchor prevents the hp bar from shrinking from both sides
-        playerHPBar.position = CGPoint(x: centerx-100, y: 100)
+        playerHPBar.position = CGPoint(x: 380, y: 125)
         
         let playerApBorderImage = UIImage(named: "playerAPBorder")
         let playerApBorderTexture = SKTexture(image: playerApBorderImage!)
         playerAPBorder = SKSpriteNode(texture: playerApBorderTexture)
-        playerAPBorder.position = CGPoint(x: centerx, y: 50)
+        playerAPBorder.position = CGPoint(x: 480, y: 75)
         playerAPBar.anchorPoint = CGPoint(x: 0.0, y: 0.5)
-        playerAPBar.position = CGPoint(x: centerx-100, y: 50)
+        playerAPBar.position = CGPoint(x: 380, y: 75)
         
         hud.addChild(playerAPBar)
         hud.addChild(playerAPBorder)
@@ -166,13 +164,6 @@ class ViewController: UIViewController
         ARCanvas.overlaySKScene = hud
         
         toggleEnemyLabels(mode: "Off")
-    }
-    
-    func updateEnemyHPBarLabel()
-    {
-        enemyHPBarLabel.textColor = UIColor.white
-        enemyHPBarLabel.shadowColor = UIColor.black
-        enemyHPBarLabel.text = "\(targetMinion.getName()) HP: \(targetMinion.getHP())"  + " / " + "\(targetMinion.getMaxHP())"
     }
     
     func toggleEnemyLabels(mode: String)
@@ -250,12 +241,12 @@ class ViewController: UIViewController
             player.setAP(val: 5)
             maxAP()
         }
-        //updateIndicator()
+        updateIndicator()
     }
     // MARK: Enemy Turn Logics
     func enemyAction()
     {
-        if enemyInRange(row: currentPlayerLocation.0, col: currentPlayerLocation.1) == true
+        if enemyInRange(row: Maze().getRow(maze: maze), col: Maze().getCol(maze: maze)) == true
         {
             if isFacingPlayer() == false && backToPlayer()
             {
@@ -354,7 +345,7 @@ class ViewController: UIViewController
             
             //flip flag to true so you cannot spawn multiple mazes
             mazePlaced = true
-            //updateIndicator()
+            updateIndicator()
             //disable plane detection by resetting configurations
             config.planeDetection = []
             self.ARCanvas.session.run(config)
@@ -375,11 +366,18 @@ class ViewController: UIViewController
     //creates 4 buttons
     func createGamepad()
     {
+        let buttonX = 150
+        let buttonY = 250
+        let buttonWidth = 100
+        let buttonHeight = 50
+        let attackButtonRadius = 75
+
         //right arrow
         let rightButton = UIButton(type: .system)
         let rightArrow = UIImage(named: "rightArrow")
         rightButton.setImage(rightArrow, for: .normal)
         rightButton.addTarget(self, action: #selector(rightButtonClicked), for: .touchUpInside)
+        rightButton.frame = CGRect(x: buttonX, y: buttonY, width: buttonWidth, height: buttonHeight)
         self.view.addSubview(rightButton)
 
         //left arrow
@@ -387,6 +385,7 @@ class ViewController: UIViewController
         let leftArrow = UIImage(named: "leftArrow")
         leftButton.setImage(leftArrow, for: .normal)
         leftButton.addTarget(self, action: #selector(leftButtonClicked), for: .touchUpInside)
+        leftButton.frame = CGRect(x: buttonX-100, y: buttonY, width: buttonWidth, height: buttonHeight)
         self.view.addSubview(leftButton)
 
         //up arrow
@@ -394,6 +393,7 @@ class ViewController: UIViewController
         let upArrow = UIImage(named: "upArrow")
         upButton.setImage(upArrow, for: .normal)
         upButton.addTarget(self, action: #selector(upButtonClicked), for: .touchUpInside)
+        upButton.frame = CGRect(x: buttonX-50, y: buttonY-50, width: buttonWidth, height: buttonHeight)
         self.view.addSubview(upButton)
 
         //down arrow
@@ -401,6 +401,7 @@ class ViewController: UIViewController
         let downArrow = UIImage(named: "downArrow")
         downButton.setImage(downArrow, for: .normal)
         downButton.addTarget(self, action: #selector(downButtonClicked), for: .touchUpInside)
+        downButton.frame = CGRect(x: buttonX-50, y: buttonY+50, width: buttonWidth, height: buttonHeight)
         self.view.addSubview(downButton)
         
         //light attack
@@ -408,6 +409,7 @@ class ViewController: UIViewController
         let attack1 = UIImage(named: "attackButton")
         lightAttackButton.setImage(attack1, for: .normal)
         lightAttackButton.addTarget(self, action: #selector(lightAttackButtonClicked), for: .touchUpInside)
+        lightAttackButton.frame = CGRect(x: buttonX+100, y: buttonY-12, width: attackButtonRadius, height: attackButtonRadius)
         self.view.addSubview(lightAttackButton)
         
         //heavy attack
@@ -415,6 +417,7 @@ class ViewController: UIViewController
         let attack2 = UIImage(named: "attackButton")
         heavyAttackButton.setImage(attack2, for: .normal)
         heavyAttackButton.addTarget(self, action: #selector(heavyAttackButtonClicked), for: .touchUpInside)
+        heavyAttackButton.frame = CGRect(x: buttonX+200, y: buttonY-12, width: attackButtonRadius, height: attackButtonRadius)
         self.view.addSubview(heavyAttackButton)
         
         //end turn
@@ -422,10 +425,11 @@ class ViewController: UIViewController
         let endButton = UIImage(named: "attackButton")
         endTurnButton.setImage(endButton, for: .normal)
         endTurnButton.addTarget(self, action: #selector(endTurnButtonClicked), for: .touchUpInside)
+        endTurnButton.frame = CGRect(x: 50, y: 50, width: attackButtonRadius, height: attackButtonRadius)
         self.view.addSubview(endTurnButton)
         
         //constraints
-        for button in [rightButton, upButton, downButton, leftButton, rightButton, heavyAttackButton, lightAttackButton, endTurnButton]
+        for button in [rightButton, upButton, downButton, leftButton, rightButton, heavyAttackButton, lightAttackButton]
         {
             button.translatesAutoresizingMaskIntoConstraints = false
             button.heightAnchor.constraint(equalTo: button.widthAnchor, multiplier: 1).isActive = true
@@ -452,8 +456,8 @@ class ViewController: UIViewController
         heavyAttackButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -64).isActive = true
 
         endTurnButton.widthAnchor.constraint(equalToConstant: 75).isActive = true
-        endTurnButton.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor, constant: 24).isActive = true
-        endTurnButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 64).isActive = true
+        endTurnButton.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor, constant: -24).isActive = true
+        endTurnButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: -64).isActive = true
     }
     // MARK: Arrow Button Logics
     func canMove(direction: String) -> Bool
@@ -472,90 +476,118 @@ class ViewController: UIViewController
     //right button logic
     @objc func rightButtonClicked(sender : UIButton)
     {
-        if canMove(direction: "right")
+        if mazePlaced == true && currentGameState != "enemyTurn"
         {
-            sender.preventRepeatedPresses()
-            player.playAnimation(ARCanvas, key: "walk")
-            player.getPlayerNode().runAction(player.movePlayer(direction: "right"))
-            updateAP()
+            if canMove(direction: "right")
+            {
+                sender.preventRepeatedPresses()
+                player.playAnimation(ARCanvas, key: "walk")
+                player.getPlayerNode().runAction(player.newMove(direction: "right"))
+                updateAP()
+            }
+            
+            //check if minion is nearby
+            if enemyInRange(row: Maze().getRow(maze: maze), col: Maze().getCol(maze: maze)) == true
+            {
+                //display hit points bar
+                toggleEnemyLabels(mode: "On")
+                //update hp labels
+                enemyHPBarLabel.text = String(targetMinion.getName()) + ": " + String(targetMinion.getHP()) + " / " + String(targetMinion.getMaxHP())
+            }
+            else
+            {
+                toggleEnemyLabels(mode: "Off")
+            }
         }
-        
-        //check if minion is nearby
-        if enemyInRange(row: currentPlayerLocation.0, col: currentPlayerLocation.1) == true
-        {
-            //display hit points bar
-            toggleEnemyLabels(mode: "On")
-        }
-        else
-        {
-            toggleEnemyLabels(mode: "Off")
-        }
+
+        testLabel.text = String(Maze().getRow(maze: maze)) + ", " +  String(Maze().getCol(maze: maze)) + "adj:" + String(adjacentEnemyLocation.0) + ", " + String(adjacentEnemyLocation.1)
     }
     //left button logic
     @objc func leftButtonClicked(sender : UIButton)
     {
-        if canMove(direction: "left")
+        if mazePlaced == true && currentGameState != "enemyTurn"
         {
-            sender.preventRepeatedPresses()
-            player.playAnimation(ARCanvas, key: "walk")
-            player.getPlayerNode().runAction(player.movePlayer(direction: "left"))
-            updateAP()
+            if canMove(direction: "left")
+            {
+                sender.preventRepeatedPresses()
+                player.playAnimation(ARCanvas, key: "walk")
+                player.getPlayerNode().runAction(player.newMove(direction: "left"))
+                updateAP()
+            }
+            
+            //check if minion is nearby
+            if enemyInRange(row: Maze().getRow(maze: maze), col: Maze().getCol(maze: maze)) == true
+            {
+                //display hit points bar
+                toggleEnemyLabels(mode: "On")
+                //update hp labels
+                enemyHPBarLabel.text = String(targetMinion.getName()) + ": " + String(targetMinion.getHP()) + " / " + String(targetMinion.getMaxHP())
+            }
+            else
+            {
+                toggleEnemyLabels(mode: "Off")
+            }
         }
-        
-        //check if minion is nearby
-        if enemyInRange(row: currentPlayerLocation.0, col: currentPlayerLocation.1) == true
-        {
-            //display hit points bar
-            toggleEnemyLabels(mode: "On")
-        }
-        else
-        {
-            toggleEnemyLabels(mode: "Off")
-        }
+
+        testLabel.text = String(Maze().getRow(maze: maze)) + ", " +  String(Maze().getCol(maze: maze)) + "adj:" + String(adjacentEnemyLocation.0) + ", " + String(adjacentEnemyLocation.1)
     }
     //up button logic
     @objc func upButtonClicked(sender : UIButton)
     {
-        if canMove(direction: "forward")
+        if mazePlaced == true && currentGameState != "enemyTurn"
         {
-            sender.preventRepeatedPresses()
-            player.playAnimation(ARCanvas, key: "walk")
-            player.getPlayerNode().runAction(player.movePlayer(direction: "up"))
-            updateAP()
+            if canMove(direction: "forward")
+            {
+                sender.preventRepeatedPresses()
+                player.playAnimation(ARCanvas, key: "walk")
+                player.getPlayerNode().runAction(player.newMove(direction: "up"))
+                updateAP()
+            }
+            
+            //check if minion is nearby
+            if enemyInRange(row: Maze().getRow(maze: maze), col: Maze().getCol(maze: maze)) == true
+            {
+                //display hit points bar
+                toggleEnemyLabels(mode: "On")
+                //update hp labels
+                enemyHPBarLabel.text = String(targetMinion.getName()) + ": " + String(targetMinion.getHP()) + " / " + String(targetMinion.getMaxHP())
+            }
+            else
+            {
+                toggleEnemyLabels(mode: "Off")
+            }
         }
-        
-        //check if minion is nearby
-        if enemyInRange(row: currentPlayerLocation.0, col: currentPlayerLocation.1) == true
-        {
-            //display hit points bar
-            toggleEnemyLabels(mode: "On")
-        }
-        else
-        {
-            toggleEnemyLabels(mode: "Off")
-        }
+
+        testLabel.text = String(Maze().getRow(maze: maze)) + ", " +  String(Maze().getCol(maze: maze)) + "adj:" + String(adjacentEnemyLocation.0) + ", " + String(adjacentEnemyLocation.1)
     }
     //down button logic
     @objc func downButtonClicked(sender : UIButton)
     {
-        if canMove(direction: "backward")
+        if mazePlaced == true && currentGameState != "enemyTurn"
         {
-            sender.preventRepeatedPresses()
-            player.playAnimation(ARCanvas, key: "walkBack")
-            player.getPlayerNode().runAction(player.movePlayer(direction: "down"))
-            updateAP()
+            if canMove(direction: "backward")
+            {
+                sender.preventRepeatedPresses()
+                player.playAnimation(ARCanvas, key: "walkBack")
+                player.getPlayerNode().runAction(player.newMove(direction: "down"))
+                updateAP()
+            }
+            
+           //check if minion is nearby
+           if enemyInRange(row: Maze().getRow(maze: maze), col: Maze().getCol(maze: maze)) == true
+           {
+                //display hit points bar
+                toggleEnemyLabels(mode: "On")
+                //update hp labels
+                enemyHPBarLabel.text = String(targetMinion.getName()) + ": " + String(targetMinion.getHP()) + " / " + String(targetMinion.getMaxHP())
+           }
+           else
+           {
+                toggleEnemyLabels(mode: "Off")
+           }
         }
-        
-       //check if minion is nearby
-       if enemyInRange(row: currentPlayerLocation.0, col: currentPlayerLocation.1) == true
-       {
-            //display hit points bar
-            toggleEnemyLabels(mode: "On")
-       }
-       else
-       {
-            toggleEnemyLabels(mode: "Off")
-       }
+
+        testLabel.text = String(Maze().getRow(maze: maze)) + ", " +  String(Maze().getCol(maze: maze)) + "adj:" + String(adjacentEnemyLocation.0) + ", " + String(adjacentEnemyLocation.1)
     }
     // MARK: Attack Buttons
     //light attack button logic
@@ -598,40 +630,13 @@ class ViewController: UIViewController
             let audioAction = SCNAction.playAudio(audio!, waitForCompletion: true)
             player.getPlayerNode().runAction(audioAction)
         }
-        if enemyInRange(row: currentPlayerLocation.0, col: currentPlayerLocation.1)
+        if enemyInRange(row: Maze().getRow(maze: maze), col: Maze().getCol(maze: maze)) == true
         {
-            targetMinion = findMinionByLocation(location: (adjacentEnemyLocation.0, adjacentEnemyLocation.1))
-            
-            //logic for when player swings at a enemy
-            if (player.apCount > 0)
-            {
-                targetMinion.playAnimation(ARCanvas, key: "impact")
-                //consumes ap per attack
-                updateAP()
-                var action = SKAction()
-                let newBarWidth = enemyHPBar.size.width - player.attackEnemy(target: targetMinion)
-                //if enemy is dead
-                if targetMinion.isDead()
-                {
-                    action = SKAction.resize(toWidth: 0.0, duration: 0.25)
-                    //remove enemy model from scene
-                    targetMinion.getMinionNode().removeFromParentNode()
-                    //remove enemy data from maze
-                    maze[adjacentEnemyLocation.0][adjacentEnemyLocation.1] = 0
-                    
-                    updateEnemyHPBarLabel()
-                    //hide hp bars
-                    toggleEnemyLabels(mode: "Off")
-                    //enemyHPBar.size.width = 200
-                    //enemyHPBar = SKSpriteNode(color: .red, size: CGSize(width: 200, height: 20))
-                }
-                else
-                {
-                    action = SKAction.resize(toWidth: CGFloat(newBarWidth), duration: 0.25)
-                }
-                updateEnemyHPBarLabel()
-                enemyHPBar.run(action)
-            }
+            targetMinion = findMinionByLocation(location: (row: adjacentEnemyLocation.0, col: adjacentEnemyLocation.1))
+            targetMinion.setHP(val: targetMinion.getHP()-1)
+            enemyHPBarLabel.text = String(targetMinion.getName()) + ": " + String(targetMinion.getHP()) + " / " + String(targetMinion.getMaxHP())
+
+
         }
     }
     // MARK: Player Movement
@@ -642,7 +647,6 @@ class ViewController: UIViewController
         var canMove = false
         var playerRow = Maze().getRow(maze: maze)
         var playerCol = Maze().getCol(maze: maze)
-        currentPlayerLocation = (playerRow, playerCol)
         // remove player from current position
         maze[playerRow][playerCol] = 0
         switch (direction)
@@ -651,43 +655,14 @@ class ViewController: UIViewController
                 playerRow += 1
             case "forward":
                 playerRow -= 1
-            case "left":
-                playerCol -= 1
             case "right":
                 playerCol += 1
+            case "left":
+                playerCol -= 1
             default:
                 break
         }
-        if maze[playerRow][playerCol] == 9
-        {
-//            ARCanvas.scene.rootNode.enumerateChildNodes
-//            { (node, stop) in
-//                node.removeFromParentNode()
-//            }
-//
-//            if stageLevel % 2 != 0
-//            {
-//                //load a new stage and rotate maze 180 degrees so player
-//                //starts new stage where he finished previous stage
-//                maze = Maze().rotateArrayCW(orig: Maze().rotateArrayCW(orig: Maze().newStage()))
-//                setUpMaze(position: location)
-//                //rotate player 180 degress
-//                player.turnRight(direction: player.currentPlayerDirection)
-//                player.turnRight(direction: player.currentPlayerDirection)
-//            }
-//            else
-//            {
-//                maze = Maze().newStage()
-//                setUpMaze(position: location)
-//            }
-//            //count number of stages cleared
-//            stageLevel += 1
-//            //reload music and settings
-//            setupDungeonMusic()
-//            //setupARLight()
-//            //setupFog()
-        }
-        else if maze[playerRow][playerCol] != 1 && maze[playerRow][playerCol] != 4
+        if maze[playerRow][playerCol] == 0
         {
             maze[playerRow][playerCol] = 2
             canMove = true
@@ -700,22 +675,19 @@ class ViewController: UIViewController
                     playerRow -= 1
                 case "forward":
                     playerRow += 1
-                case "left":
-                    playerCol += 1
                 case "right":
                     playerCol -= 1
+                case "left":
+                    playerCol += 1
                 default:
                     break
             }
             maze[playerRow][playerCol] = 2;
         }
-        currentPlayerLocation = (playerRow, playerCol)
         return canMove
     }
     
     var adjacentEnemyLocation = (9999,9999)
-    var currentPlayerLocation = (1,2)
-    
     func enemyInRange(row: Int, col: Int) -> Bool
     {
         var minionInRange = false
@@ -755,22 +727,28 @@ class ViewController: UIViewController
                 minionInRange = true
             }
         }
+        if minionInRange == true
+        {
+            targetMinion = findMinionByLocation(location: (row: adjacentEnemyLocation.0, col: adjacentEnemyLocation.1))
+        }
         return minionInRange
     }
     
-    func findMinionByLocation(location: (Int, Int)) -> Minion
+    
+    // MARK: Combat
+    func findMinionByLocation(location: (row: Int, col: Int)) -> Minion
     {
         for minion in minionPool
         {
-            if minion.getLocation() == location
+            if minion.arrayLocation == location
             {
                 return minion
             }
         }
         //code shouldn't reach here, all minions should be in list
+        debugLabel.text = "ERROR"
         return minionPool[0]
     }
-    
     // MARK: Music
     //plays background music
     func setupDungeonMusic()
@@ -907,9 +885,9 @@ class ViewController: UIViewController
 				else if flag == 4
                 {
                     minionLocation = Position(xCoord: x, yCoord: y-WIDTH, zCoord: z, cRad: c)
-                    let minion = Minion().spawnMinion(ARCanvas, minionLocation)
-                    minion.setLocation(coord: (i, j))
-                    minionPool.append(minion)
+                    let minion = Minion()
+                    minion.setLocation(location: (row: i, col: j))
+                    minionPool.append(minion.spawnMinion(ARCanvas, minionLocation))
                 }
                 //increment each block so it lines up horizontally
                 x += WIDTH
