@@ -472,27 +472,45 @@ class ViewController: UIViewController
     //right button logic
     @objc func rightButtonClicked(sender : UIButton)
     {
-        if mazePlaced == true && currentGameState != "enemyTurn"
+        if canMove(direction: "right")
         {
             sender.preventRepeatedPresses()
-            player.turnRight(direction: player.currentPlayerDirection)
-            let turnAction = SCNAction.rotateBy(x: 0, y: .pi/2, z: 0, duration: 0.5)
-            player.playAnimation(ARCanvas, key: "turnRight")
-            player.getPlayerNode().runAction(turnAction)
-            maze = Maze().rotateArrayCCW(orig: maze)
+            player.playAnimation(ARCanvas, key: "walk")
+            player.getPlayerNode().runAction(player.movePlayer(direction: "right"))
+            updateAP()
+        }
+        
+        //check if minion is nearby
+        if enemyInRange(row: currentPlayerLocation.0, col: currentPlayerLocation.1) == true
+        {
+            //display hit points bar
+            toggleEnemyLabels(mode: "On")
+        }
+        else
+        {
+            toggleEnemyLabels(mode: "Off")
         }
     }
     //left button logic
     @objc func leftButtonClicked(sender : UIButton)
     {
-        if mazePlaced == true && currentGameState != "enemyTurn"
+        if canMove(direction: "left")
         {
             sender.preventRepeatedPresses()
-            player.turnLeft(direction: player.currentPlayerDirection)
-            let turnAction = SCNAction.rotateBy(x: 0, y: -(.pi/2), z: 0, duration: 0.5)
-            player.playAnimation(ARCanvas, key: "turnLeft")
-            player.getPlayerNode().runAction(turnAction)
-            maze = Maze().rotateArrayCW(orig: maze)
+            player.playAnimation(ARCanvas, key: "walk")
+            player.getPlayerNode().runAction(player.movePlayer(direction: "left"))
+            updateAP()
+        }
+        
+        //check if minion is nearby
+        if enemyInRange(row: currentPlayerLocation.0, col: currentPlayerLocation.1) == true
+        {
+            //display hit points bar
+            toggleEnemyLabels(mode: "On")
+        }
+        else
+        {
+            toggleEnemyLabels(mode: "Off")
         }
     }
     //up button logic
@@ -502,7 +520,7 @@ class ViewController: UIViewController
         {
             sender.preventRepeatedPresses()
             player.playAnimation(ARCanvas, key: "walk")
-            player.getPlayerNode().runAction(player.moveForward(direction: player.currentPlayerDirection))
+            player.getPlayerNode().runAction(player.movePlayer(direction: "up"))
             updateAP()
         }
         
@@ -524,7 +542,7 @@ class ViewController: UIViewController
         {
             sender.preventRepeatedPresses()
             player.playAnimation(ARCanvas, key: "walkBack")
-            player.getPlayerNode().runAction(player.moveBackward(direction: player.currentPlayerDirection))
+            player.getPlayerNode().runAction(player.movePlayer(direction: "down"))
             updateAP()
         }
         
@@ -582,8 +600,10 @@ class ViewController: UIViewController
         }
         if enemyInRange(row: currentPlayerLocation.0, col: currentPlayerLocation.1)
         {
+            targetMinion = findMinionByLocation(location: (adjacentEnemyLocation.0, adjacentEnemyLocation.1))
+            
             //logic for when player swings at a enemy
-            if  player.apCount > 0
+            if (player.apCount > 0)
             {
                 targetMinion.playAnimation(ARCanvas, key: "impact")
                 //consumes ap per attack
@@ -591,7 +611,7 @@ class ViewController: UIViewController
                 var action = SKAction()
                 let newBarWidth = enemyHPBar.size.width - player.attackEnemy(target: targetMinion)
                 //if enemy is dead
-                if newBarWidth <= 0
+                if targetMinion.isDead()
                 {
                     action = SKAction.resize(toWidth: 0.0, duration: 0.25)
                     //remove enemy model from scene
@@ -602,6 +622,8 @@ class ViewController: UIViewController
                     updateEnemyHPBarLabel()
                     //hide hp bars
                     toggleEnemyLabels(mode: "Off")
+                    //enemyHPBar.size.width = 200
+                    //enemyHPBar = SKSpriteNode(color: .red, size: CGSize(width: 200, height: 20))
                 }
                 else
                 {
@@ -619,7 +641,7 @@ class ViewController: UIViewController
     {
         var canMove = false
         var playerRow = Maze().getRow(maze: maze)
-        let playerCol = Maze().getCol(maze: maze)
+        var playerCol = Maze().getCol(maze: maze)
         currentPlayerLocation = (playerRow, playerCol)
         // remove player from current position
         maze[playerRow][playerCol] = 0
@@ -629,37 +651,41 @@ class ViewController: UIViewController
                 playerRow += 1
             case "forward":
                 playerRow -= 1
+            case "left":
+                playerCol -= 1
+            case "right":
+                playerCol += 1
             default:
                 break
         }
         if maze[playerRow][playerCol] == 9
         {
-            ARCanvas.scene.rootNode.enumerateChildNodes
-            { (node, stop) in
-                node.removeFromParentNode()
-            }
-            
-            if stageLevel % 2 != 0
-            {
-                //load a new stage and rotate maze 180 degrees so player
-                //starts new stage where he finished previous stage
-                maze = Maze().rotateArrayCW(orig: Maze().rotateArrayCW(orig: Maze().newStage()))
-                setUpMaze(position: location)
-                //rotate player 180 degress
-                player.turnRight(direction: player.currentPlayerDirection)
-                player.turnRight(direction: player.currentPlayerDirection)
-            }
-            else
-            {
-                maze = Maze().newStage()
-                setUpMaze(position: location)
-            }
-            //count number of stages cleared
-            stageLevel += 1
-            //reload music and settings
-            setupDungeonMusic()
-            //setupARLight()
-            //setupFog()
+//            ARCanvas.scene.rootNode.enumerateChildNodes
+//            { (node, stop) in
+//                node.removeFromParentNode()
+//            }
+//
+//            if stageLevel % 2 != 0
+//            {
+//                //load a new stage and rotate maze 180 degrees so player
+//                //starts new stage where he finished previous stage
+//                maze = Maze().rotateArrayCW(orig: Maze().rotateArrayCW(orig: Maze().newStage()))
+//                setUpMaze(position: location)
+//                //rotate player 180 degress
+//                player.turnRight(direction: player.currentPlayerDirection)
+//                player.turnRight(direction: player.currentPlayerDirection)
+//            }
+//            else
+//            {
+//                maze = Maze().newStage()
+//                setUpMaze(position: location)
+//            }
+//            //count number of stages cleared
+//            stageLevel += 1
+//            //reload music and settings
+//            setupDungeonMusic()
+//            //setupARLight()
+//            //setupFog()
         }
         else if maze[playerRow][playerCol] != 1 && maze[playerRow][playerCol] != 4
         {
@@ -674,6 +700,10 @@ class ViewController: UIViewController
                     playerRow -= 1
                 case "forward":
                     playerRow += 1
+                case "left":
+                    playerCol += 1
+                case "right":
+                    playerCol -= 1
                 default:
                     break
             }
@@ -727,7 +757,20 @@ class ViewController: UIViewController
         }
         return minionInRange
     }
-
+    
+    func findMinionByLocation(location: (Int, Int)) -> Minion
+    {
+        for minion in minionPool
+        {
+            if minion.getLocation() == location
+            {
+                return minion
+            }
+        }
+        //code shouldn't reach here, all minions should be in list
+        return minionPool[0]
+    }
+    
     // MARK: Music
     //plays background music
     func setupDungeonMusic()
@@ -864,7 +907,9 @@ class ViewController: UIViewController
 				else if flag == 4
                 {
                     minionLocation = Position(xCoord: x, yCoord: y-WIDTH, zCoord: z, cRad: c)
-                    targetMinion = Minion().spawnMinion(ARCanvas, minionLocation)
+                    let minion = Minion().spawnMinion(ARCanvas, minionLocation)
+                    minion.setLocation(coord: (i, j))
+                    minionPool.append(minion)
                 }
                 //increment each block so it lines up horizontally
                 x += WIDTH

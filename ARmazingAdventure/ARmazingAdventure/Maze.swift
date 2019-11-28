@@ -70,7 +70,7 @@ class Maze
         setFinishPoint()
         setPlayer()
         setBoss()
-        //setMinions()
+        setMinions()
         setTestMinion()
         return maze
     }
@@ -87,7 +87,8 @@ class Maze
         maze[4][2] = MINION
         maze[3][2] = FLOOR
         maze[2][2] = FLOOR
-        //maze[2][4] = MINION
+        maze[2][4] = MINION
+        maze[2][3] = FLOOR
     }
 
     //set minion spawn locations
@@ -146,30 +147,6 @@ class Maze
             maze[i][14] = 1
         }
     }
-    
-    //rotates a array clockwise
-     func rotateArrayCW(orig: [[Int]]) -> [[Int]]
-     {
-         let rows = Maze().getHeight()
-         let cols = Maze().getWidth()
-
-         var arr = [[Int]](repeating: [Int](repeating: 0, count: rows), count: cols)
-         
-         for r in 0 ..< rows
-         {
-             for c in 0 ..< cols
-             {
-                 arr[c][rows-1-r] = orig[r][c]
-             }
-         }
-         return arr;
-     }
-     
-     //rotates a array counter clockwise
-     func rotateArrayCCW(orig: [[Int]]) -> [[Int]]
-     {
-         return rotateArrayCW(orig: rotateArrayCW(orig: rotateArrayCW(orig: orig)))
-     }
      
     //get player row index
     func getRow(maze: [[Int]]) -> Int
