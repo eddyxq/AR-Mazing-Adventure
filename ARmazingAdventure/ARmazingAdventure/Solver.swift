@@ -22,6 +22,8 @@ class Solver
         //list containing all the minion locations
         var locations = [(Int, Int)]()
 
+        locations.append((0,0))
+        
         //loops through maze, finds and adds all minions to the list
         for i in 0 ..< 15
         {
@@ -39,7 +41,14 @@ class Solver
     //selects a random minion from a list and returns its index locations
     func selectRandomMinion(locations: [(Int, Int)]) -> (Int, Int)
     {
-        return locations[Int.random(in: 0 ..< locations.count)]
+        if locations.count > 1
+        {
+         return locations[Int.random(in: 1 ..< locations.count)]
+        }
+        else
+        {
+            return locations[0]
+        }
     }
     
     
@@ -222,34 +231,36 @@ class Solver
     func moveRandomMinion() -> ([[Int]], String, (Int, Int))
     {
         var moved = false
+        var move = (0,0,"0")
         
         let origin = selectRandomMinion(locations: getAllMinionLocations())
 
-        //modify maze format for input into solver
-        var modMaze = maze
-        modMaze[origin.0][origin.1] = 0
-        modMaze[Maze().getRow(maze: maze)][Maze().getCol(maze: maze)] = 0
-        solveMaze(maze: modMaze, start: (x: origin.0, y: origin.1), end: (x: Maze().getRow(maze: maze), y: Maze().getCol(maze: maze)))
-
-        let move = calculateNextOptimalMove(currentLocation: (x: origin.0, y: origin.1))
-        
-        let destination = (move.0, move.1)
-
-        //if solution found
-        if destination != (0,0) && maze[destination.0][destination.1] != 2 && maze[destination.0][destination.1] != 4
+        if origin != (0,0)
         {
-            //remove minion from current location
-            maze[origin.0][origin.1] = 0
-            //move minion to new location
-            maze[destination.0][destination.1] = 4
-            moved = true
+            //modify maze format for input into solver
+            var modMaze = maze
+            modMaze[origin.0][origin.1] = 0
+            modMaze[Maze().getRow(maze: maze)][Maze().getCol(maze: maze)] = 0
+            solveMaze(maze: modMaze, start: (x: origin.0, y: origin.1), end: (x: Maze().getRow(maze: maze), y: Maze().getCol(maze: maze)))
+
+            move = calculateNextOptimalMove(currentLocation: (x: origin.0, y: origin.1))
+            
+            let destination = (move.0, move.1)
+
+            //if solution found
+            if destination != (0,0) && maze[destination.0][destination.1] != 2 && maze[destination.0][destination.1] != 4
+            {
+                //remove minion from current location
+                maze[origin.0][origin.1] = 0
+                //move minion to new location
+                maze[destination.0][destination.1] = 4
+                moved = true
+            }
+            else
+            {
+                print("CAN'T MOVE!!!")
+            }
         }
-        else
-        {
-            print("CAN'T MOVE!!!")
-        }
-        
-        
         return moved ? (maze, move.2, (origin.0, origin.1)) : (maze, move.2, (0,0))
     }
     
