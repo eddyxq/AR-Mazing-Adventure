@@ -15,7 +15,6 @@ class Player
     var maxAtkVal : Int
     
     var level : Int
-    var canAttackEnemy = true
     
     init(name: String, maxHP: Int, health: Int, minAtkVal: Int,maxAtkVal: Int, level: Int) {
         self.name = name
@@ -41,7 +40,7 @@ class Player
     }
     
     var playerHP = 10
-    var maxAP = 50
+    var maxAP = 5
     var apCount = 5
     
     // MARK: Animations & Models
@@ -112,97 +111,26 @@ class Player
     // Default: Up
     var currentPlayerDirection = playerDirection.up.direction()
     
-//    //turns the player 90 degrees counter clockwise
-//    func turnLeft(direction: String)
-//    {
-//        switch direction
-//        {
-//            case "up":
-//                currentPlayerDirection = playerDirection.left.direction()
-//            case "down":
-//                currentPlayerDirection = playerDirection.right.direction()
-//            case "left":
-//                currentPlayerDirection = playerDirection.down.direction()
-//            case "right":
-//                currentPlayerDirection = playerDirection.up.direction()
-//            default:
-//                break
-//        }
-//    }
-//    //turns the player 90 degrees clockwise
-//    func turnRight(direction: String)
-//    {
-//        switch direction{
-//            case "up":
-//                currentPlayerDirection = playerDirection.right.direction()
-//            case "down":
-//                currentPlayerDirection = playerDirection.left.direction()
-//            case "left":
-//                currentPlayerDirection = playerDirection.up.direction()
-//            case "right":
-//                currentPlayerDirection = playerDirection.down.direction()
-//            default:
-//                break
-//        }
-//    }
-    //moves player
+    //translates player
     func newMove(direction: String) -> SCNAction
     {
+        let tileSize = CGFloat(0.04)
         var walkAction = SCNAction()
         switch direction
         {
             case "up":
-                walkAction = SCNAction.moveBy(x: 0, y: 0, z: -0.04, duration: 1.5)
+                walkAction = SCNAction.moveBy(x: 0, y: 0, z: -tileSize, duration: 1.5)
             case "down":
-                walkAction = SCNAction.moveBy(x: 0, y: 0, z: 0.04, duration: 1.5)
+                walkAction = SCNAction.moveBy(x: 0, y: 0, z: tileSize, duration: 1.5)
             case "left":
-                walkAction = SCNAction.moveBy(x: -0.04, y: 0, z: 0, duration: 1.5)
+                walkAction = SCNAction.moveBy(x: -tileSize, y: 0, z: 0, duration: 1.5)
             case "right":
-                walkAction = SCNAction.moveBy(x: 0.04, y: 0, z: 0, duration: 1.5)
+                walkAction = SCNAction.moveBy(x: tileSize, y: 0, z: 0, duration: 1.5)
             default:
                 break
         }
         return walkAction
     }
-    
-//    //moves player forward
-//    func moveForward(direction: String) -> SCNAction
-//    {
-//        var walkAction = SCNAction()
-//        switch direction
-//        {
-//            case "up":
-//                walkAction = SCNAction.moveBy(x: 0, y: 0, z: -0.04, duration: 1.5)
-//            case "down":
-//                walkAction = SCNAction.moveBy(x: 0, y: 0, z: 0.04, duration: 1.5)
-//            case "left":
-//                walkAction = SCNAction.moveBy(x: -0.04, y: 0, z: 0, duration: 1.5)
-//            case "right":
-//                walkAction = SCNAction.moveBy(x: 0.04, y: 0, z: 0, duration: 1.5)
-//            default:
-//                break
-//        }
-//        return walkAction
-//    }
-//    //moves player backward
-//    func moveBackward(direction: String) -> SCNAction
-//    {
-//        var walkAction = SCNAction()
-//        switch direction
-//        {
-//            case "up":
-//                walkAction = SCNAction.moveBy(x: 0, y: 0, z: 0.04, duration: 1.5)
-//            case "down":
-//                walkAction = SCNAction.moveBy(x: 0, y: 0, z: -0.04, duration: 1.5)
-//            case "left":
-//                walkAction = SCNAction.moveBy(x: 0.04, y: 0, z: 0, duration: 1.5)
-//            case "right":
-//                walkAction = SCNAction.moveBy(x: -0.04, y: 0, z: 0, duration: 1.5)
-//            default:
-//                break
-//        }
-//        return walkAction
-//    }
     
     func spawnPlayer(_ sceneView: ARSCNView, _ position: ViewController.Position)
     {
@@ -217,11 +145,6 @@ class Player
     func getAPCount() -> String
     {
         return String(apCount)
-    }
-    
-    func setCanAttackEnemy(_ bool: Bool)
-    {
-        canAttackEnemy = bool
     }
     
     func getHP() -> Int
@@ -240,30 +163,18 @@ class Player
     }
     
     // MARK: Combat Functions
-    func attackEnemy(target: Enemy) -> CGFloat
+    func calcDmg() -> Int
     {
-        let targetCurrentHP = target.getHP()
-        let dmg = Int.random(in: minAtkVal ... maxAtkVal)
-        let newHP = targetCurrentHP-dmg
-        
-        if newHP < 0
-        {
-            target.setHP(val: 0)
-        }
-        else
-        {
-            target.setHP(val: newHP)
-        }
-        
-        let convertToHPBar = CGFloat(dmg) * target.convertHPBar()
-        return convertToHPBar
+        return Int.random(in: minAtkVal ... maxAtkVal)
     }
     
-    func convertHPBar() -> CGFloat{
+    func convertHPBar() -> CGFloat
+    {
         return CGFloat(200 / maxHP)
     }
     
-    func convertAPBar() -> CGFloat{
+    func convertAPBar() -> CGFloat
+    {
         return CGFloat(200 / maxAP)
     }
     

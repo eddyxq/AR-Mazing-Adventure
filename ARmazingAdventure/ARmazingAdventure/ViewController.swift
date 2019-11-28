@@ -61,9 +61,6 @@ class ViewController: UIViewController
     var playerAPBar = SKSpriteNode(color: .green, size: CGSize(width: 200, height: 20))
     
     @IBOutlet weak var turnIndicator: UILabel!
-    
-    @IBOutlet weak var debugLabel: UILabel!
-    @IBOutlet weak var testLabel: UILabel!
     @IBOutlet weak var enemyHPBarLabel: UILabel!
     
     //count of number of maze stages completed
@@ -499,8 +496,7 @@ class ViewController: UIViewController
                 toggleEnemyLabels(mode: "Off")
             }
         }
-
-        testLabel.text = String(Maze().getRow(maze: maze)) + ", " +  String(Maze().getCol(maze: maze)) + "adj:" + String(adjacentEnemyLocation.0) + ", " + String(adjacentEnemyLocation.1)
+        enemyHPBar.size.width = CGFloat(targetMinion.getHP()) / CGFloat(targetMinion.getMaxHP()) * 200
     }
     //left button logic
     @objc func leftButtonClicked(sender : UIButton)
@@ -528,8 +524,7 @@ class ViewController: UIViewController
                 toggleEnemyLabels(mode: "Off")
             }
         }
-
-        testLabel.text = String(Maze().getRow(maze: maze)) + ", " +  String(Maze().getCol(maze: maze)) + "adj:" + String(adjacentEnemyLocation.0) + ", " + String(adjacentEnemyLocation.1)
+        enemyHPBar.size.width = CGFloat(targetMinion.getHP()) / CGFloat(targetMinion.getMaxHP()) * 200
     }
     //up button logic
     @objc func upButtonClicked(sender : UIButton)
@@ -557,8 +552,7 @@ class ViewController: UIViewController
                 toggleEnemyLabels(mode: "Off")
             }
         }
-
-        testLabel.text = String(Maze().getRow(maze: maze)) + ", " +  String(Maze().getCol(maze: maze)) + "adj:" + String(adjacentEnemyLocation.0) + ", " + String(adjacentEnemyLocation.1)
+        enemyHPBar.size.width = CGFloat(targetMinion.getHP()) / CGFloat(targetMinion.getMaxHP()) * 200
     }
     //down button logic
     @objc func downButtonClicked(sender : UIButton)
@@ -586,22 +580,27 @@ class ViewController: UIViewController
                 toggleEnemyLabels(mode: "Off")
            }
         }
-
-        testLabel.text = String(Maze().getRow(maze: maze)) + ", " +  String(Maze().getCol(maze: maze)) + "adj:" + String(adjacentEnemyLocation.0) + ", " + String(adjacentEnemyLocation.1)
+        enemyHPBar.size.width = CGFloat(targetMinion.getHP()) / CGFloat(targetMinion.getMaxHP()) * 200
     }
     // MARK: Attack Buttons
     //light attack button logic
     @objc func lightAttackButtonClicked(sender : UIButton)
     {
-        sender.preventRepeatedPresses()
-        attack(type: "light")
+        if mazePlaced == true && currentGameState != "enemyTurn"
+        {
+            sender.preventRepeatedPresses()
+            attack(type: "light")
+        }
     }
     
     //heavy attack button logic
     @objc func heavyAttackButtonClicked(sender : UIButton)
     {
-        sender.preventRepeatedPresses()
-        attack(type: "heavy")
+        if mazePlaced == true && currentGameState != "enemyTurn"
+        {
+            sender.preventRepeatedPresses()
+            attack(type: "heavy")
+        }
     }
     //end turn button logic
     @objc func endTurnButtonClicked(sender : UIButton)
@@ -630,13 +629,56 @@ class ViewController: UIViewController
             let audioAction = SCNAction.playAudio(audio!, waitForCompletion: true)
             player.getPlayerNode().runAction(audioAction)
         }
+        
+        //deal damage to enemy
         if enemyInRange(row: Maze().getRow(maze: maze), col: Maze().getCol(maze: maze)) == true
         {
+            var action = SKAction()
+            enemyHPBar.size.width = 200
+            
+            
             targetMinion = findMinionByLocation(location: (row: adjacentEnemyLocation.0, col: adjacentEnemyLocation.1))
-            targetMinion.setHP(val: targetMinion.getHP()-1)
+            //light attacks do standard damage
+            if type == "light"
+            {
+                targetMinion.setHP(val: targetMinion.getHP()-player.calcDmg())
+                
+            }
+            //heavy attacks do double damage
+            else if type == "heavy"
+            {
+                targetMinion.setHP(val: targetMinion.getHP()-player.calcDmg()*2)
+            }
+            
+            //consume AP
+            updateAP()
+            
+            //update hp bar
+            enemyHPBar.size.width = CGFloat(targetMinion.getHP()) / CGFloat(targetMinion.getMaxHP()) * 200
+            action = SKAction.resize(toWidth: CGFloat(enemyHPBar.size.width), duration: 0.25)
+            
+            //update hp label
             enemyHPBarLabel.text = String(targetMinion.getName()) + ": " + String(targetMinion.getHP()) + " / " + String(targetMinion.getMaxHP())
-
-
+            enemyHPBar.run(action)
+            
+            //check if enemy is dead
+            if targetMinion.isDead()
+            {
+                //remove enemy model from scene
+                targetMinion.getMinionNode().removeFromParentNode()
+                //remove enemy data from maze
+                maze[adjacentEnemyLocation.0][adjacentEnemyLocation.1] = 0
+                //remove from minion pool
+//                for i in 0 ..< minionPool.count
+//                {
+//                    if minionPool[i].arrayLocation == targetMinion.arrayLocation
+//                    {
+//                        minionPool.remove(at: i)
+//                    }
+//                }
+                //hide hp bars
+                toggleEnemyLabels(mode: "Off")
+            }
         }
     }
     // MARK: Player Movement
@@ -746,7 +788,6 @@ class ViewController: UIViewController
             }
         }
         //code shouldn't reach here, all minions should be in list
-        debugLabel.text = "ERROR"
         return minionPool[0]
     }
     // MARK: Music
