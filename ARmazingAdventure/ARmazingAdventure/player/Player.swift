@@ -40,8 +40,8 @@ class Player
     }
     
     var playerHP = 10
-    var maxAP = 50
-    var apCount = 50
+    var maxAP = 5
+    var apCount = 5
     
     // MARK: Animations & Models
     // creates a player character model with its animations

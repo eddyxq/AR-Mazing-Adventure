@@ -203,7 +203,7 @@ class ViewController: UIViewController
         
         if player.apCount == 0
         {
-            //stateChange()
+            stateChange()
         }
     }
     
@@ -230,7 +230,7 @@ class ViewController: UIViewController
         if currentGameState == "playerTurn"
         {
             currentGameState = GameState.enemyTurn.state()
-            //enemyAction()
+            enemyAction()
         }
         else if currentGameState == "enemyTurn"
         {
@@ -243,31 +243,23 @@ class ViewController: UIViewController
     // MARK: Enemy Turn Logics
     func enemyAction()
     {
-//        if enemyInRange(row: Maze().getRow(maze: maze), col: Maze().getCol(maze: maze)) == true
-//        {
-//            if isFacingPlayer() == false && backToPlayer()
-//            {
-//               targetMinion.turn180(direction: targetMinion.currentMinionDirection)
-//            }
-//            else
-//            {
-//
-//            }
-//            var action = SKAction()
-//            let newBarWidth = playerHPBar.size.width - targetMinion.attackPlayer(target: player)
-//            //if enemy is dead
-//            if newBarWidth <= 0
-//            {
-//                action = SKAction.resize(toWidth: 0.0, duration: 0.25)
-//            }
-//            else
-//            {
-//                action = SKAction.resize(toWidth: CGFloat(newBarWidth), duration: 0.25)
-//            }
-//            targetMinion.playAnimation(ARCanvas, key: "attack")
-//            player.playAnimation(ARCanvas, key: "impact")
-//            playerHPBar.run(action)
-//        }
+        if enemyInRange(row: Maze().getRow(maze: maze), col: Maze().getCol(maze: maze)) == true
+        {
+            var action = SKAction()
+            let newBarWidth = playerHPBar.size.width - targetMinion.attackPlayer(target: player)
+            //if enemy is dead
+            if newBarWidth <= 0
+            {
+                action = SKAction.resize(toWidth: 0.0, duration: 0.25)
+            }
+            else
+            {
+                action = SKAction.resize(toWidth: CGFloat(newBarWidth), duration: 0.25)
+            }
+            //targetMinion.playAnimation(ARCanvas, key: "attack")
+            //player.playAnimation(ARCanvas, key: "impact")
+            playerHPBar.run(action)
+        }
         stateChange()
     }
     
@@ -431,35 +423,35 @@ class ViewController: UIViewController
     {
         if mazePlaced == true && currentGameState != "enemyTurn"
         {
+            sender.preventRepeatedPresses()
+            
+            if player.currentPlayerDirection == "up"
+            {
+                player.turnRight(direction: player.currentPlayerDirection)
+                let turnAction = SCNAction.rotateBy(x: 0, y: .pi/2, z: 0, duration: 0.5)
+                player.playAnimation(ARCanvas, key: "turnRight")
+                player.getPlayerNode().runAction(turnAction)
+            }
+            else if player.currentPlayerDirection == "down"
+            {
+                player.turnLeft(direction: player.currentPlayerDirection)
+                let turnAction = SCNAction.rotateBy(x: 0, y: -(.pi/2), z: 0, duration: 0.5)
+                player.playAnimation(ARCanvas, key: "turnLeft")
+                player.getPlayerNode().runAction(turnAction)
+            }
+            else if player.currentPlayerDirection == "left"
+            {
+                player.turnLeft(direction: player.currentPlayerDirection)
+                let turnAction = SCNAction.rotateBy(x: 0, y: -(.pi/2), z: 0, duration: 0.5)
+                player.playAnimation(ARCanvas, key: "turnLeft")
+                player.getPlayerNode().runAction(turnAction)
+                player.turnLeft(direction: player.currentPlayerDirection)
+                player.playAnimation(ARCanvas, key: "turnLeft")
+                player.getPlayerNode().runAction(turnAction)
+            }
+            
             if canMove(direction: "right")
             {
-                sender.preventRepeatedPresses()
-                
-                if player.currentPlayerDirection == "up"
-                {
-                    player.turnRight(direction: player.currentPlayerDirection)
-                    let turnAction = SCNAction.rotateBy(x: 0, y: .pi/2, z: 0, duration: 0.5)
-                    player.playAnimation(ARCanvas, key: "turnRight")
-                    player.getPlayerNode().runAction(turnAction)
-                }
-                else if player.currentPlayerDirection == "down"
-                {
-                    player.turnLeft(direction: player.currentPlayerDirection)
-                    let turnAction = SCNAction.rotateBy(x: 0, y: -(.pi/2), z: 0, duration: 0.5)
-                    player.playAnimation(ARCanvas, key: "turnLeft")
-                    player.getPlayerNode().runAction(turnAction)
-                }
-                else if player.currentPlayerDirection == "left"
-                {
-                    player.turnLeft(direction: player.currentPlayerDirection)
-                    let turnAction = SCNAction.rotateBy(x: 0, y: -(.pi/2), z: 0, duration: 0.5)
-                    player.playAnimation(ARCanvas, key: "turnLeft")
-                    player.getPlayerNode().runAction(turnAction)
-                    player.turnLeft(direction: player.currentPlayerDirection)
-                    player.playAnimation(ARCanvas, key: "turnLeft")
-                    player.getPlayerNode().runAction(turnAction)
-                }
-                
                 player.playAnimation(ARCanvas, key: "walk")
                 player.getPlayerNode().runAction(player.newMove(direction: "right"))
                 updateAP()
@@ -485,35 +477,35 @@ class ViewController: UIViewController
     {
         if mazePlaced == true && currentGameState != "enemyTurn"
         {
+            sender.preventRepeatedPresses()
+            
+            if player.currentPlayerDirection == "up"
+            {
+                player.turnLeft(direction: player.currentPlayerDirection)
+                let turnAction = SCNAction.rotateBy(x: 0, y: -(.pi/2), z: 0, duration: 0.5)
+                player.playAnimation(ARCanvas, key: "turnLeft")
+                player.getPlayerNode().runAction(turnAction)
+            }
+            else if player.currentPlayerDirection == "down"
+            {
+                player.turnRight(direction: player.currentPlayerDirection)
+                let turnAction = SCNAction.rotateBy(x: 0, y: .pi/2, z: 0, duration: 0.5)
+                player.playAnimation(ARCanvas, key: "turnRight")
+                player.getPlayerNode().runAction(turnAction)
+            }
+            else if player.currentPlayerDirection == "right"
+            {
+                player.turnRight(direction: player.currentPlayerDirection)
+                let turnAction = SCNAction.rotateBy(x: 0, y: .pi/2, z: 0, duration: 0.5)
+                player.playAnimation(ARCanvas, key: "turnRight")
+                player.getPlayerNode().runAction(turnAction)
+                player.turnRight(direction: player.currentPlayerDirection)
+                player.playAnimation(ARCanvas, key: "turnRight")
+                player.getPlayerNode().runAction(turnAction)
+            }
+            
             if canMove(direction: "left")
             {
-                sender.preventRepeatedPresses()
-                
-                if player.currentPlayerDirection == "up"
-                {
-                    player.turnLeft(direction: player.currentPlayerDirection)
-                    let turnAction = SCNAction.rotateBy(x: 0, y: -(.pi/2), z: 0, duration: 0.5)
-                    player.playAnimation(ARCanvas, key: "turnLeft")
-                    player.getPlayerNode().runAction(turnAction)
-                }
-                else if player.currentPlayerDirection == "down"
-                {
-                    player.turnRight(direction: player.currentPlayerDirection)
-                    let turnAction = SCNAction.rotateBy(x: 0, y: .pi/2, z: 0, duration: 0.5)
-                    player.playAnimation(ARCanvas, key: "turnRight")
-                    player.getPlayerNode().runAction(turnAction)
-                }
-                else if player.currentPlayerDirection == "right"
-                {
-                    player.turnRight(direction: player.currentPlayerDirection)
-                    let turnAction = SCNAction.rotateBy(x: 0, y: .pi/2, z: 0, duration: 0.5)
-                    player.playAnimation(ARCanvas, key: "turnRight")
-                    player.getPlayerNode().runAction(turnAction)
-                    player.turnRight(direction: player.currentPlayerDirection)
-                    player.playAnimation(ARCanvas, key: "turnRight")
-                    player.getPlayerNode().runAction(turnAction)
-                }
-
                 player.playAnimation(ARCanvas, key: "walk")
                 player.getPlayerNode().runAction(player.newMove(direction: "left"))
                 updateAP()
@@ -539,35 +531,35 @@ class ViewController: UIViewController
     {
         if mazePlaced == true && currentGameState != "enemyTurn"
         {
+            sender.preventRepeatedPresses()
+            
+            if player.currentPlayerDirection == "down"
+            {
+                player.turnRight(direction: player.currentPlayerDirection)
+                let turnAction = SCNAction.rotateBy(x: 0, y: .pi/2, z: 0, duration: 0.5)
+                player.playAnimation(ARCanvas, key: "turnRight")
+                player.getPlayerNode().runAction(turnAction)
+                player.turnRight(direction: player.currentPlayerDirection)
+                player.playAnimation(ARCanvas, key: "turnRight")
+                player.getPlayerNode().runAction(turnAction)
+            }
+            else if player.currentPlayerDirection == "left"
+            {
+                player.turnRight(direction: player.currentPlayerDirection)
+                let turnAction = SCNAction.rotateBy(x: 0, y: .pi/2, z: 0, duration: 0.5)
+                player.playAnimation(ARCanvas, key: "turnRight")
+                player.getPlayerNode().runAction(turnAction)
+            }
+            else if player.currentPlayerDirection == "right"
+            {
+                player.turnLeft(direction: player.currentPlayerDirection)
+                let turnAction = SCNAction.rotateBy(x: 0, y: -(.pi/2), z: 0, duration: 0.5)
+                player.playAnimation(ARCanvas, key: "turnLeft")
+                player.getPlayerNode().runAction(turnAction)
+            }
+            
             if canMove(direction: "forward")
             {
-                sender.preventRepeatedPresses()
-                
-                if player.currentPlayerDirection == "down"
-                {
-                    player.turnRight(direction: player.currentPlayerDirection)
-                    let turnAction = SCNAction.rotateBy(x: 0, y: .pi/2, z: 0, duration: 0.5)
-                    player.playAnimation(ARCanvas, key: "turnRight")
-                    player.getPlayerNode().runAction(turnAction)
-                    player.turnRight(direction: player.currentPlayerDirection)
-                    player.playAnimation(ARCanvas, key: "turnRight")
-                    player.getPlayerNode().runAction(turnAction)
-                }
-                else if player.currentPlayerDirection == "left"
-                {
-                    player.turnRight(direction: player.currentPlayerDirection)
-                    let turnAction = SCNAction.rotateBy(x: 0, y: .pi/2, z: 0, duration: 0.5)
-                    player.playAnimation(ARCanvas, key: "turnRight")
-                    player.getPlayerNode().runAction(turnAction)
-                }
-                else if player.currentPlayerDirection == "right"
-                {
-                    player.turnLeft(direction: player.currentPlayerDirection)
-                    let turnAction = SCNAction.rotateBy(x: 0, y: -(.pi/2), z: 0, duration: 0.5)
-                    player.playAnimation(ARCanvas, key: "turnLeft")
-                    player.getPlayerNode().runAction(turnAction)
-                }
-                
                 player.playAnimation(ARCanvas, key: "walk")
                 player.getPlayerNode().runAction(player.newMove(direction: "up"))
                 updateAP()
@@ -593,35 +585,35 @@ class ViewController: UIViewController
     {
         if mazePlaced == true && currentGameState != "enemyTurn"
         {
+            sender.preventRepeatedPresses()
+            
+            if player.currentPlayerDirection == "up"
+            {
+               player.turnRight(direction: player.currentPlayerDirection)
+               let turnAction = SCNAction.rotateBy(x: 0, y: .pi/2, z: 0, duration: 0.5)
+               player.playAnimation(ARCanvas, key: "turnRight")
+               player.getPlayerNode().runAction(turnAction)
+               player.turnRight(direction: player.currentPlayerDirection)
+               player.playAnimation(ARCanvas, key: "turnRight")
+               player.getPlayerNode().runAction(turnAction)
+            }
+            else if player.currentPlayerDirection == "left"
+            {
+                player.turnLeft(direction: player.currentPlayerDirection)
+                let turnAction = SCNAction.rotateBy(x: 0, y: -(.pi/2), z: 0, duration: 0.5)
+                player.playAnimation(ARCanvas, key: "turnLeft")
+                player.getPlayerNode().runAction(turnAction)
+            }
+            else if player.currentPlayerDirection == "right"
+            {
+                player.turnRight(direction: player.currentPlayerDirection)
+                let turnAction = SCNAction.rotateBy(x: 0, y: .pi/2, z: 0, duration: 0.5)
+                player.playAnimation(ARCanvas, key: "turnRight")
+                player.getPlayerNode().runAction(turnAction)
+            }
+            
             if canMove(direction: "backward")
             {
-                sender.preventRepeatedPresses()
-                
-                if player.currentPlayerDirection == "up"
-                {
-                   player.turnRight(direction: player.currentPlayerDirection)
-                   let turnAction = SCNAction.rotateBy(x: 0, y: .pi/2, z: 0, duration: 0.5)
-                   player.playAnimation(ARCanvas, key: "turnRight")
-                   player.getPlayerNode().runAction(turnAction)
-                   player.turnRight(direction: player.currentPlayerDirection)
-                   player.playAnimation(ARCanvas, key: "turnRight")
-                   player.getPlayerNode().runAction(turnAction)
-                }
-                else if player.currentPlayerDirection == "left"
-                {
-                    player.turnLeft(direction: player.currentPlayerDirection)
-                    let turnAction = SCNAction.rotateBy(x: 0, y: -(.pi/2), z: 0, duration: 0.5)
-                    player.playAnimation(ARCanvas, key: "turnLeft")
-                    player.getPlayerNode().runAction(turnAction)
-                }
-                else if player.currentPlayerDirection == "right"
-                {
-                    player.turnRight(direction: player.currentPlayerDirection)
-                    let turnAction = SCNAction.rotateBy(x: 0, y: .pi/2, z: 0, duration: 0.5)
-                    player.playAnimation(ARCanvas, key: "turnRight")
-                    player.getPlayerNode().runAction(turnAction)
-                }
-                
                 player.playAnimation(ARCanvas, key: "walkBack")
                 player.getPlayerNode().runAction(player.newMove(direction: "down"))
                 updateAP()
@@ -757,10 +749,10 @@ class ViewController: UIViewController
                 playerRow += 1
             case "forward":
                 playerRow -= 1
-            case "right":
-                playerCol += 1
             case "left":
                 playerCol -= 1
+            case "right":
+                playerCol += 1
             default:
                 break
         }
@@ -771,140 +763,19 @@ class ViewController: UIViewController
         }
         else // player does not move, returns to origin and turns facing the direction he tried to move in
         {
-
-            
-            
-            if direction == "backward"
+            switch (direction)
             {
-                if player.currentPlayerDirection == "up"
-                {
-                    player.turnRight(direction: player.currentPlayerDirection)
-                    let turnAction = SCNAction.rotateBy(x: 0, y: .pi/2, z: 0, duration: 0.5)
-                    player.playAnimation(ARCanvas, key: "turnRight")
-                    player.getPlayerNode().runAction(turnAction)
-                    player.turnRight(direction: player.currentPlayerDirection)
-                    player.playAnimation(ARCanvas, key: "turnRight")
-                    player.getPlayerNode().runAction(turnAction)
-                }
-                else if player.currentPlayerDirection == "down"
-                {
-                    
-                }
-                else if player.currentPlayerDirection == "left"
-                {
-                    player.turnLeft(direction: player.currentPlayerDirection)
-                    let turnAction = SCNAction.rotateBy(x: 0, y: -(.pi/2), z: 0, duration: 0.5)
-                    player.playAnimation(ARCanvas, key: "turnLeft")
-                    player.getPlayerNode().runAction(turnAction)
-                }
-                else if player.currentPlayerDirection == "right"
-                {
-                    player.turnRight(direction: player.currentPlayerDirection)
-                    let turnAction = SCNAction.rotateBy(x: 0, y: .pi/2, z: 0, duration: 0.5)
-                    player.playAnimation(ARCanvas, key: "turnRight")
-                    player.getPlayerNode().runAction(turnAction)
-                }
-                playerRow -= 1
+                case "backward":
+                    playerRow -= 1
+                case "forward":
+                    playerRow += 1
+                case "left":
+                    playerCol += 1
+                case "right":
+                    playerCol -= 1
+                default:
+                    break
             }
-            else if direction == "forward"
-            {
-                if player.currentPlayerDirection == "up"
-                {
-
-                }
-                else if player.currentPlayerDirection == "down"
-                {
-                    player.turnRight(direction: player.currentPlayerDirection)
-                    let turnAction = SCNAction.rotateBy(x: 0, y: .pi/2, z: 0, duration: 0.5)
-                    player.playAnimation(ARCanvas, key: "turnRight")
-                    player.getPlayerNode().runAction(turnAction)
-                    player.turnRight(direction: player.currentPlayerDirection)
-                    player.playAnimation(ARCanvas, key: "turnRight")
-                    player.getPlayerNode().runAction(turnAction)
-                }
-                else if player.currentPlayerDirection == "left"
-                {
-                    player.turnRight(direction: player.currentPlayerDirection)
-                    let turnAction = SCNAction.rotateBy(x: 0, y: .pi/2, z: 0, duration: 0.5)
-                    player.playAnimation(ARCanvas, key: "turnRight")
-                    player.getPlayerNode().runAction(turnAction)
-                }
-                else if player.currentPlayerDirection == "right"
-                {
-                    player.turnLeft(direction: player.currentPlayerDirection)
-                    let turnAction = SCNAction.rotateBy(x: 0, y: -(.pi/2), z: 0, duration: 0.5)
-                    player.playAnimation(ARCanvas, key: "turnLeft")
-                    player.getPlayerNode().runAction(turnAction)
-                }
-                playerRow += 1
-            }
-            else if direction == "right"
-            {
-                if player.currentPlayerDirection == "up"
-                {
-                    player.turnRight(direction: player.currentPlayerDirection)
-                    let turnAction = SCNAction.rotateBy(x: 0, y: .pi/2, z: 0, duration: 0.5)
-                    player.playAnimation(ARCanvas, key: "turnRight")
-                    player.getPlayerNode().runAction(turnAction)
-                }
-                else if player.currentPlayerDirection == "down"
-                {
-                    player.turnLeft(direction: player.currentPlayerDirection)
-                    let turnAction = SCNAction.rotateBy(x: 0, y: -(.pi/2), z: 0, duration: 0.5)
-                    player.playAnimation(ARCanvas, key: "turnLeft")
-                    player.getPlayerNode().runAction(turnAction)
-                }
-                else if player.currentPlayerDirection == "left"
-                {
-                    player.turnRight(direction: player.currentPlayerDirection)
-                    let turnAction = SCNAction.rotateBy(x: 0, y: .pi/2, z: 0, duration: 0.5)
-                    player.playAnimation(ARCanvas, key: "turnRight")
-                    player.getPlayerNode().runAction(turnAction)
-                    player.turnRight(direction: player.currentPlayerDirection)
-                    player.playAnimation(ARCanvas, key: "turnRight")
-                    player.getPlayerNode().runAction(turnAction)
-                }
-                else if player.currentPlayerDirection == "right"
-                {
-
-                }
-                playerCol -= 1
-            }
-            else if direction == "left"
-            {
-                if player.currentPlayerDirection == "up"
-                {
-                    player.turnLeft(direction: player.currentPlayerDirection)
-                    let turnAction = SCNAction.rotateBy(x: 0, y: -(.pi/2), z: 0, duration: 0.5)
-                    player.playAnimation(ARCanvas, key: "turnLeft")
-                    player.getPlayerNode().runAction(turnAction)
-                }
-                else if player.currentPlayerDirection == "down"
-                {
-                    player.turnRight(direction: player.currentPlayerDirection)
-                    let turnAction = SCNAction.rotateBy(x: 0, y: .pi/2, z: 0, duration: 0.5)
-                    player.playAnimation(ARCanvas, key: "turnRight")
-                    player.getPlayerNode().runAction(turnAction)
-                }
-                else if player.currentPlayerDirection == "left"
-                {
-
-                }
-                else if player.currentPlayerDirection == "right"
-                {
-                    player.turnRight(direction: player.currentPlayerDirection)
-                    let turnAction = SCNAction.rotateBy(x: 0, y: .pi/2, z: 0, duration: 0.5)
-                    player.playAnimation(ARCanvas, key: "turnRight")
-                    player.getPlayerNode().runAction(turnAction)
-                    player.turnRight(direction: player.currentPlayerDirection)
-                    player.playAnimation(ARCanvas, key: "turnRight")
-                    player.getPlayerNode().runAction(turnAction)
-                }
-                playerCol += 1
-            }
-            
-            
-            
             maze[playerRow][playerCol] = 2;
         }
         return canMove
