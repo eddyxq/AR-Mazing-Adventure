@@ -37,6 +37,8 @@ class Boss: Enemy
         bossNode.name = "enemy"
         //TODO: load more animations if available
         loadAnimation(withKey: "impact", sceneName: "art.scnassets/characters/enemy/boss/ImpactFixed", animationIdentifier: "ImpactFixed-1")
+        loadAnimation(withKey: "attack", sceneName: "art.scnassets/characters/enemy/boss/BossAttackFixed", animationIdentifier: "BossAttackFixed-1")
+        loadAnimation(withKey: "death", sceneName: "art.scnassets/characters/enemy/boss/BossDeathFixed", animationIdentifier: "BossDeathFixed-1")
         sceneView.scene.rootNode.addChildNode(bossNode)
     }
     

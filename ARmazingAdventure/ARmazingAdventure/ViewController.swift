@@ -752,7 +752,7 @@ class ViewController: UIViewController
             //check if enemy is dead
             if targetMinion.isDead()
             {
-                SCNTransaction.animationDuration = 1.0
+                SCNTransaction.animationDuration = 0.1
                 SCNTransaction.begin()
                 targetMinion.playAnimation(ARCanvas, key: "death")
                 SCNTransaction.completionBlock = {

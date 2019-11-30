@@ -73,6 +73,7 @@ class Player
         loadAnimation(withKey: "lightAttack", sceneName: "art.scnassets/characters/player/LightAttackFixed", animationIdentifier: "LightAttackFixed-1")
         loadAnimation(withKey: "heavyAttack", sceneName: "art.scnassets/characters/player/HeavyAttackFixed", animationIdentifier: "HeavyAttackFixed-1")
         loadAnimation(withKey: "impact", sceneName: "art.scnassets/characters/player/PlayerImpactFixed", animationIdentifier: "PlayerImpactFixed-1")
+        loadAnimation(withKey: "death", sceneName: "art.scnassets/characters/player/PlayerDeathFixed", animationIdentifier: "PlayerDeathFixed-1")
     }
     //load animations
     func loadAnimation(withKey: String, sceneName: String, animationIdentifier: String)
