@@ -26,7 +26,7 @@ class Minion: Enemy
     let enemyType = Enemy.EnemyTypes.minion.type()
     
     init() {
-        super.init(name: "Zombie", maxHP: 25, health: 25, minAtkVal: 1, maxAtkVal: 1, level: 1)
+        super.init(name: "Zombie", maxHP: 10, health: 10, minAtkVal: 1, maxAtkVal: 1, level: 1)
     }
     
     // MARK: Animations & Models
@@ -55,6 +55,7 @@ class Minion: Enemy
         loadAnimation(withKey: "attack", sceneName: "art.scnassets/characters/enemy/minion/MinionAttackFixed", animationIdentifier: "MinionAttackFixed-1")
         loadAnimation(withKey: "turnRight", sceneName: "art.scnassets/characters/enemy/minion/MinionRightTurnFixed", animationIdentifier: "MinionRightTurnFixed-1")
         loadAnimation(withKey: "turnLeft", sceneName: "art.scnassets/characters/enemy/minion/MinionLeftTurnFixed", animationIdentifier: "MinionLeftTurnFixed-1")
+        loadAnimation(withKey: "death", sceneName: "art.scnassets/characters/enemy/minion/MinionDeathFixed", animationIdentifier: "MinionDeathFixed-1")
         sceneView.scene.rootNode.addChildNode(minionNode)
     }
     
@@ -146,6 +147,27 @@ class Minion: Enemy
         }
         let turnAction = SCNAction.rotateBy(x: 0, y: .pi, z: 0, duration: 0.5)
         minionNode.runAction(turnAction)
+    }
+    
+    //translates minion
+    func newMove(direction: String) -> SCNAction
+    {
+        let tileSize = CGFloat(0.04)
+        var walkAction = SCNAction()
+        switch direction
+        {
+            case "up":
+                walkAction = SCNAction.moveBy(x: 0, y: 0, z: -tileSize, duration: 1.5)
+            case "down":
+                walkAction = SCNAction.moveBy(x: 0, y: 0, z: tileSize, duration: 1.5)
+            case "left":
+                walkAction = SCNAction.moveBy(x: -tileSize, y: 0, z: 0, duration: 1.5)
+            case "right":
+                walkAction = SCNAction.moveBy(x: tileSize, y: 0, z: 0, duration: 1.5)
+            default:
+                break
+        }
+        return walkAction
     }
     // MARK: Getters & Setters
     //Spawns the minion model at the given sceneview
