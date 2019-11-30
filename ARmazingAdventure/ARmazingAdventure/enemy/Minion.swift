@@ -55,6 +55,7 @@ class Minion: Enemy
         loadAnimation(withKey: "attack", sceneName: "art.scnassets/characters/enemy/minion/MinionAttackFixed", animationIdentifier: "MinionAttackFixed-1")
         loadAnimation(withKey: "turnRight", sceneName: "art.scnassets/characters/enemy/minion/MinionRightTurnFixed", animationIdentifier: "MinionRightTurnFixed-1")
         loadAnimation(withKey: "turnLeft", sceneName: "art.scnassets/characters/enemy/minion/MinionLeftTurnFixed", animationIdentifier: "MinionLeftTurnFixed-1")
+        loadAnimation(withKey: "death", sceneName: "art.scnassets/characters/enemy/minion/MinionDeathFixed", animationIdentifier: "MinionDeathFixed-1")
         sceneView.scene.rootNode.addChildNode(minionNode)
     }
     

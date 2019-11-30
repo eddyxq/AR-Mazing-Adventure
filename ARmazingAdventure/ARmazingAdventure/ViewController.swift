@@ -729,6 +729,7 @@ class ViewController: UIViewController
             if type == "light"
             {
                 targetMinion.setHP(val: targetMinion.getHP()-player.calcDmg())
+                targetMinion.playAnimation(ARCanvas, key: "impact")
                 
             }
             //heavy attacks do double damage
@@ -751,8 +752,15 @@ class ViewController: UIViewController
             //check if enemy is dead
             if targetMinion.isDead()
             {
-                //remove enemy model from scene
-                targetMinion.getMinionNode().removeFromParentNode()
+                SCNTransaction.animationDuration = 1.0
+                SCNTransaction.begin()
+                targetMinion.playAnimation(ARCanvas, key: "death")
+                SCNTransaction.completionBlock = {
+                    //remove enemy model from scene
+                    self.targetMinion.getMinionNode().removeFromParentNode()
+                }
+                
+                SCNTransaction.commit()
                 //remove enemy data from maze
                 maze[adjacentEnemyLocation.0][adjacentEnemyLocation.1] = 0
                 //remove from minion pool
