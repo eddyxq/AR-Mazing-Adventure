@@ -56,6 +56,7 @@ class Minion: Enemy
         loadAnimation(withKey: "turnRight", sceneName: "art.scnassets/characters/enemy/minion/MinionRightTurnFixed", animationIdentifier: "MinionRightTurnFixed-1")
         loadAnimation(withKey: "turnLeft", sceneName: "art.scnassets/characters/enemy/minion/MinionLeftTurnFixed", animationIdentifier: "MinionLeftTurnFixed-1")
         loadAnimation(withKey: "death", sceneName: "art.scnassets/characters/enemy/minion/MinionDeathFixed", animationIdentifier: "MinionDeathFixed-1")
+        loadAnimation(withKey: "walking", sceneName: "art.scnassets/characters/enemy/minion/MinionWalkingFixed", animationIdentifier: "MinionWalkingFixed-1")
         sceneView.scene.rootNode.addChildNode(minionNode)
     }
     
@@ -77,7 +78,6 @@ class Minion: Enemy
             animations[withKey] = animationObject
         }
     }
-
     //play animation
     func playAnimation(_ sceneView: ARSCNView, key: String)
     {
