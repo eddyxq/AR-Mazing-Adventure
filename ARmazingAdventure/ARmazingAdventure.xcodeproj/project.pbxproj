@@ -17,6 +17,9 @@
 		4E9887C9237B710C002A4F45 /* Boss.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E9887C8237B710C002A4F45 /* Boss.swift */; };
 		4EAEE61F235E3A170041EBDF /* art.scnassets in Resources */ = {isa = PBXBuildFile; fileRef = 4EAEE61E235E3A170041EBDF /* art.scnassets */; };
 		4EAEE621235E5EAC0041EBDF /* MainMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EAEE620235E5EAC0041EBDF /* MainMenuViewController.swift */; };
+		4EE314C02395C72C001421AD /* PlayerModeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EE314BF2395C72C001421AD /* PlayerModeViewController.swift */; };
+		4EE314C32395CA56001421AD /* SettingMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EE314C22395CA56001421AD /* SettingMenuViewController.swift */; };
+		4EE314C52395CD30001421AD /* CharacterMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EE314C42395CD30001421AD /* CharacterMenuViewController.swift */; };
 		4EE6404623864CC8004F304C /* Battle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EE6404523864CC8004F304C /* Battle.swift */; };
 		640D28BA239073CC00E5DC24 /* Solver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 640D28B9239073CC00E5DC24 /* Solver.swift */; };
 		DB6B716E235D1F94003276B2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB6B716D235D1F94003276B2 /* AppDelegate.swift */; };
@@ -54,7 +57,10 @@
 		4E9887C6237B7103002A4F45 /* Minion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Minion.swift; sourceTree = "<group>"; };
 		4E9887C8237B710C002A4F45 /* Boss.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Boss.swift; sourceTree = "<group>"; };
 		4EAEE61E235E3A170041EBDF /* art.scnassets */ = {isa = PBXFileReference; lastKnownFileType = wrapper.scnassets; path = art.scnassets; sourceTree = "<group>"; };
-		4EAEE620235E5EAC0041EBDF /* MainMenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MainMenuViewController.swift; path = ARmazingAdventure/MainMenuViewController.swift; sourceTree = SOURCE_ROOT; };
+		4EAEE620235E5EAC0041EBDF /* MainMenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MainMenuViewController.swift; path = "ARmazingAdventure/Menu ViewControllers/MainMenuViewController.swift"; sourceTree = SOURCE_ROOT; };
+		4EE314BF2395C72C001421AD /* PlayerModeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerModeViewController.swift; sourceTree = "<group>"; };
+		4EE314C22395CA56001421AD /* SettingMenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingMenuViewController.swift; sourceTree = "<group>"; };
+		4EE314C42395CD30001421AD /* CharacterMenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterMenuViewController.swift; sourceTree = "<group>"; };
 		4EE6404523864CC8004F304C /* Battle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Battle.swift; sourceTree = "<group>"; };
 		640D28B9239073CC00E5DC24 /* Solver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Solver.swift; sourceTree = "<group>"; };
 		DB6B716A235D1F94003276B2 /* ARmazingAdventure.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ARmazingAdventure.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -114,6 +120,17 @@
 			path = enemy;
 			sourceTree = "<group>";
 		};
+		4EE314C12395C820001421AD /* Menu ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				4EAEE620235E5EAC0041EBDF /* MainMenuViewController.swift */,
+				4EE314BF2395C72C001421AD /* PlayerModeViewController.swift */,
+				4EE314C22395CA56001421AD /* SettingMenuViewController.swift */,
+				4EE314C42395CD30001421AD /* CharacterMenuViewController.swift */,
+			);
+			path = "Menu ViewControllers";
+			sourceTree = "<group>";
+		};
 		DB6B7161235D1F94003276B2 = {
 			isa = PBXGroup;
 			children = (
@@ -138,6 +155,7 @@
 		DB6B716C235D1F94003276B2 /* ARmazingAdventure */ = {
 			isa = PBXGroup;
 			children = (
+				4EE314C12395C820001421AD /* Menu ViewControllers */,
 				4E9887C3237B6E18002A4F45 /* enemy */,
 				4E9887C0237B636F002A4F45 /* player */,
 				4E810A2923714FDB009D87D6 /* Assets.xcassets */,
@@ -148,7 +166,6 @@
 				DB6B716D235D1F94003276B2 /* AppDelegate.swift */,
 				DB6B716F235D1F94003276B2 /* ViewController.swift */,
 				DB6B7173235D1F94003276B2 /* Main.storyboard */,
-				4EAEE620235E5EAC0041EBDF /* MainMenuViewController.swift */,
 				DB6B7178235D1F96003276B2 /* LaunchScreen.storyboard */,
 				DB6B717B235D1F96003276B2 /* Info.plist */,
 				4EE6404523864CC8004F304C /* Battle.swift */,
@@ -306,6 +323,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4EE314C52395CD30001421AD /* CharacterMenuViewController.swift in Sources */,
 				4E9887C7237B7103002A4F45 /* Minion.swift in Sources */,
 				4E9887BF237B632B002A4F45 /* HelperFunctions.swift in Sources */,
 				640D28BA239073CC00E5DC24 /* Solver.swift in Sources */,
@@ -314,7 +332,9 @@
 				DB6B7170235D1F94003276B2 /* ViewController.swift in Sources */,
 				4E9887C5237B6E2B002A4F45 /* Enemy.swift in Sources */,
 				4E9887C2237B638C002A4F45 /* Player.swift in Sources */,
+				4EE314C32395CA56001421AD /* SettingMenuViewController.swift in Sources */,
 				DB6B716E235D1F94003276B2 /* AppDelegate.swift in Sources */,
+				4EE314C02395C72C001421AD /* PlayerModeViewController.swift in Sources */,
 				4EE6404623864CC8004F304C /* Battle.swift in Sources */,
 				4E9887C9237B710C002A4F45 /* Boss.swift in Sources */,
 				4E9887BD237B632B002A4F45 /* Maze.swift in Sources */,

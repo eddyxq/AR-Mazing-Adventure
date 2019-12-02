@@ -113,8 +113,8 @@ class ViewController: UIViewController
         
         setupOverlay()
         setupDungeonMusic()
-        //setupARLight()
-        //setupFog()
+        setupARLight()
+        setupFog()
         //enables user to tap detected plane for maze placement
         addTapGestureToSceneView()
         //adds arrow pad to screen
@@ -752,15 +752,7 @@ class ViewController: UIViewController
             //check if enemy is dead
             if targetMinion.isDead()
             {
-                SCNTransaction.animationDuration = 0.1
-                SCNTransaction.begin()
-                targetMinion.playAnimation(ARCanvas, key: "death")
-                SCNTransaction.completionBlock = {
-                    //remove enemy model from scene
-                    self.targetMinion.getMinionNode().removeFromParentNode()
-                }
-                
-                SCNTransaction.commit()
+                targetMinion.getMinionNode().removeFromParentNode()
                 //remove enemy data from maze
                 maze[adjacentEnemyLocation.0][adjacentEnemyLocation.1] = 0
                 //remove from minion pool
