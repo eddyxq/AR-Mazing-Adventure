@@ -21,12 +21,11 @@ class Minion: Enemy
     //location of the minion on the maze array
     var arrayLocation = (0, 0)
     
-    let minionNode = SCNNode()
     var animations = [String: CAAnimation]()
     let enemyType = Enemy.EnemyTypes.minion.type()
     
     init() {
-        super.init(name: "Zombie", maxHP: 10, health: 10, minAtkVal: 1, maxAtkVal: 1, level: 1)
+        super.init(name: "Zombie", maxHP: 10, health: 10, minAtkVal: 1, maxAtkVal: 1, level: 1, node: SCNNode())
     }
     
     // MARK: Animations & Models
@@ -39,17 +38,17 @@ class Minion: Enemy
         // Add all the child nodes to the parent node
         for child in idleScene.rootNode.childNodes
         {
-            minionNode.addChildNode(child)
+            enemyNode.addChildNode(child)
         }
         //set enemy location
-        minionNode.position = SCNVector3(CGFloat(position.xCoord), CGFloat(position.yCoord), CGFloat(position.zCoord))
+        enemyNode.position = SCNVector3(CGFloat(position.xCoord), CGFloat(position.yCoord), CGFloat(position.zCoord))
         //size of the enemy model
         let enemyModelSize = 0.0014
-        minionNode.scale = SCNVector3(enemyModelSize, enemyModelSize, enemyModelSize)
+        enemyNode.scale = SCNVector3(enemyModelSize, enemyModelSize, enemyModelSize)
         // Rotating the character by 180 degrees
-        minionNode.rotation = SCNVector4Make(0, 1, 0, .pi)
-        minionNode.castsShadow = true
-        minionNode.name = "minion"
+        enemyNode.rotation = SCNVector4Make(0, 1, 0, .pi)
+        enemyNode.castsShadow = true
+        enemyNode.name = "minion"
         //TODO: load more animations if available
         loadAnimation(withKey: "impact", sceneName: "art.scnassets/characters/enemy/minion/MinionImpactFixed", animationIdentifier: "MinionImpactFixed-1")
         loadAnimation(withKey: "attack", sceneName: "art.scnassets/characters/enemy/minion/MinionAttackFixed", animationIdentifier: "MinionAttackFixed-1")
@@ -57,7 +56,7 @@ class Minion: Enemy
         loadAnimation(withKey: "turnLeft", sceneName: "art.scnassets/characters/enemy/minion/MinionLeftTurnFixed", animationIdentifier: "MinionLeftTurnFixed-1")
         loadAnimation(withKey: "death", sceneName: "art.scnassets/characters/enemy/minion/MinionDeathFixed", animationIdentifier: "MinionDeathFixed-1")
         loadAnimation(withKey: "walking", sceneName: "art.scnassets/characters/enemy/minion/MinionWalkingFixed", animationIdentifier: "MinionWalkingFixed-1")
-        sceneView.scene.rootNode.addChildNode(minionNode)
+        sceneView.scene.rootNode.addChildNode(enemyNode)
     }
     
     //load animations
@@ -111,7 +110,7 @@ class Minion: Enemy
                 break
         }
         let turnAction = SCNAction.rotateBy(x: 0, y: -(.pi/2), z: 0, duration: 0.5)
-        minionNode.runAction(turnAction)
+        enemyNode.runAction(turnAction)
     }
     //turns the minion 90 degrees clockwise
     func turnRight(direction: String)
@@ -129,7 +128,7 @@ class Minion: Enemy
                 break
         }
         let turnAction = SCNAction.rotateBy(x: 0, y: .pi/2, z: 0, duration: 0.5)
-        minionNode.runAction(turnAction)
+        enemyNode.runAction(turnAction)
     }
 
     func turn180(direction: String){
@@ -146,7 +145,7 @@ class Minion: Enemy
                 break
         }
         let turnAction = SCNAction.rotateBy(x: 0, y: .pi, z: 0, duration: 0.5)
-        minionNode.runAction(turnAction)
+        enemyNode.runAction(turnAction)
     }
     
     //translates minion
@@ -180,7 +179,7 @@ class Minion: Enemy
     
     func getMinionNode() -> SCNNode
     {
-        return minionNode
+        return enemyNode
     }
     
     func setLocation(location: (row: Int, col: Int))

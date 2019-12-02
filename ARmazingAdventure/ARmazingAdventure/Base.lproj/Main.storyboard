@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="piv-Am-WE7">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15504" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="piv-Am-WE7">
     <device id="ipad12_9rounded" orientation="landscape" layout="fullscreen" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15510"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15508"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -10,7 +10,7 @@
         <!--Main Menu View Controller-->
         <scene sceneID="IdV-52-uNv">
             <objects>
-                <viewController id="piv-Am-WE7" customClass="MainMenuViewController" customModule="ARmazingAdventure" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController modalPresentationStyle="fullScreen" id="piv-Am-WE7" customClass="MainMenuViewController" customModule="ARmazingAdventure" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="1wm-eR-ElM">
                         <rect key="frame" x="0.0" y="0.0" width="1366" height="1024"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -28,16 +28,22 @@
                                         <rect key="frame" x="206.5" y="178" width="127" height="51"/>
                                         <state key="normal" image="playButton"/>
                                         <connections>
-                                            <segue destination="BYZ-38-t0r" kind="show" id="9Af-AO-feo"/>
+                                            <segue destination="Vcp-xe-NSV" kind="show" id="sfw-vj-64E"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="b4c-Kr-9ta" userLabel="Character Button">
                                         <rect key="frame" x="206.5" y="231" width="127" height="51"/>
                                         <state key="normal" image="characterButton"/>
+                                        <connections>
+                                            <segue destination="Vpi-p5-zEh" kind="show" id="UVQ-Mr-A78"/>
+                                        </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="251" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1Wt-0D-2fX" userLabel="Settings Button">
                                         <rect key="frame" x="206.5" y="284" width="127" height="51"/>
                                         <state key="normal" image="settingsButon"/>
+                                        <connections>
+                                            <segue destination="SOR-r0-VIp" kind="show" id="b99-I4-n3K"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                                 <constraints>
@@ -203,6 +209,7 @@
                             </mask>
                         </variation>
                     </view>
+                    <navigationItem key="navigationItem" id="BAz-qX-cGT"/>
                     <connections>
                         <outlet property="ARCanvas" destination="Nib-Mu-Aij" id="ItN-m0-lUy"/>
                         <outlet property="playButton" destination="1fk-k8-k6r" id="WPk-5q-RVJ"/>
@@ -211,6 +218,144 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Zuh-2l-Ch5" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-781.77339901477831" y="125.59999999999999"/>
+        </scene>
+        <!--Player Mode View Controller-->
+        <scene sceneID="4H6-fC-gEl">
+            <objects>
+                <viewController modalPresentationStyle="fullScreen" id="Vcp-xe-NSV" customClass="PlayerModeViewController" customModule="ARmazingAdventure" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="1gT-O8-A7M">
+                        <rect key="frame" x="0.0" y="0.0" width="1366" height="1024"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <arscnView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="zvb-tY-Wo3">
+                                <rect key="frame" x="16" y="0.0" width="1334" height="1004"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </arscnView>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="PlayerModeMenu" translatesAutoresizingMaskIntoConstraints="NO" id="lpO-9f-mcH">
+                                <rect key="frame" x="124" y="138" width="1118" height="748"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zQp-zZ-Nlw">
+                                <rect key="frame" x="260" y="230" width="80" height="80"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" image="BackButton"/>
+                                <connections>
+                                    <segue destination="piv-Am-WE7" kind="show" id="gjt-sZ-kQR"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2jM-tC-VFh">
+                                <rect key="frame" x="368" y="334" width="268" height="383"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" image="singleplayerButton">
+                                    <preferredSymbolConfiguration key="preferredSymbolConfiguration" scale="large"/>
+                                </state>
+                                <connections>
+                                    <segue destination="BYZ-38-t0r" kind="show" id="NDu-hc-gUC"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <viewLayoutGuide key="safeArea" id="bzV-67-pD8"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="jMc-5i-gj3"/>
+                    <connections>
+                        <outlet property="arSCNView" destination="zvb-tY-Wo3" id="aYz-Tt-RJ1"/>
+                        <outlet property="singlePlayerButton" destination="2jM-tC-VFh" id="sEX-Nz-yvB"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="kgM-Fe-PJF" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="13.616398243045387" y="124.80468749999999"/>
+        </scene>
+        <!--Character Menu View Controller-->
+        <scene sceneID="MOZ-UK-IgK">
+            <objects>
+                <viewController modalPresentationStyle="fullScreen" id="Vpi-p5-zEh" customClass="CharacterMenuViewController" customModule="ARmazingAdventure" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="YR7-FT-xBZ">
+                        <rect key="frame" x="0.0" y="0.0" width="1366" height="1024"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <arscnView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="lre-bJ-5EN">
+                                <rect key="frame" x="20" y="0.0" width="1334" height="1004"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </arscnView>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="CharacterMenu" translatesAutoresizingMaskIntoConstraints="NO" id="CWf-pI-nA5">
+                                <rect key="frame" x="128" y="138" width="1118" height="748"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VuB-c7-aoG">
+                                <rect key="frame" x="260" y="230" width="80" height="80"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" image="BackButton"/>
+                                <connections>
+                                    <segue destination="piv-Am-WE7" kind="show" id="ekd-ef-utX"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="U17-nV-Ya6">
+                                <rect key="frame" x="616" y="693" width="135" height="76"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" image="FriendsButton"/>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AZ4-Bk-YUZ">
+                                <rect key="frame" x="922" y="693" width="135" height="76"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" image="ItemLogButton"/>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9nN-yg-xAt">
+                                <rect key="frame" x="309" y="693" width="135" height="76"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" image="TraitsButton"/>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <viewLayoutGuide key="safeArea" id="rjr-yw-Xrb"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="DQx-ut-ZAg"/>
+                    <connections>
+                        <outlet property="ARCanvas" destination="lre-bJ-5EN" id="aaZ-NW-Wxh"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="cl3-xl-mGq" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="13.616398243045387" y="1089.84375"/>
+        </scene>
+        <!--Setting Menu View Controller-->
+        <scene sceneID="DZ2-pJ-eVx">
+            <objects>
+                <viewController modalPresentationStyle="fullScreen" id="SOR-r0-VIp" customClass="SettingMenuViewController" customModule="ARmazingAdventure" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="cn0-8e-FoO">
+                        <rect key="frame" x="0.0" y="0.0" width="1366" height="1024"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <arscnView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="kV4-rI-H6R">
+                                <rect key="frame" x="16" y="0.0" width="1334" height="1004"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </arscnView>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="SettingsMenu" translatesAutoresizingMaskIntoConstraints="NO" id="iyK-2F-WrB">
+                                <rect key="frame" x="124" y="138" width="1118" height="748"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qLq-yU-KQG">
+                                <rect key="frame" x="260" y="230" width="80" height="80"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" image="BackButton"/>
+                                <connections>
+                                    <segue destination="piv-Am-WE7" kind="show" id="h1T-DO-7de"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <viewLayoutGuide key="safeArea" id="Y0X-3t-EP3"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="YmJ-Tf-0Kr"/>
+                    <connections>
+                        <outlet property="ARCanvas" destination="kV4-rI-H6R" id="5G0-0X-rwU"/>
+                        <outlet property="backButton" destination="qLq-yU-KQG" id="0oa-Wv-btc"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Vpx-iX-Alw" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-782" y="1090"/>
         </scene>
         <!--ARView-->
         <scene sceneID="tne-QT-ifu">
@@ -285,13 +430,24 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="136.60322108345534" y="131.8359375"/>
+            <point key="canvasLocation" x="809.95607613469974" y="124.80468749999999"/>
         </scene>
     </scenes>
     <resources>
+        <image name="BackButton" width="80" height="80"/>
+        <image name="CharacterMenu" width="506" height="347"/>
+        <image name="FriendsButton" width="135" height="76"/>
+        <image name="ItemLogButton" width="135" height="76"/>
+        <image name="PlayerModeMenu" width="506" height="347"/>
+        <image name="SettingsMenu" width="506" height="347"/>
+        <image name="TraitsButton" width="135" height="76"/>
         <image name="characterButton" width="127" height="51"/>
         <image name="playButton" width="127" height="51"/>
         <image name="settingsButon" width="127" height="51"/>
+        <image name="singleplayerButton" width="259" height="389"/>
         <image name="title" width="540" height="176"/>
     </resources>
+    <inferredMetricsTieBreakers>
+        <segue reference="gjt-sZ-kQR"/>
+    </inferredMetricsTieBreakers>
 </document>

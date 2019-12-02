@@ -10,7 +10,7 @@ class Boss: Enemy
     var currentPosition = ViewController.Position(xCoord: 0.0, yCoord: 0.0, zCoord: 0.0, cRad: 0.0)
     
      init(position: ViewController.Position) {
-        super.init(name: "Mutant", maxHP: 20, health: 20, minAtkVal: 1, maxAtkVal: 5, level: 3)
+        super.init(name: "Mutant", maxHP: 20, health: 20, minAtkVal: 1, maxAtkVal: 5, level: 3, node: SCNNode())
         currentPosition = position
     }
     
