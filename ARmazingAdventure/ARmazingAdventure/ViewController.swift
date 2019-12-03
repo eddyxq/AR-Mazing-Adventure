@@ -40,6 +40,12 @@ class ViewController: UIViewController
     @IBOutlet var arView: ARView!
     @IBOutlet var ARCanvas: ARSCNView!
     
+    @IBOutlet weak var HelpImage: UIImageView!
+    
+    @IBOutlet weak var BackButton: UIButton!
+    
+    @IBOutlet weak var helpButton: UIButton!
+    
     var animations = [String: CAAnimation]()
     var idle: Bool = true
     var mazeWallNode = SCNNode()
@@ -115,6 +121,7 @@ class ViewController: UIViewController
         setupDungeonMusic()
         setupARLight()
         setupFog()
+        toggleHelp(mode: "off")
         //enables user to tap detected plane for maze placement
         addTapGestureToSceneView()
         //adds arrow pad to screen
@@ -161,6 +168,18 @@ class ViewController: UIViewController
         ARCanvas.overlaySKScene = hud
         
         toggleEnemyLabels(mode: "Off")
+    }
+    
+    func toggleHelp(mode: String){
+        if mode == "on"
+        {
+            BackButton.isHidden = false
+            HelpImage.isHidden = false
+        }else
+        {
+            HelpImage.isHidden = true
+            BackButton.isHidden = true
+        }
     }
     
     func toggleEnemyLabels(mode: String)
@@ -635,6 +654,16 @@ class ViewController: UIViewController
         }
         enemyHPBar.size.width = CGFloat(targetMinion.getHP()) / CGFloat(targetMinion.getMaxHP()) * 200
     }
+    // MARK: Help Button Logic
+    @IBAction func helpButtonPressed(_ sender: Any) {
+        toggleHelp(mode: "on")
+    }
+    
+    
+    @IBAction func backButtonPressed(_ sender: Any) {
+        toggleHelp(mode: "off")
+    }
+    
     // MARK: Attack Buttons
     //light attack button logic
     @objc func lightAttackButtonClicked(sender : UIButton)
