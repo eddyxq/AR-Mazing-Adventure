@@ -70,7 +70,8 @@ class Maze
         setFinishPoint()
         setPlayer()
         setBoss()
-        setMinions()
+        //setMinions()
+        setTestMinion()
         return maze
     }
 
@@ -79,19 +80,40 @@ class Maze
     {
         maze[1][2] = PLAYER
     }
+    
+    //set a minion near player for testing
+    func setTestMinion()
+    {
+        maze[4][2] = MINION
+        maze[2][4] = MINION
+
+        maze[3][2] = FLOOR
+        maze[2][2] = FLOOR
+        maze[2][3] = FLOOR
+        maze[3][3] = FLOOR
+        maze[4][3] = FLOOR
+        maze[4][4] = FLOOR
+        
+        maze[4][6] = MINION
+        maze[3][4] = FLOOR
+        maze[3][5] = FLOOR
+        maze[4][5] = FLOOR
+        maze[2][5] = FLOOR
+        maze[3][6] = FLOOR
+    }
 
     //set minion spawn locations
     func setMinions()
     {
         //number of mininons to spawn
-        var numMinions = 5
+        let numMinions = 5
         //counter to keep track of number of minions
         var count = 0
         while count < numMinions
         {
             //randomly generated locations
-            var i = Int.random(in: 2 ... 12)
-            var j = Int.random(in: 2 ... 12)
+            let i = Int.random(in: 2 ... 12)
+            let j = Int.random(in: 2 ... 12)
             //ensure minions only spawn on the floors
             if maze[i][j] == FLOOR
             {
@@ -136,30 +158,6 @@ class Maze
             maze[i][14] = 1
         }
     }
-    
-    //rotates a array clockwise
-     func rotateArrayCW(orig: [[Int]]) -> [[Int]]
-     {
-         let rows = Maze().getHeight()
-         let cols = Maze().getWidth()
-
-         var arr = [[Int]](repeating: [Int](repeating: 0, count: rows), count: cols)
-         
-         for r in 0 ..< rows
-         {
-             for c in 0 ..< cols
-             {
-                 arr[c][rows-1-r] = orig[r][c]
-             }
-         }
-         return arr;
-     }
-     
-     //rotates a array counter clockwise
-     func rotateArrayCCW(orig: [[Int]]) -> [[Int]]
-     {
-         return rotateArrayCW(orig: rotateArrayCW(orig: rotateArrayCW(orig: orig)))
-     }
      
     //get player row index
     func getRow(maze: [[Int]]) -> Int

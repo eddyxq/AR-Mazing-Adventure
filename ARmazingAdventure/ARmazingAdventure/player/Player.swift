@@ -7,6 +7,24 @@ class Player
     let playerNode = SCNNode()
     var animations = [String: CAAnimation]()
     
+    var name: String
+    var health : Int
+    var maxHP : Int
+    
+    var minAtkVal : Int
+    var maxAtkVal : Int
+    
+    var level : Int
+    
+    init(name: String, maxHP: Int, health: Int, minAtkVal: Int,maxAtkVal: Int, level: Int) {
+        self.name = name
+        self.health = health
+        self.maxHP = maxHP
+        self.minAtkVal = minAtkVal
+        self.maxAtkVal = maxAtkVal
+        self.level = level
+    }
+    
     // Player directions
     enum playerDirection: String
     {
@@ -22,7 +40,8 @@ class Player
     }
     
     var playerHP = 10
-    var apCount = 3
+    var maxAP = 5
+    var apCount = 5
     
     // MARK: Animations & Models
     // creates a player character model with its animations
@@ -30,15 +49,12 @@ class Player
     {
         // Load the character in the idle animation
         let idleScene = SCNScene(named: "art.scnassets/characters/player/IdleFixed.dae")!
-        
-        // Set up parent node of all animation models
-        //let node = SCNNode()
-        
         // Add all the child nodes to the parent node
         for child in idleScene.rootNode.childNodes
         {
             playerNode.addChildNode(child)
         }
+        
         playerNode.position = SCNVector3(CGFloat(position.xCoord), CGFloat(position.yCoord), CGFloat(position.zCoord))
         //size of the player model
         let playerModelSize = 0.00036
@@ -56,6 +72,8 @@ class Player
         loadAnimation(withKey: "turnRight", sceneName: "art.scnassets/characters/player/TurnRightFixed", animationIdentifier: "TurnRightFixed-1")
         loadAnimation(withKey: "lightAttack", sceneName: "art.scnassets/characters/player/LightAttackFixed", animationIdentifier: "LightAttackFixed-1")
         loadAnimation(withKey: "heavyAttack", sceneName: "art.scnassets/characters/player/HeavyAttackFixed", animationIdentifier: "HeavyAttackFixed-1")
+        loadAnimation(withKey: "impact", sceneName: "art.scnassets/characters/player/PlayerImpactFixed", animationIdentifier: "PlayerImpactFixed-1")
+        loadAnimation(withKey: "death", sceneName: "art.scnassets/characters/player/PlayerDeathFixed", animationIdentifier: "PlayerDeathFixed-1")
     }
     //load animations
     func loadAnimation(withKey: String, sceneName: String, animationIdentifier: String)
@@ -127,39 +145,22 @@ class Player
                 break
         }
     }
-    //moves player forward
-    func moveForward(direction: String) -> SCNAction
+    
+    //translates player
+    func newMove(direction: String) -> SCNAction
     {
+        let tileSize = CGFloat(0.04)
         var walkAction = SCNAction()
         switch direction
         {
             case "up":
-                walkAction = SCNAction.moveBy(x: 0, y: 0, z: -0.04, duration: 1.5)
+                walkAction = SCNAction.moveBy(x: 0, y: 0, z: -tileSize, duration: 1.5)
             case "down":
-                walkAction = SCNAction.moveBy(x: 0, y: 0, z: 0.04, duration: 1.5)
+                walkAction = SCNAction.moveBy(x: 0, y: 0, z: tileSize, duration: 1.5)
             case "left":
-                walkAction = SCNAction.moveBy(x: -0.04, y: 0, z: 0, duration: 1.5)
+                walkAction = SCNAction.moveBy(x: -tileSize, y: 0, z: 0, duration: 1.5)
             case "right":
-                walkAction = SCNAction.moveBy(x: 0.04, y: 0, z: 0, duration: 1.5)
-            default:
-                break
-        }
-        return walkAction
-    }
-    //moves player backward
-    func moveBackward(direction: String) -> SCNAction
-    {
-        var walkAction = SCNAction()
-        switch direction
-        {
-            case "up":
-                walkAction = SCNAction.moveBy(x: 0, y: 0, z: 0.04, duration: 1.5)
-            case "down":
-                walkAction = SCNAction.moveBy(x: 0, y: 0, z: -0.04, duration: 1.5)
-            case "left":
-                walkAction = SCNAction.moveBy(x: 0.04, y: 0, z: 0, duration: 1.5)
-            case "right":
-                walkAction = SCNAction.moveBy(x: -0.04, y: 0, z: 0, duration: 1.5)
+                walkAction = SCNAction.moveBy(x: tileSize, y: 0, z: 0, duration: 1.5)
             default:
                 break
         }
@@ -176,8 +177,52 @@ class Player
         return playerNode
     }
     
-    func getAPCount() -> String{
+    func getAPCount() -> String
+    {
         return String(apCount)
     }
     
+    func getHP() -> Int
+    {
+        return health
+    }
+    
+    func setHP(val: Int)
+    {
+        health = val
+    }
+    
+    func setAP(val: Int)
+    {
+        apCount = val
+    }
+    
+    // MARK: Combat Functions
+    func calcDmg() -> Int
+    {
+        return Int.random(in: minAtkVal ... maxAtkVal)
+    }
+    
+    func convertHPBar() -> CGFloat
+    {
+        return CGFloat(200 / maxHP)
+    }
+    
+    func convertAPBar() -> CGFloat
+    {
+        return CGFloat(200 / maxAP)
+    }
+    
+    func useAP() -> CGFloat{
+        apCount -= 1
+        
+        if apCount > 0
+        {
+            setAP(val: apCount)
+        }
+
+        let convertToAPBar = convertAPBar()
+        
+        return convertToAPBar
+    }
 }
