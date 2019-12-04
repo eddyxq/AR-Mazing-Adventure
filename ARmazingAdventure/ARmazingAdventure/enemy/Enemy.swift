@@ -14,8 +14,6 @@ class Enemy
     var level: Int
     
     var enemyNode : SCNNode
-    
-    var nodeID : String
     //enemy types
     enum EnemyTypes: String {
         case minion
@@ -27,7 +25,7 @@ class Enemy
         }
     }
 
-    init(name: String, maxHP: Int, health: Int, minAtkVal: Int, maxAtkVal: Int, level: Int, node: SCNNode, nodeID: String) {
+    init(name: String, maxHP: Int, health: Int, minAtkVal: Int, maxAtkVal: Int, level: Int, node: SCNNode) {
         self.maxHP = maxHP
         self.health = health
         self.minAtkVal = minAtkVal
@@ -35,7 +33,6 @@ class Enemy
         self.level = level
         self.name = name
         self.enemyNode = node
-        self.nodeID = nodeID
     }
     
     func getName() -> String{
