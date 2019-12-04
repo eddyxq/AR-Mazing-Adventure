@@ -144,9 +144,9 @@ class ViewController: UIViewController
         let hpBorderImage = UIImage(named: "minionHPBorder")
         let hpBorderTexture = SKTexture(image: hpBorderImage!)
         enemyHPBorder = SKSpriteNode(texture: hpBorderTexture)
-        enemyHPBorder.position = CGPoint(x: centerX*1.5, y: topY-50)
+        enemyHPBorder.position = CGPoint(x: centerX, y: topY-95)
         enemyHPBar.anchorPoint = CGPoint(x: 0.0, y: 0.5)
-        enemyHPBar.position = CGPoint(x: (centerX*1.5)-100, y: topY-50)
+        enemyHPBar.position = CGPoint(x: (centerX)-100, y: topY-95)
         // Player HP Bar & Borders
         let playerHpBorderImage = UIImage(named: "playerHPBorder")
         let playerHpBorderTexture = SKTexture(image: playerHpBorderImage!)
@@ -1124,7 +1124,7 @@ class ViewController: UIViewController
                     let minion = Minion()
 
                     minion.setLocation(location: (row: i, col: j))
-                    minionPool.append(minion.spawnMinion(ARCanvas, minionLocation,"minion" + "\(minionCount)"))
+                    minionPool.append(minion.spawnMinion(ARCanvas, minionLocation, minionCount))
                 }
                 //increment each block so it lines up horizontally
                 x += WIDTH

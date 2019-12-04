@@ -24,7 +24,6 @@ class Minion: Enemy
     var animations = [String: CAAnimation]()
     let enemyType = Enemy.EnemyTypes.minion.type()
 
-    var minionName : String!
     
     init() {
         super.init(name: "Zombie", maxHP: 10, health: 10, minAtkVal: 1, maxAtkVal: 1, level: 1, node: SCNNode())
@@ -32,11 +31,10 @@ class Minion: Enemy
     
     // MARK: Animations & Models
     // creates a player character model with its animations
-    func loadMinionAnimations(_ sceneView: ARSCNView, _ position: ViewController.Position, _ minionname: String)
+    func loadMinionAnimations(_ sceneView: ARSCNView, _ position: ViewController.Position)
     {
         // Load the character in the idle animation
         let idleScene = SCNScene(named: "art.scnassets/characters/enemy/minion/MinionIdleFixed.dae")!
-        minionName = minionname
         // Add all the child nodes to the parent node
         for child in idleScene.rootNode.childNodes
         {
@@ -51,7 +49,7 @@ class Minion: Enemy
 
         enemyNode.rotation = SCNVector4Make(0, 1, 0, .pi)
         enemyNode.castsShadow = true
-        enemyNode.name = minionName
+        enemyNode.name = name
         //TODO: load more animations if available
         loadAnimation(withKey: "impact", sceneName: "art.scnassets/characters/enemy/minion/MinionImpactFixed", animationIdentifier: "MinionImpactFixed-1")
         loadAnimation(withKey: "attack", sceneName: "art.scnassets/characters/enemy/minion/MinionAttackFixed", animationIdentifier: "MinionAttackFixed-1")
@@ -84,13 +82,13 @@ class Minion: Enemy
     func playAnimation(_ sceneView: ARSCNView, key: String)
     {
         // Add the animation to start playing it right away
-        sceneView.scene.rootNode.childNode(withName: minionName, recursively: true)?.addAnimation(animations[key]!, forKey: key)
+        sceneView.scene.rootNode.childNode(withName: name, recursively: true)?.addAnimation(animations[key]!, forKey: key)
     }
     //stop animation
     func stopAnimation(_ sceneView: ARSCNView, key: String)
     {
         // Stop the animation with a smooth transition
-        sceneView.scene.rootNode.childNode(withName: minionName, recursively: true)?.removeAnimation(forKey: key, blendOutDuration: CGFloat(0.5))
+        sceneView.scene.rootNode.childNode(withName: name, recursively: true)?.removeAnimation(forKey: key, blendOutDuration: CGFloat(0.5))
     }
     // MARK: Minion Movement Logics
     // The direction minion is current facing.
@@ -173,10 +171,10 @@ class Minion: Enemy
     }
     // MARK: Getters & Setters
     //Spawns the minion model at the given sceneview
-    func spawnMinion(_ sceneView: ARSCNView, _ position: ViewController.Position, _ minionname: String) -> Minion
+    func spawnMinion(_ sceneView: ARSCNView, _ position: ViewController.Position, _ minionnum: Int) -> Minion
     {
-        minionName = minionname
-        loadMinionAnimations(sceneView, position, minionName)
+        name = name + "\(minionnum)"
+        loadMinionAnimations(sceneView, position)
         return self
         
     }
