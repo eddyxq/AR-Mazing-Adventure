@@ -1084,6 +1084,8 @@ class ViewController: UIViewController
         let NUMROW = Maze().getHeight()
         let NUMCOL = Maze().getWidth()
         
+        var minionCount = 1;
+        
         for i in 0 ..< NUMROW
         {
             for j in 0 ..< NUMCOL
@@ -1121,7 +1123,8 @@ class ViewController: UIViewController
                     minionLocation = Position(xCoord: x, yCoord: y-WIDTH, zCoord: z, cRad: c)
                     let minion = Minion()
                     minion.setLocation(location: (row: i, col: j))
-                    minionPool.append(minion.spawnMinion(ARCanvas, minionLocation))
+                    minionPool.append(minion.spawnMinion(ARCanvas, minionLocation, minionCount))
+                    minionCount+=1
                 }
                 //increment each block so it lines up horizontally
                 x += WIDTH
