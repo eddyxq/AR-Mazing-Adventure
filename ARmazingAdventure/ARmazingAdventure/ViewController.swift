@@ -1125,6 +1125,7 @@ class ViewController: UIViewController
 
                     minion.setLocation(location: (row: i, col: j))
                     minionPool.append(minion.spawnMinion(ARCanvas, minionLocation, minionCount))
+                    minionCount+=1
                 }
                 //increment each block so it lines up horizontally
                 x += WIDTH
