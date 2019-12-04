@@ -137,27 +137,30 @@ class ViewController: UIViewController
     {
         let hud = SKScene()
         hud.scaleMode = .resizeFill
+        let centerX = view.bounds.midX
+        let topY = view.bounds.maxY
+        
         //Enemy HP Bar & Borders
         let hpBorderImage = UIImage(named: "minionHPBorder")
         let hpBorderTexture = SKTexture(image: hpBorderImage!)
         enemyHPBorder = SKSpriteNode(texture: hpBorderTexture)
-        enemyHPBorder.position = CGPoint(x: 900, y: 200)
+        enemyHPBorder.position = CGPoint(x: centerX*1.5, y: topY-50)
         enemyHPBar.anchorPoint = CGPoint(x: 0.0, y: 0.5)
-        enemyHPBar.position = CGPoint(x: 800, y: 200)
+        enemyHPBar.position = CGPoint(x: (centerX*1.5)-100, y: topY-50)
         // Player HP Bar & Borders
         let playerHpBorderImage = UIImage(named: "playerHPBorder")
         let playerHpBorderTexture = SKTexture(image: playerHpBorderImage!)
         playerHPBorder = SKSpriteNode(texture: playerHpBorderTexture)
-        playerHPBorder.position = CGPoint(x: 480, y: 125)
+        playerHPBorder.position = CGPoint(x: centerX, y: 100)
         playerHPBar.anchorPoint = CGPoint(x: 0.0, y: 0.5)
-        playerHPBar.position = CGPoint(x: 380, y: 125)
+        playerHPBar.position = CGPoint(x: centerX-100, y: 100)
         
         let playerApBorderImage = UIImage(named: "playerAPBorder")
         let playerApBorderTexture = SKTexture(image: playerApBorderImage!)
         playerAPBorder = SKSpriteNode(texture: playerApBorderTexture)
-        playerAPBorder.position = CGPoint(x: 480, y: 75)
+        playerAPBorder.position = CGPoint(x: centerX, y: 50)
         playerAPBar.anchorPoint = CGPoint(x: 0.0, y: 0.5)
-        playerAPBar.position = CGPoint(x: 380, y: 75)
+        playerAPBar.position = CGPoint(x: centerX-100, y: 50)
         
         hud.addChild(playerAPBar)
         hud.addChild(playerAPBorder)
@@ -331,18 +334,12 @@ class ViewController: UIViewController
     //creates 4 buttons
     func createGamepad()
     {
-        let buttonX = 150
-        let buttonY = 250
-        let buttonWidth = 100
-        let buttonHeight = 50
-        let attackButtonRadius = 75
 
         //right arrow
         let rightButton = UIButton(type: .system)
         let rightArrow = UIImage(named: "rightArrow")
         rightButton.setImage(rightArrow, for: .normal)
         rightButton.addTarget(self, action: #selector(rightButtonClicked), for: .touchUpInside)
-        rightButton.frame = CGRect(x: buttonX, y: buttonY, width: buttonWidth, height: buttonHeight)
         self.view.addSubview(rightButton)
 
         //left arrow
@@ -350,7 +347,6 @@ class ViewController: UIViewController
         let leftArrow = UIImage(named: "leftArrow")
         leftButton.setImage(leftArrow, for: .normal)
         leftButton.addTarget(self, action: #selector(leftButtonClicked), for: .touchUpInside)
-        leftButton.frame = CGRect(x: buttonX-100, y: buttonY, width: buttonWidth, height: buttonHeight)
         self.view.addSubview(leftButton)
 
         //up arrow
@@ -358,7 +354,6 @@ class ViewController: UIViewController
         let upArrow = UIImage(named: "upArrow")
         upButton.setImage(upArrow, for: .normal)
         upButton.addTarget(self, action: #selector(upButtonClicked), for: .touchUpInside)
-        upButton.frame = CGRect(x: buttonX-50, y: buttonY-50, width: buttonWidth, height: buttonHeight)
         self.view.addSubview(upButton)
 
         //down arrow
@@ -366,7 +361,6 @@ class ViewController: UIViewController
         let downArrow = UIImage(named: "downArrow")
         downButton.setImage(downArrow, for: .normal)
         downButton.addTarget(self, action: #selector(downButtonClicked), for: .touchUpInside)
-        downButton.frame = CGRect(x: buttonX-50, y: buttonY+50, width: buttonWidth, height: buttonHeight)
         self.view.addSubview(downButton)
         
         //light attack
@@ -374,7 +368,6 @@ class ViewController: UIViewController
         let attack1 = UIImage(named: "attackButton")
         lightAttackButton.setImage(attack1, for: .normal)
         lightAttackButton.addTarget(self, action: #selector(lightAttackButtonClicked), for: .touchUpInside)
-        lightAttackButton.frame = CGRect(x: buttonX+100, y: buttonY-12, width: attackButtonRadius, height: attackButtonRadius)
         self.view.addSubview(lightAttackButton)
         
         //heavy attack
@@ -382,7 +375,6 @@ class ViewController: UIViewController
         let attack2 = UIImage(named: "attackButton")
         heavyAttackButton.setImage(attack2, for: .normal)
         heavyAttackButton.addTarget(self, action: #selector(heavyAttackButtonClicked), for: .touchUpInside)
-        heavyAttackButton.frame = CGRect(x: buttonX+200, y: buttonY-12, width: attackButtonRadius, height: attackButtonRadius)
         self.view.addSubview(heavyAttackButton)
         
         //end turn
@@ -390,11 +382,10 @@ class ViewController: UIViewController
         let endButton = UIImage(named: "attackButton")
         endTurnButton.setImage(endButton, for: .normal)
         endTurnButton.addTarget(self, action: #selector(endTurnButtonClicked), for: .touchUpInside)
-        endTurnButton.frame = CGRect(x: 50, y: 50, width: attackButtonRadius, height: attackButtonRadius)
         self.view.addSubview(endTurnButton)
         
         //constraints
-        for button in [rightButton, upButton, downButton, leftButton, rightButton, heavyAttackButton, lightAttackButton]
+        for button in [rightButton, upButton, downButton, leftButton, rightButton, heavyAttackButton, lightAttackButton, endTurnButton]
         {
             button.translatesAutoresizingMaskIntoConstraints = false
             button.heightAnchor.constraint(equalTo: button.widthAnchor, multiplier: 1).isActive = true
@@ -421,8 +412,8 @@ class ViewController: UIViewController
         heavyAttackButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -64).isActive = true
 
         endTurnButton.widthAnchor.constraint(equalToConstant: 75).isActive = true
-        endTurnButton.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor, constant: -24).isActive = true
-        endTurnButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: -64).isActive = true
+        endTurnButton.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor, constant: 24).isActive = true
+        endTurnButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 64).isActive = true
     }
     // MARK: Arrow Button Logics
     func canMove(direction: String) -> Bool
