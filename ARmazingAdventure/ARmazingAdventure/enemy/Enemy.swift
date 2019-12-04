@@ -14,6 +14,8 @@ class Enemy
     var level: Int
     
     var enemyNode : SCNNode
+    
+    var nodeID : String
     //enemy types
     enum EnemyTypes: String {
         case minion
@@ -33,6 +35,7 @@ class Enemy
         self.level = level
         self.name = name
         self.enemyNode = node
+        self.nodeID = "0"
     }
     
     func getName() -> String{

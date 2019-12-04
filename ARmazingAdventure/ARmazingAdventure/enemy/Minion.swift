@@ -49,7 +49,7 @@ class Minion: Enemy
 
         enemyNode.rotation = SCNVector4Make(0, 1, 0, .pi)
         enemyNode.castsShadow = true
-        enemyNode.name = name
+        enemyNode.name = nodeID
         //TODO: load more animations if available
         loadAnimation(withKey: "impact", sceneName: "art.scnassets/characters/enemy/minion/MinionImpactFixed", animationIdentifier: "MinionImpactFixed-1")
         loadAnimation(withKey: "attack", sceneName: "art.scnassets/characters/enemy/minion/MinionAttackFixed", animationIdentifier: "MinionAttackFixed-1")
@@ -82,13 +82,13 @@ class Minion: Enemy
     func playAnimation(_ sceneView: ARSCNView, key: String)
     {
         // Add the animation to start playing it right away
-        sceneView.scene.rootNode.childNode(withName: name, recursively: true)?.addAnimation(animations[key]!, forKey: key)
+        sceneView.scene.rootNode.childNode(withName: nodeID, recursively: true)?.addAnimation(animations[key]!, forKey: key)
     }
     //stop animation
     func stopAnimation(_ sceneView: ARSCNView, key: String)
     {
         // Stop the animation with a smooth transition
-        sceneView.scene.rootNode.childNode(withName: name, recursively: true)?.removeAnimation(forKey: key, blendOutDuration: CGFloat(0.5))
+        sceneView.scene.rootNode.childNode(withName: nodeID, recursively: true)?.removeAnimation(forKey: key, blendOutDuration: CGFloat(0.5))
     }
     // MARK: Minion Movement Logics
     // The direction minion is current facing.
@@ -173,7 +173,7 @@ class Minion: Enemy
     //Spawns the minion model at the given sceneview
     func spawnMinion(_ sceneView: ARSCNView, _ position: ViewController.Position, _ minionnum: Int) -> Minion
     {
-        name = name + "\(minionnum)"
+        nodeID = "\(minionnum)"
         loadMinionAnimations(sceneView, position)
         return self
         
