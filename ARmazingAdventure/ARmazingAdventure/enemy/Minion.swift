@@ -26,7 +26,7 @@ class Minion: Enemy
 
     
     init() {
-        super.init(name: "Zombie", maxHP: 10, health: 10, minAtkVal: 1, maxAtkVal: 1, level: 1, node: SCNNode())
+        super.init(name: "Zombie", maxHP: 10, health: 10, minAtkVal: 1, maxAtkVal: 1, level: 1, node: SCNNode(), nodeID: "0")
     }
     
     // MARK: Animations & Models

@@ -1084,7 +1084,7 @@ class ViewController: UIViewController
         let NUMROW = Maze().getHeight()
         let NUMCOL = Maze().getWidth()
         
-        var minionCount = 0;
+        var minionCount = 1;
         
         for i in 0 ..< NUMROW
         {

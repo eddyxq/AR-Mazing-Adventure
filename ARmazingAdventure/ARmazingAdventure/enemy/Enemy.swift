@@ -27,7 +27,7 @@ class Enemy
         }
     }
 
-    init(name: String, maxHP: Int, health: Int, minAtkVal: Int, maxAtkVal: Int, level: Int, node: SCNNode) {
+    init(name: String, maxHP: Int, health: Int, minAtkVal: Int, maxAtkVal: Int, level: Int, node: SCNNode, nodeID: String) {
         self.maxHP = maxHP
         self.health = health
         self.minAtkVal = minAtkVal
@@ -35,7 +35,7 @@ class Enemy
         self.level = level
         self.name = name
         self.enemyNode = node
-        self.nodeID = "0"
+        self.nodeID = nodeID
     }
     
     func getName() -> String{
