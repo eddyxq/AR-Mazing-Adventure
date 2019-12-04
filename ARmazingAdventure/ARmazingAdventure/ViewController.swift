@@ -580,6 +580,8 @@ class ViewController: UIViewController
         let NUMROW = Maze().getHeight()
         let NUMCOL = Maze().getWidth()
         
+        var minionCount = 0;
+        
         for i in 0 ..< NUMROW
         {
             for j in 0 ..< NUMCOL
@@ -615,7 +617,9 @@ class ViewController: UIViewController
                 {
                     let minion = Minion()
 					minionLocation = Position(xCoord: x, yCoord: y-WIDTH, zCoord: z, cRad: c)
-                    minion.loadMinionAnimations(ARCanvas, minionLocation)
+                    minion.loadMinionAnimations(ARCanvas, minionLocation, "minion" + "\(minionCount)")
+                    
+                    
                 }
                 //increment each block so it lines up horizontally
                 x += WIDTH
@@ -624,5 +628,6 @@ class ViewController: UIViewController
             x -= WIDTH * Double(NUMCOL)
             z += LENGTH
         }
+        
     }
 }
