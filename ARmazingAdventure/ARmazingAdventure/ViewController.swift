@@ -178,10 +178,12 @@ class ViewController: UIViewController
         {
             BackButton.isHidden = false
             HelpImage.isHidden = false
+            ARCanvas.overlaySKScene!.isHidden = true
         }else
         {
             HelpImage.isHidden = true
             BackButton.isHidden = true
+            ARCanvas.overlaySKScene!.isHidden = false
         }
     }
     
@@ -414,6 +416,9 @@ class ViewController: UIViewController
         endTurnButton.widthAnchor.constraint(equalToConstant: 75).isActive = true
         endTurnButton.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor, constant: 24).isActive = true
         endTurnButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 64).isActive = true
+        
+        view.bringSubviewToFront(HelpImage) // Keep help above gamepad
+        view.bringSubviewToFront(BackButton)
     }
     // MARK: Arrow Button Logics
     func canMove(direction: String) -> Bool

@@ -134,7 +134,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zQp-zZ-Nlw">
-                                <rect key="frame" x="137" y="125" width="80" height="80"/>
+                                <rect key="frame" x="212" y="125" width="80" height="80"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="zQp-zZ-Nlw" secondAttribute="height" multiplier="1:1" id="HP0-Ru-Bnu"/>
                                 </constraints>
@@ -165,7 +165,7 @@
                             <constraint firstItem="zQp-zZ-Nlw" firstAttribute="width" secondItem="lpO-9f-mcH" secondAttribute="width" multiplier="0.0747664" id="XOh-cD-zxf"/>
                             <constraint firstItem="lpO-9f-mcH" firstAttribute="centerY" secondItem="zvb-tY-Wo3" secondAttribute="centerY" id="gwK-iS-OAf"/>
                             <constraint firstItem="zQp-zZ-Nlw" firstAttribute="leading" secondItem="lpO-9f-mcH" secondAttribute="leading" id="nDf-Mx-rVf">
-                                <variation key="heightClass=regular" constant="75"/>
+                                <variation key="heightClass=regular" constant="150"/>
                             </constraint>
                             <constraint firstItem="2jM-tC-VFh" firstAttribute="trailing" secondItem="lpO-9f-mcH" secondAttribute="centerX" constant="-5" id="pfT-6D-EBm"/>
                             <constraint firstItem="2jM-tC-VFh" firstAttribute="centerY" secondItem="lpO-9f-mcH" secondAttribute="centerY" constant="5" id="tMw-0Q-qmQ"/>
@@ -220,7 +220,7 @@
                                 </constraints>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VuB-c7-aoG">
-                                <rect key="frame" x="137" y="125" width="80" height="80"/>
+                                <rect key="frame" x="212" y="125" width="80" height="80"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="VuB-c7-aoG" secondAttribute="height" multiplier="1:1" id="kCZ-5M-sfd"/>
                                 </constraints>
@@ -261,7 +261,7 @@
                             <constraint firstItem="lre-bJ-5EN" firstAttribute="top" secondItem="YR7-FT-xBZ" secondAttribute="top" id="S3Y-Rb-xbT"/>
                             <constraint firstItem="VuB-c7-aoG" firstAttribute="width" secondItem="CWf-pI-nA5" secondAttribute="width" multiplier="0.0747664" id="TaJ-Ug-AIN"/>
                             <constraint firstItem="VuB-c7-aoG" firstAttribute="leading" secondItem="CWf-pI-nA5" secondAttribute="leading" id="cew-Yf-mtJ">
-                                <variation key="heightClass=regular" constant="75"/>
+                                <variation key="heightClass=regular" constant="150"/>
                             </constraint>
                             <constraint firstItem="CWf-pI-nA5" firstAttribute="top" secondItem="lre-bJ-5EN" secondAttribute="top" constant="50" id="hC3-iL-KXU"/>
                             <constraint firstItem="lre-bJ-5EN" firstAttribute="leading" secondItem="YR7-FT-xBZ" secondAttribute="leading" id="jaq-hu-ftL"/>
@@ -317,7 +317,7 @@
                                 </constraints>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qLq-yU-KQG">
-                                <rect key="frame" x="137" y="125" width="80" height="80"/>
+                                <rect key="frame" x="212" y="125" width="80" height="80"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="qLq-yU-KQG" secondAttribute="height" multiplier="1:1" id="8ZJ-wS-dN8"/>
                                 </constraints>
@@ -332,7 +332,7 @@
                             <constraint firstItem="kV4-rI-H6R" firstAttribute="leading" secondItem="cn0-8e-FoO" secondAttribute="leading" id="0X9-7k-5zb"/>
                             <constraint firstItem="iyK-2F-WrB" firstAttribute="centerY" secondItem="kV4-rI-H6R" secondAttribute="centerY" id="2Cj-eM-opo"/>
                             <constraint firstItem="qLq-yU-KQG" firstAttribute="leading" secondItem="iyK-2F-WrB" secondAttribute="leading" id="GJM-pV-pDu">
-                                <variation key="heightClass=regular" constant="75"/>
+                                <variation key="heightClass=regular" constant="150"/>
                             </constraint>
                             <constraint firstItem="qLq-yU-KQG" firstAttribute="leading" secondItem="iyK-2F-WrB" secondAttribute="leading" id="Ua0-iO-Rni">
                                 <variation key="heightClass=compact" constant="35"/>
@@ -433,11 +433,11 @@
                                 <rect key="frame" x="0.0" y="0.0" width="1194" height="834.00000000000045"/>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XGM-Ih-cr9">
-                                <rect key="frame" x="0.0" y="0.0" width="108" height="108"/>
+                                <rect key="frame" x="10" y="10" width="108" height="108"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="XGM-Ih-cr9" secondAttribute="height" multiplier="1:1" id="7vA-lA-cdH"/>
                                 </constraints>
-                                <color key="tintColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                                <color key="tintColor" red="0.98209856250160643" green="0.98657392187620485" blue="1" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <state key="normal" image="arrow.left.circle.fill" catalog="system">
                                     <color key="titleShadowColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                     <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="500"/>
@@ -472,11 +472,11 @@
                             <constraint firstItem="qRL-3N-FWy" firstAttribute="leading" secondItem="Y6D-8r-5nc" secondAttribute="leading" id="mdy-e1-LA6"/>
                             <constraint firstItem="qRL-3N-FWy" firstAttribute="top" secondItem="Y6D-8r-5nc" secondAttribute="top" id="mgw-o5-K4K"/>
                             <constraint firstItem="XGM-Ih-cr9" firstAttribute="width" secondItem="Gy9-h6-6wh" secondAttribute="width" multiplier="0.0903846" id="o0F-dU-HQu"/>
-                            <constraint firstItem="XGM-Ih-cr9" firstAttribute="leading" secondItem="Gy9-h6-6wh" secondAttribute="leading" id="qgJ-aX-Apm"/>
-                            <constraint firstItem="Gy9-h6-6wh" firstAttribute="leading" secondItem="qRL-3N-FWy" secondAttribute="leading" id="sxE-tn-iRa"/>
-                            <constraint firstItem="XGM-Ih-cr9" firstAttribute="top" secondItem="Gy9-h6-6wh" secondAttribute="top" id="tO5-SP-aZw"/>
+                            <constraint firstItem="XGM-Ih-cr9" firstAttribute="leading" secondItem="Gy9-h6-6wh" secondAttribute="leading" constant="10" id="qgJ-aX-Apm"/>
+                            <constraint firstItem="XGM-Ih-cr9" firstAttribute="top" secondItem="Gy9-h6-6wh" secondAttribute="top" constant="10" id="tO5-SP-aZw"/>
                             <constraint firstItem="ZgI-Dm-s2l" firstAttribute="leading" secondItem="8tF-Gl-g5H" secondAttribute="leading" constant="10" id="tbb-Cb-WCD"/>
                             <constraint firstItem="qRL-3N-FWy" firstAttribute="trailing" secondItem="Y6D-8r-5nc" secondAttribute="trailing" id="xLj-Ag-1xn"/>
+                            <constraint firstItem="Gy9-h6-6wh" firstAttribute="leading" secondItem="qRL-3N-FWy" secondAttribute="leading" id="yl2-N2-TQn"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="8tF-Gl-g5H"/>
                         <variation key="default">
@@ -525,6 +525,6 @@
         <image name="title" width="540" height="176"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="ekd-ef-utX"/>
+        <segue reference="gjt-sZ-kQR"/>
     </inferredMetricsTieBreakers>
 </document>
