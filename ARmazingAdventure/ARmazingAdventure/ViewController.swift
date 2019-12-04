@@ -144,9 +144,9 @@ class ViewController: UIViewController
         let hpBorderImage = UIImage(named: "minionHPBorder")
         let hpBorderTexture = SKTexture(image: hpBorderImage!)
         enemyHPBorder = SKSpriteNode(texture: hpBorderTexture)
-        enemyHPBorder.position = CGPoint(x: centerX, y: topY-105)
+        enemyHPBorder.position = CGPoint(x: centerX, y: topY-95)
         enemyHPBar.anchorPoint = CGPoint(x: 0.0, y: 0.5)
-        enemyHPBar.position = CGPoint(x: (centerX)-100, y: topY-105)
+        enemyHPBar.position = CGPoint(x: (centerX)-100, y: topY-95)
         // Player HP Bar & Borders
         let playerHpBorderImage = UIImage(named: "playerHPBorder")
         let playerHpBorderTexture = SKTexture(image: playerHpBorderImage!)
@@ -1084,6 +1084,8 @@ class ViewController: UIViewController
         let NUMROW = Maze().getHeight()
         let NUMCOL = Maze().getWidth()
         
+        var minionCount = 1;
+        
         for i in 0 ..< NUMROW
         {
             for j in 0 ..< NUMCOL
@@ -1120,8 +1122,10 @@ class ViewController: UIViewController
                 {
                     minionLocation = Position(xCoord: x, yCoord: y-WIDTH, zCoord: z, cRad: c)
                     let minion = Minion()
+
                     minion.setLocation(location: (row: i, col: j))
-                    minionPool.append(minion.spawnMinion(ARCanvas, minionLocation))
+                    minionPool.append(minion.spawnMinion(ARCanvas, minionLocation, minionCount))
+                    minionCount+=1
                 }
                 //increment each block so it lines up horizontally
                 x += WIDTH
@@ -1130,5 +1134,6 @@ class ViewController: UIViewController
             x -= WIDTH * Double(NUMCOL)
             z += LENGTH
         }
+        
     }
 }
