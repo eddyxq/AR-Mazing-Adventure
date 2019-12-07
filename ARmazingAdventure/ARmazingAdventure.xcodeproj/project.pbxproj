@@ -20,14 +20,11 @@
 		4EE314C02395C72C001421AD /* PlayerModeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EE314BF2395C72C001421AD /* PlayerModeViewController.swift */; };
 		4EE314C32395CA56001421AD /* SettingMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EE314C22395CA56001421AD /* SettingMenuViewController.swift */; };
 		4EE314C52395CD30001421AD /* CharacterMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EE314C42395CD30001421AD /* CharacterMenuViewController.swift */; };
-		4EE6404623864CC8004F304C /* Battle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EE6404523864CC8004F304C /* Battle.swift */; };
 		640D28BA239073CC00E5DC24 /* Solver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 640D28B9239073CC00E5DC24 /* Solver.swift */; };
 		DB6B716E235D1F94003276B2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB6B716D235D1F94003276B2 /* AppDelegate.swift */; };
 		DB6B7170235D1F94003276B2 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB6B716F235D1F94003276B2 /* ViewController.swift */; };
 		DB6B7175235D1F94003276B2 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DB6B7173235D1F94003276B2 /* Main.storyboard */; };
 		DB6B717A235D1F96003276B2 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DB6B7178235D1F96003276B2 /* LaunchScreen.storyboard */; };
-		DB6B7185235D1F96003276B2 /* ARmazingAdventureTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB6B7184235D1F96003276B2 /* ARmazingAdventureTests.swift */; };
-		DB6B7190235D1F96003276B2 /* ARmazingAdventureUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB6B718F235D1F96003276B2 /* ARmazingAdventureUITests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -61,20 +58,15 @@
 		4EE314BF2395C72C001421AD /* PlayerModeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerModeViewController.swift; sourceTree = "<group>"; };
 		4EE314C22395CA56001421AD /* SettingMenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingMenuViewController.swift; sourceTree = "<group>"; };
 		4EE314C42395CD30001421AD /* CharacterMenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterMenuViewController.swift; sourceTree = "<group>"; };
-		4EE6404523864CC8004F304C /* Battle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Battle.swift; sourceTree = "<group>"; };
 		640D28B9239073CC00E5DC24 /* Solver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Solver.swift; sourceTree = "<group>"; };
-		DB6B716A235D1F94003276B2 /* ARmazingAdventure.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ARmazingAdventure.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		DB6B716A235D1F94003276B2 /* ARmazingAdventure.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = ARmazingAdventure.app; path = "/Users/eddy/Documents/GitHub/AR-Mazing-Adventure/ARmazingAdventure/build/Debug-iphoneos/ARmazingAdventure.app"; sourceTree = "<absolute>"; };
 		DB6B716D235D1F94003276B2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = ARmazingAdventure/AppDelegate.swift; sourceTree = SOURCE_ROOT; };
 		DB6B716F235D1F94003276B2 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		DB6B7174235D1F94003276B2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		DB6B7179235D1F96003276B2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		DB6B717B235D1F96003276B2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		DB6B7180235D1F96003276B2 /* ARmazingAdventureTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ARmazingAdventureTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		DB6B7184235D1F96003276B2 /* ARmazingAdventureTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARmazingAdventureTests.swift; sourceTree = "<group>"; };
-		DB6B7186235D1F96003276B2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		DB6B718B235D1F96003276B2 /* ARmazingAdventureUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ARmazingAdventureUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		DB6B718F235D1F96003276B2 /* ARmazingAdventureUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARmazingAdventureUITests.swift; sourceTree = "<group>"; };
-		DB6B7191235D1F96003276B2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		DB6B7180235D1F96003276B2 /* ARmazingAdventureTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = ARmazingAdventureTests.xctest; path = "/Users/eddy/Documents/GitHub/AR-Mazing-Adventure/ARmazingAdventure/build/Debug-iphoneos/ARmazingAdventureTests.xctest"; sourceTree = "<absolute>"; };
+		DB6B718B235D1F96003276B2 /* ARmazingAdventureUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = ARmazingAdventureUITests.xctest; path = "/Users/eddy/Documents/GitHub/AR-Mazing-Adventure/ARmazingAdventure/build/Debug-iphoneos/ARmazingAdventureUITests.xctest"; sourceTree = "<absolute>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -136,20 +128,7 @@
 			children = (
 				4EAEE61E235E3A170041EBDF /* art.scnassets */,
 				DB6B716C235D1F94003276B2 /* ARmazingAdventure */,
-				DB6B7183235D1F96003276B2 /* ARmazingAdventureTests */,
-				DB6B718E235D1F96003276B2 /* ARmazingAdventureUITests */,
-				DB6B716B235D1F94003276B2 /* Products */,
 			);
-			sourceTree = "<group>";
-		};
-		DB6B716B235D1F94003276B2 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				DB6B716A235D1F94003276B2 /* ARmazingAdventure.app */,
-				DB6B7180235D1F96003276B2 /* ARmazingAdventureTests.xctest */,
-				DB6B718B235D1F96003276B2 /* ARmazingAdventureUITests.xctest */,
-			);
-			name = Products;
 			sourceTree = "<group>";
 		};
 		DB6B716C235D1F94003276B2 /* ARmazingAdventure */ = {
@@ -168,27 +147,8 @@
 				DB6B7173235D1F94003276B2 /* Main.storyboard */,
 				DB6B7178235D1F96003276B2 /* LaunchScreen.storyboard */,
 				DB6B717B235D1F96003276B2 /* Info.plist */,
-				4EE6404523864CC8004F304C /* Battle.swift */,
 			);
 			path = ARmazingAdventure;
-			sourceTree = "<group>";
-		};
-		DB6B7183235D1F96003276B2 /* ARmazingAdventureTests */ = {
-			isa = PBXGroup;
-			children = (
-				DB6B7184235D1F96003276B2 /* ARmazingAdventureTests.swift */,
-				DB6B7186235D1F96003276B2 /* Info.plist */,
-			);
-			path = ARmazingAdventureTests;
-			sourceTree = "<group>";
-		};
-		DB6B718E235D1F96003276B2 /* ARmazingAdventureUITests */ = {
-			isa = PBXGroup;
-			children = (
-				DB6B718F235D1F96003276B2 /* ARmazingAdventureUITests.swift */,
-				DB6B7191235D1F96003276B2 /* Info.plist */,
-			);
-			path = ARmazingAdventureUITests;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -279,7 +239,7 @@
 				Base,
 			);
 			mainGroup = DB6B7161235D1F94003276B2;
-			productRefGroup = DB6B716B235D1F94003276B2 /* Products */;
+			productRefGroup = DB6B7161235D1F94003276B2;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
@@ -335,7 +295,6 @@
 				4EE314C32395CA56001421AD /* SettingMenuViewController.swift in Sources */,
 				DB6B716E235D1F94003276B2 /* AppDelegate.swift in Sources */,
 				4EE314C02395C72C001421AD /* PlayerModeViewController.swift in Sources */,
-				4EE6404623864CC8004F304C /* Battle.swift in Sources */,
 				4E9887C9237B710C002A4F45 /* Boss.swift in Sources */,
 				4E9887BD237B632B002A4F45 /* Maze.swift in Sources */,
 			);
@@ -345,7 +304,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DB6B7185235D1F96003276B2 /* ARmazingAdventureTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -353,7 +311,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DB6B7190235D1F96003276B2 /* ARmazingAdventureUITests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -512,13 +469,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = GZ35BADVLU;
+				DEVELOPMENT_TEAM = YJ6V6DYBD8;
 				INFOPLIST_FILE = ARmazingAdventure/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.shuji.chem.ARmazingAdventure;
+				PRODUCT_BUNDLE_IDENTIFIER = "Eddy-Qiang.ARmazingAdventure";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -530,13 +487,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = GZ35BADVLU;
+				DEVELOPMENT_TEAM = YJ6V6DYBD8;
 				INFOPLIST_FILE = ARmazingAdventure/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.shuji.chem.ARmazingAdventure;
+				PRODUCT_BUNDLE_IDENTIFIER = "Eddy-Qiang.ARmazingAdventure";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

@@ -7,17 +7,15 @@ class Enemy
     var name: String
     var maxHP : Int
     var health: Int
-    
     var minAtkVal: Int
     var maxAtkVal: Int
-    
     var level: Int
-    
     var enemyNode : SCNNode
-    
     var nodeID : String
+    
     //enemy types
-    enum EnemyTypes: String {
+    enum EnemyTypes: String
+    {
         case minion
         case boss
         
@@ -27,7 +25,9 @@ class Enemy
         }
     }
 
-    init(name: String, maxHP: Int, health: Int, minAtkVal: Int, maxAtkVal: Int, level: Int, node: SCNNode, nodeID: String) {
+    //constructor for initializing an enemy
+    init(name: String, maxHP: Int, health: Int, minAtkVal: Int, maxAtkVal: Int, level: Int, node: SCNNode, nodeID: String)
+    {
         self.maxHP = maxHP
         self.health = health
         self.minAtkVal = minAtkVal
@@ -38,23 +38,30 @@ class Enemy
         self.nodeID = nodeID
     }
     
-    func getName() -> String{
+    // MARK: Getters & Setters
+    func getName() -> String
+    {
         return name
     }
     
-    func getMaxHP() -> Int{
+    func getMaxHP() -> Int
+    {
         return maxHP
     }
     
-    func getHP() -> Int{
+    func getHP() -> Int
+    {
         return health
     }
     
-    func setHP(val: Int){
+    func setHP(val: Int)
+    {
         health = val
     }
     
     // MARK: Combat Functions
+    
+    //enemy combat damage calculation
     func attackPlayer(target: Player) -> CGFloat
     {
         let targetCurrentHP = target.getHP()
@@ -74,15 +81,19 @@ class Enemy
         return convertToHPBar
     }
     
-    func isDead() -> Bool{
-        if health <= 0{
+    //returns true when hp < 1
+    func isDead() -> Bool
+    {
+        if health <= 0
+        {
             return true
         }
         return false
     }
     
-    func convertHPBar() -> CGFloat{
+    //sets size of hp bar in relation to hp
+    func convertHPBar() -> CGFloat
+    {
         return CGFloat(200 / maxHP)
     }
 }
-

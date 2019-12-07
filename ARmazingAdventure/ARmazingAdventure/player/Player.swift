@@ -6,17 +6,19 @@ class Player
 {
     let playerNode = SCNNode()
     var animations = [String: CAAnimation]()
-    
     var name: String
     var health : Int
     var maxHP : Int
-    
     var minAtkVal : Int
     var maxAtkVal : Int
-    
     var level : Int
+    var playerHP = 10
+    var maxAP = 5
+    var apCount = 5
     
-    init(name: String, maxHP: Int, health: Int, minAtkVal: Int,maxAtkVal: Int, level: Int) {
+    //constructor for initializing the player
+    init(name: String, maxHP: Int, health: Int, minAtkVal: Int,maxAtkVal: Int, level: Int)
+    {
         self.name = name
         self.health = health
         self.maxHP = maxHP
@@ -38,10 +40,6 @@ class Player
             return self.rawValue
         }
     }
-    
-    var playerHP = 10
-    var maxAP = 5
-    var apCount = 5
     
     // MARK: Animations & Models
     // creates a player character model with its animations
@@ -172,6 +170,7 @@ class Player
         loadPlayerAnimations(sceneView, position)
     }
     
+    // MARK: Getters & Setters
     func getPlayerNode() -> SCNNode
     {
         return playerNode
@@ -198,29 +197,31 @@ class Player
     }
     
     // MARK: Combat Functions
+    
+    //returns a integer in the range of attack power values
     func calcDmg() -> Int
     {
         return Int.random(in: minAtkVal ... maxAtkVal)
     }
-    
+    //sets size of hp bar in relation to hp
     func convertHPBar() -> CGFloat
     {
         return CGFloat(200 / maxHP)
     }
-    
+    //sets size of ap bar in relation to hp
     func convertAPBar() -> CGFloat
     {
         return CGFloat(200 / maxAP)
     }
-    
-    func useAP() -> CGFloat{
+    //consumes action point
+    func useAP() -> CGFloat
+    {
         apCount -= 1
         
         if apCount > 0
         {
             setAP(val: apCount)
         }
-
         let convertToAPBar = convertAPBar()
         
         return convertToAPBar

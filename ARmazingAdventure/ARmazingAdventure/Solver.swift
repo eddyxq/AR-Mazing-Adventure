@@ -264,19 +264,6 @@ class Solver
         return moved ? (maze, move.2, (origin.0, origin.1)) : (maze, move.2, (0,0))
     }
     
-    func printSolution(sol: [[Int]])
-    {
-        for i in sol
-        {
-            for j in i
-            {
-                print(String(j) + " ", separator: "", terminator: "")
-            }
-            print("")
-        }
-        // # A utility function to check if x, y is valid
-    }
-    
     func getsol() -> [[Int]]
     {
         return sol

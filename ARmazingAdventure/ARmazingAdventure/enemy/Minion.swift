@@ -24,8 +24,9 @@ class Minion: Enemy
     var animations = [String: CAAnimation]()
     let enemyType = Enemy.EnemyTypes.minion.type()
 
-    
-    init() {
+    //constructor for initializing an minion
+    init()
+    {
         super.init(name: "Zombie", maxHP: 10, health: 10, minAtkVal: 1, maxAtkVal: 1, level: 1, node: SCNNode(), nodeID: "0")
     }
     
@@ -169,16 +170,8 @@ class Minion: Enemy
         }
         return walkAction
     }
-    // MARK: Getters & Setters
-    //Spawns the minion model at the given sceneview
-    func spawnMinion(_ sceneView: ARSCNView, _ position: ViewController.Position, _ minionnum: Int) -> Minion
-    {
-        nodeID = "\(minionnum)"
-        loadMinionAnimations(sceneView, position)
-        return self
-        
-    }
     
+    // MARK: Getters & Setters
     func getMinionNode() -> SCNNode
     {
         return enemyNode
@@ -189,4 +182,11 @@ class Minion: Enemy
         arrayLocation = location
     }
     
+    //Spawns the minion model at the given sceneview
+    func spawnMinion(_ sceneView: ARSCNView, _ position: ViewController.Position, _ minionnum: Int) -> Minion
+    {
+        nodeID = "\(minionnum)"
+        loadMinionAnimations(sceneView, position)
+        return self
+    }
 }

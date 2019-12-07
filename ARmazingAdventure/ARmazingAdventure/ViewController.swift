@@ -39,11 +39,8 @@ class ViewController: UIViewController
     
     @IBOutlet var arView: ARView!
     @IBOutlet var ARCanvas: ARSCNView!
-    
     @IBOutlet weak var HelpImage: UIImageView!
-    
     @IBOutlet weak var BackButton: UIButton!
-    
     @IBOutlet weak var helpButton: UIButton!
     
     var animations = [String: CAAnimation]()
@@ -173,13 +170,15 @@ class ViewController: UIViewController
         toggleEnemyLabels(mode: "Off")
     }
     
-    func toggleHelp(mode: String){
+    func toggleHelp(mode: String)
+    {
         if mode == "on"
         {
             BackButton.isHidden = false
             HelpImage.isHidden = false
             ARCanvas.overlaySKScene!.isHidden = true
-        }else
+        }
+        else
         {
             HelpImage.isHidden = true
             BackButton.isHidden = true
@@ -651,12 +650,14 @@ class ViewController: UIViewController
         enemyHPBar.size.width = CGFloat(targetMinion.getHP()) / CGFloat(targetMinion.getMaxHP()) * 200
     }
     // MARK: Help Button Logic
-    @IBAction func helpButtonPressed(_ sender: Any) {
+    @IBAction func helpButtonPressed(_ sender: Any)
+    {
         toggleHelp(mode: "on")
     }
     
     
-    @IBAction func backButtonPressed(_ sender: Any) {
+    @IBAction func backButtonPressed(_ sender: Any)
+    {
         toggleHelp(mode: "off")
     }
     

@@ -1,7 +1,3 @@
-//
-//  ARSCNViewDelegate.swift
-//  ARmazingAdventure
-
 import UIKit
 import RealityKit
 import ARKit
