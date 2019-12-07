@@ -27,23 +27,6 @@
 		DB6B717A235D1F96003276B2 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DB6B7178235D1F96003276B2 /* LaunchScreen.storyboard */; };
 /* End PBXBuildFile section */
 
-/* Begin PBXContainerItemProxy section */
-		DB6B7181235D1F96003276B2 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = DB6B7162235D1F94003276B2 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = DB6B7169235D1F94003276B2;
-			remoteInfo = ARmazingAdventure;
-		};
-		DB6B718C235D1F96003276B2 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = DB6B7162235D1F94003276B2 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = DB6B7169235D1F94003276B2;
-			remoteInfo = ARmazingAdventure;
-		};
-/* End PBXContainerItemProxy section */
-
 /* Begin PBXFileReference section */
 		4E810A2923714FDB009D87D6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		4E9887BA237B632B002A4F45 /* Maze.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Maze.swift; sourceTree = "<group>"; };
@@ -59,32 +42,16 @@
 		4EE314C22395CA56001421AD /* SettingMenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingMenuViewController.swift; sourceTree = "<group>"; };
 		4EE314C42395CD30001421AD /* CharacterMenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterMenuViewController.swift; sourceTree = "<group>"; };
 		640D28B9239073CC00E5DC24 /* Solver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Solver.swift; sourceTree = "<group>"; };
-		DB6B716A235D1F94003276B2 /* ARmazingAdventure.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = ARmazingAdventure.app; path = "/Users/eddy/Documents/GitHub/AR-Mazing-Adventure/ARmazingAdventure/build/Debug-iphoneos/ARmazingAdventure.app"; sourceTree = "<absolute>"; };
+		64C20514239B5FA400B3580F /* ARmazingAdventure.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ARmazingAdventure.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DB6B716D235D1F94003276B2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = ARmazingAdventure/AppDelegate.swift; sourceTree = SOURCE_ROOT; };
 		DB6B716F235D1F94003276B2 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		DB6B7174235D1F94003276B2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		DB6B7179235D1F96003276B2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		DB6B717B235D1F96003276B2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		DB6B7180235D1F96003276B2 /* ARmazingAdventureTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = ARmazingAdventureTests.xctest; path = "/Users/eddy/Documents/GitHub/AR-Mazing-Adventure/ARmazingAdventure/build/Debug-iphoneos/ARmazingAdventureTests.xctest"; sourceTree = "<absolute>"; };
-		DB6B718B235D1F96003276B2 /* ARmazingAdventureUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = ARmazingAdventureUITests.xctest; path = "/Users/eddy/Documents/GitHub/AR-Mazing-Adventure/ARmazingAdventure/build/Debug-iphoneos/ARmazingAdventureUITests.xctest"; sourceTree = "<absolute>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		DB6B7167235D1F94003276B2 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		DB6B717D235D1F96003276B2 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		DB6B7188235D1F96003276B2 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -128,6 +95,7 @@
 			children = (
 				4EAEE61E235E3A170041EBDF /* art.scnassets */,
 				DB6B716C235D1F94003276B2 /* ARmazingAdventure */,
+				64C20514239B5FA400B3580F /* ARmazingAdventure.app */,
 			);
 			sourceTree = "<group>";
 		};
@@ -168,44 +136,8 @@
 			);
 			name = ARmazingAdventure;
 			productName = ARmazingAdventure;
-			productReference = DB6B716A235D1F94003276B2 /* ARmazingAdventure.app */;
+			productReference = 64C20514239B5FA400B3580F /* ARmazingAdventure.app */;
 			productType = "com.apple.product-type.application";
-		};
-		DB6B717F235D1F96003276B2 /* ARmazingAdventureTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = DB6B7197235D1F97003276B2 /* Build configuration list for PBXNativeTarget "ARmazingAdventureTests" */;
-			buildPhases = (
-				DB6B717C235D1F96003276B2 /* Sources */,
-				DB6B717D235D1F96003276B2 /* Frameworks */,
-				DB6B717E235D1F96003276B2 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				DB6B7182235D1F96003276B2 /* PBXTargetDependency */,
-			);
-			name = ARmazingAdventureTests;
-			productName = ARmazingAdventureTests;
-			productReference = DB6B7180235D1F96003276B2 /* ARmazingAdventureTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
-		DB6B718A235D1F96003276B2 /* ARmazingAdventureUITests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = DB6B719A235D1F97003276B2 /* Build configuration list for PBXNativeTarget "ARmazingAdventureUITests" */;
-			buildPhases = (
-				DB6B7187235D1F96003276B2 /* Sources */,
-				DB6B7188235D1F96003276B2 /* Frameworks */,
-				DB6B7189235D1F96003276B2 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				DB6B718D235D1F96003276B2 /* PBXTargetDependency */,
-			);
-			name = ARmazingAdventureUITests;
-			productName = ARmazingAdventureUITests;
-			productReference = DB6B718B235D1F96003276B2 /* ARmazingAdventureUITests.xctest */;
-			productType = "com.apple.product-type.bundle.ui-testing";
 		};
 /* End PBXNativeTarget section */
 
@@ -219,14 +151,6 @@
 				TargetAttributes = {
 					DB6B7169235D1F94003276B2 = {
 						CreatedOnToolsVersion = 11.1;
-					};
-					DB6B717F235D1F96003276B2 = {
-						CreatedOnToolsVersion = 11.1;
-						TestTargetID = DB6B7169235D1F94003276B2;
-					};
-					DB6B718A235D1F96003276B2 = {
-						CreatedOnToolsVersion = 11.1;
-						TestTargetID = DB6B7169235D1F94003276B2;
 					};
 				};
 			};
@@ -244,8 +168,6 @@
 			projectRoot = "";
 			targets = (
 				DB6B7169235D1F94003276B2 /* ARmazingAdventure */,
-				DB6B717F235D1F96003276B2 /* ARmazingAdventureTests */,
-				DB6B718A235D1F96003276B2 /* ARmazingAdventureUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -259,20 +181,6 @@
 				4EAEE61F235E3A170041EBDF /* art.scnassets in Resources */,
 				4E810A2A23714FDB009D87D6 /* Assets.xcassets in Resources */,
 				DB6B7175235D1F94003276B2 /* Main.storyboard in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		DB6B717E235D1F96003276B2 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		DB6B7189235D1F96003276B2 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -300,34 +208,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		DB6B717C235D1F96003276B2 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		DB6B7187235D1F96003276B2 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		DB6B7182235D1F96003276B2 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = DB6B7169235D1F94003276B2 /* ARmazingAdventure */;
-			targetProxy = DB6B7181235D1F96003276B2 /* PBXContainerItemProxy */;
-		};
-		DB6B718D235D1F96003276B2 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = DB6B7169235D1F94003276B2 /* ARmazingAdventure */;
-			targetProxy = DB6B718C235D1F96003276B2 /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		DB6B7173235D1F94003276B2 /* Main.storyboard */ = {
@@ -500,90 +381,6 @@
 			};
 			name = Release;
 		};
-		DB6B7198235D1F97003276B2 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = SV27XKG48Y;
-				INFOPLIST_FILE = ARmazingAdventureTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.1;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.exampleGame.ARmazingAdventureTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ARmazingAdventure.app/ARmazingAdventure";
-			};
-			name = Debug;
-		};
-		DB6B7199235D1F97003276B2 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = SV27XKG48Y;
-				INFOPLIST_FILE = ARmazingAdventureTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.1;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.exampleGame.ARmazingAdventureTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ARmazingAdventure.app/ARmazingAdventure";
-			};
-			name = Release;
-		};
-		DB6B719B235D1F97003276B2 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = SV27XKG48Y;
-				INFOPLIST_FILE = ARmazingAdventureUITests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.exampleGame.ARmazingAdventureUITests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = ARmazingAdventure;
-			};
-			name = Debug;
-		};
-		DB6B719C235D1F97003276B2 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = SV27XKG48Y;
-				INFOPLIST_FILE = ARmazingAdventureUITests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.exampleGame.ARmazingAdventureUITests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = ARmazingAdventure;
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -601,24 +398,6 @@
 			buildConfigurations = (
 				DB6B7195235D1F97003276B2 /* Debug */,
 				DB6B7196235D1F97003276B2 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		DB6B7197235D1F97003276B2 /* Build configuration list for PBXNativeTarget "ARmazingAdventureTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				DB6B7198235D1F97003276B2 /* Debug */,
-				DB6B7199235D1F97003276B2 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		DB6B719A235D1F97003276B2 /* Build configuration list for PBXNativeTarget "ARmazingAdventureUITests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				DB6B719B235D1F97003276B2 /* Debug */,
-				DB6B719C235D1F97003276B2 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

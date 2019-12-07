@@ -130,7 +130,8 @@ class Player
     //turns the player 90 degrees clockwise
     func turnRight(direction: String)
     {
-        switch direction{
+        switch direction
+        {
             case "up":
                 currentPlayerDirection = playerDirection.right.direction()
             case "down":
@@ -186,6 +187,11 @@ class Player
         return health
     }
     
+    func getPlayerOrientation() -> String
+    {
+        return currentPlayerDirection
+    }
+    
     func setHP(val: Int)
     {
         health = val
@@ -194,6 +200,23 @@ class Player
     func setAP(val: Int)
     {
         apCount = val
+    }
+    
+    func setPlayerOrientation(orientation: String)
+    {
+        switch orientation
+        {
+            case "up":
+                currentPlayerDirection = playerDirection.right.direction()
+            case "down":
+                currentPlayerDirection = playerDirection.left.direction()
+            case "left":
+                currentPlayerDirection = playerDirection.up.direction()
+            case "right":
+                currentPlayerDirection = playerDirection.down.direction()
+            default:
+                break
+        }
     }
     
     // MARK: Combat Functions

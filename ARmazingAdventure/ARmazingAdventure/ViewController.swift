@@ -51,7 +51,7 @@ class ViewController: UIViewController
     
     var currentGameState = GameState.playerTurn.state()
     
-    let player = Player(name: "noobMaster69", maxHP: 10, health: 10, minAtkVal: 1, maxAtkVal: 3, level: 1)
+    var player = Player(name: "noobMaster69", maxHP: 10, health: 10, minAtkVal: 1, maxAtkVal: 3, level: 1)
     var minionPool = [Minion]()
     var targetMinion = Minion()
     var bossPool = [Boss]()
@@ -87,6 +87,13 @@ class ViewController: UIViewController
         }
     }
     
+    //identifying value in array
+    let FLOOR = 0
+    let WALL = 1
+    let PLAYER = 2
+    let BOSS = 3
+    let MINION = 4
+    let FINISHPOINT = 9
     //creates a new random maze stage that is tracked in a 2d array
     var maze = Maze().newStage()
     //the dimensions of the maze
@@ -116,8 +123,8 @@ class ViewController: UIViewController
         
         setupOverlay()
         setupDungeonMusic()
-        setupARLight()
-        setupFog()
+        //setupARLight()
+        //setupFog()
         toggleHelp(mode: "off")
         //enables user to tap detected plane for maze placement
         addTapGestureToSceneView()
@@ -267,7 +274,7 @@ class ViewController: UIViewController
     // MARK: Enemy Turn Logics
     func enemyAction()
     {
-        if enemyInRange(row: Maze().getRow(maze: maze), col: Maze().getCol(maze: maze)) == true
+        if enemyInRange(row: Maze().getRow(maze: maze), col: Maze().getCol(maze: maze))
         {
             var action = SKAction()
             let newBarWidth = playerHPBar.size.width - targetMinion.attackPlayer(target: player)
@@ -291,7 +298,7 @@ class ViewController: UIViewController
     @objc func addMazeToSceneView(withGestureRecognizer recognizer: UIGestureRecognizer)
     {
         //adds maze only if it has not been placed and a plane is found
-        if mazePlaced == false && planeFound == true
+        if mazePlaced == false && planeFound
         {
             //disable plane detection by resetting configurations
             let configuration = ARWorldTrackingConfiguration()
@@ -436,9 +443,9 @@ class ViewController: UIViewController
     //right button logic
     @objc func rightButtonClicked(sender : UIButton)
     {
-        if mazePlaced == true && currentGameState != "enemyTurn"
+        if mazePlaced && currentGameState != "enemyTurn"
         {
-            sender.preventRepeatedPresses()
+            //sender.preventRepeatedPresses()
             
             if player.currentPlayerDirection == "up"
             {
@@ -473,7 +480,7 @@ class ViewController: UIViewController
             }
             
             //check if minion is nearby
-            if enemyInRange(row: Maze().getRow(maze: maze), col: Maze().getCol(maze: maze)) == true
+            if enemyInRange(row: Maze().getRow(maze: maze), col: Maze().getCol(maze: maze))
             {
                 //display hit points bar
                 toggleEnemyLabels(mode: "On")
@@ -484,15 +491,15 @@ class ViewController: UIViewController
             {
                 toggleEnemyLabels(mode: "Off")
             }
+            enemyHPBar.size.width = CGFloat(targetMinion.getHP()) / CGFloat(targetMinion.getMaxHP()) * 200
         }
-        enemyHPBar.size.width = CGFloat(targetMinion.getHP()) / CGFloat(targetMinion.getMaxHP()) * 200
     }
     //left button logic
     @objc func leftButtonClicked(sender : UIButton)
     {
-        if mazePlaced == true && currentGameState != "enemyTurn"
+        if mazePlaced && currentGameState != "enemyTurn"
         {
-            sender.preventRepeatedPresses()
+            //sender.preventRepeatedPresses()
             
             if player.currentPlayerDirection == "up"
             {
@@ -527,7 +534,7 @@ class ViewController: UIViewController
             }
             
             //check if minion is nearby
-            if enemyInRange(row: Maze().getRow(maze: maze), col: Maze().getCol(maze: maze)) == true
+            if enemyInRange(row: Maze().getRow(maze: maze), col: Maze().getCol(maze: maze))
             {
                 //display hit points bar
                 toggleEnemyLabels(mode: "On")
@@ -538,15 +545,15 @@ class ViewController: UIViewController
             {
                 toggleEnemyLabels(mode: "Off")
             }
+            enemyHPBar.size.width = CGFloat(targetMinion.getHP()) / CGFloat(targetMinion.getMaxHP()) * 200
         }
-        enemyHPBar.size.width = CGFloat(targetMinion.getHP()) / CGFloat(targetMinion.getMaxHP()) * 200
     }
     //up button logic
     @objc func upButtonClicked(sender : UIButton)
     {
-        if mazePlaced == true && currentGameState != "enemyTurn"
+        if mazePlaced && currentGameState != "enemyTurn"
         {
-            sender.preventRepeatedPresses()
+            //sender.preventRepeatedPresses()
             
             if player.currentPlayerDirection == "down"
             {
@@ -581,7 +588,7 @@ class ViewController: UIViewController
             }
             
             //check if minion is nearby
-            if enemyInRange(row: Maze().getRow(maze: maze), col: Maze().getCol(maze: maze)) == true
+            if enemyInRange(row: Maze().getRow(maze: maze), col: Maze().getCol(maze: maze))
             {
                 //display hit points bar
                 toggleEnemyLabels(mode: "On")
@@ -592,15 +599,15 @@ class ViewController: UIViewController
             {
                 toggleEnemyLabels(mode: "Off")
             }
+            enemyHPBar.size.width = CGFloat(targetMinion.getHP()) / CGFloat(targetMinion.getMaxHP()) * 200
         }
-        enemyHPBar.size.width = CGFloat(targetMinion.getHP()) / CGFloat(targetMinion.getMaxHP()) * 200
     }
     //down button logic
     @objc func downButtonClicked(sender : UIButton)
     {
-        if mazePlaced == true && currentGameState != "enemyTurn"
+        if mazePlaced && currentGameState != "enemyTurn"
         {
-            sender.preventRepeatedPresses()
+            //sender.preventRepeatedPresses()
             
             if player.currentPlayerDirection == "up"
             {
@@ -635,7 +642,7 @@ class ViewController: UIViewController
             }
             
            //check if minion is nearby
-           if enemyInRange(row: Maze().getRow(maze: maze), col: Maze().getCol(maze: maze)) == true
+           if enemyInRange(row: Maze().getRow(maze: maze), col: Maze().getCol(maze: maze))
            {
                 //display hit points bar
                 toggleEnemyLabels(mode: "On")
@@ -646,8 +653,8 @@ class ViewController: UIViewController
            {
                 toggleEnemyLabels(mode: "Off")
            }
+            enemyHPBar.size.width = CGFloat(targetMinion.getHP()) / CGFloat(targetMinion.getMaxHP()) * 200
         }
-        enemyHPBar.size.width = CGFloat(targetMinion.getHP()) / CGFloat(targetMinion.getMaxHP()) * 200
     }
     // MARK: Help Button Logic
     @IBAction func helpButtonPressed(_ sender: Any)
@@ -665,7 +672,7 @@ class ViewController: UIViewController
     //light attack button logic
     @objc func lightAttackButtonClicked(sender : UIButton)
     {
-        if mazePlaced == true && currentGameState != "enemyTurn"
+        if mazePlaced && currentGameState != "enemyTurn"
         {
             sender.preventRepeatedPresses()
             attack(type: "light")
@@ -675,7 +682,7 @@ class ViewController: UIViewController
     //heavy attack button logic
     @objc func heavyAttackButtonClicked(sender : UIButton)
     {
-        if mazePlaced == true && currentGameState != "enemyTurn"
+        if mazePlaced && currentGameState != "enemyTurn"
         {
             sender.preventRepeatedPresses()
             attack(type: "heavy")
@@ -686,7 +693,8 @@ class ViewController: UIViewController
     {
         if (mazePlaced)
         {
-           stateChange()
+            sender.preventRepeatedPresses()
+            stateChange()
         }
     }
     
@@ -744,11 +752,10 @@ class ViewController: UIViewController
         }
         
         //deal damage to enemy
-        if enemyInRange(row: Maze().getRow(maze: maze), col: Maze().getCol(maze: maze)) == true
+        if enemyInRange(row: Maze().getRow(maze: maze), col: Maze().getCol(maze: maze))
         {
             var action = SKAction()
             enemyHPBar.size.width = 200
-            
             
             targetMinion = findMinionByLocation(location: (row: adjacentEnemyLocation.0, col: adjacentEnemyLocation.1))
             //light attacks do standard damage
@@ -761,7 +768,8 @@ class ViewController: UIViewController
             //heavy attacks do double damage
             else if type == "heavy"
             {
-                targetMinion.setHP(val: targetMinion.getHP()-player.calcDmg()*2)
+                targetMinion.setHP(val: targetMinion.getHP()-player.calcDmg())
+                targetMinion.playAnimation(ARCanvas, key: "impact")
             }
 
             //consume AP
@@ -782,13 +790,18 @@ class ViewController: UIViewController
                 //remove enemy data from maze
                 maze[adjacentEnemyLocation.0][adjacentEnemyLocation.1] = 0
                 //remove from minion pool
-//                for i in 0 ..< minionPool.count
-//                {
-//                    if minionPool[i].arrayLocation == targetMinion.arrayLocation
-//                    {
-//                        minionPool.remove(at: i)
-//                    }
-//                }
+                var removalIndex = -1
+                for i in 0 ..< minionPool.count
+                {
+                    if minionPool[i].arrayLocation.0 == adjacentEnemyLocation.0 && minionPool[i].arrayLocation.1 == adjacentEnemyLocation.1
+                    {
+                        removalIndex = i
+                    }
+                }
+                if removalIndex > -1
+                {
+                    minionPool.remove(at: removalIndex)
+                }
                 //hide hp bars
                 toggleEnemyLabels(mode: "Off")
             }
@@ -803,7 +816,7 @@ class ViewController: UIViewController
         var playerRow = Maze().getRow(maze: maze)
         var playerCol = Maze().getCol(maze: maze)
         // remove player from current position
-        maze[playerRow][playerCol] = 0
+        maze[playerRow][playerCol] = FLOOR
         switch (direction)
         {
             case "backward":
@@ -817,10 +830,30 @@ class ViewController: UIViewController
             default:
                 break
         }
-        if maze[playerRow][playerCol] == 0
+        if maze[playerRow][playerCol] == FLOOR
         {
-            maze[playerRow][playerCol] = 2
+            maze[playerRow][playerCol] = PLAYER
             canMove = true
+        }
+        else if maze[playerRow][playerCol] == FINISHPOINT
+        {
+            ARCanvas.scene.rootNode.enumerateChildNodes
+            {
+                (node, stop) in node.removeFromParentNode()
+            }
+            
+            //reset player
+            let hp = player.getHP()
+            player = Player(name: "noobMaster69", maxHP: 10, health: hp, minAtkVal: 1, maxAtkVal: 3, level: 1)
+
+            //reset maze
+            maze = Maze().newStage()
+            setUpMaze(position: location)
+            
+            //reload music and settings
+            setupDungeonMusic()
+            //setupARLight()
+            //setupFog()
         }
         else // player does not move, returns to origin and turns facing the direction he tried to move in
         {
@@ -837,7 +870,7 @@ class ViewController: UIViewController
                 default:
                     break
             }
-            maze[playerRow][playerCol] = 2;
+            maze[playerRow][playerCol] = PLAYER;
         }
         return canMove
     }
@@ -910,62 +943,88 @@ class ViewController: UIViewController
     var adjacentEnemyLocation = (9999,9999)
     func enemyInRange(row: Int, col: Int) -> Bool
     {
+        var surroundingEnemyCount = 0
+        
         var minionInRange = false
         //check south of player
         if (row < NUMROW-1)
         {
-            if maze[row+1][col] == 4
+            if maze[row+1][col] == MINION
             {
                 adjacentEnemyLocation = (row+1, col)
                 minionInRange = true
-                
                 targetMinion = findMinionByLocation(location: (row: adjacentEnemyLocation.0, col: adjacentEnemyLocation.1))
-                
                 turnFace(direction: "north", targetMinion: &targetMinion)
             }
+            surroundingEnemyCount += 1
         }
         //check east of player
         if (col < NUMCOL-1)
         {
-            if maze[row][col+1] == 4
+            if maze[row][col+1] == MINION
             {
                 adjacentEnemyLocation = (row, col+1)
                 minionInRange = true
-                
                 targetMinion = findMinionByLocation(location: (row: adjacentEnemyLocation.0, col: adjacentEnemyLocation.1))
-                
                 turnFace(direction: "west", targetMinion: &targetMinion)
             }
+            surroundingEnemyCount += 1
         }
         //check west of player
         if (row > 0)
         {
-            if maze[row][col-1] == 4
+            if maze[row][col-1] == MINION
             {
                 adjacentEnemyLocation = (row, col-1)
                 minionInRange = true
-                
                 targetMinion = findMinionByLocation(location: (row: adjacentEnemyLocation.0, col: adjacentEnemyLocation.1))
-                
                 turnFace(direction: "east", targetMinion: &targetMinion)
             }
+            surroundingEnemyCount += 1
         }
         //check north of player
         if (col > 0)
         {
-            if maze[row-1][col] == 4
+            if maze[row-1][col] == MINION
             {
                 adjacentEnemyLocation = (row-1, col)
                 minionInRange = true
-                
                 targetMinion = findMinionByLocation(location: (row: adjacentEnemyLocation.0, col: adjacentEnemyLocation.1))
-                
                 turnFace(direction: "south", targetMinion: &targetMinion)
             }
+            surroundingEnemyCount += 1
         }
-        if minionInRange == true
+        if minionInRange
         {
             targetMinion = findMinionByLocation(location: (row: adjacentEnemyLocation.0, col: adjacentEnemyLocation.1))
+        }
+        
+        //if the player is surrounded by multiple enemies then return the one they are facing
+        if surroundingEnemyCount > 1
+        {
+            if player.getPlayerOrientation() == "up"
+            {
+                adjacentEnemyLocation = (row-1, col)
+                targetMinion = findMinionByLocation(location: (row: adjacentEnemyLocation.0, col: adjacentEnemyLocation.1))
+            }
+            
+            else if player.getPlayerOrientation() == "down"
+            {
+                adjacentEnemyLocation = (row+1, col)
+                targetMinion = findMinionByLocation(location: (row: adjacentEnemyLocation.0, col: adjacentEnemyLocation.1))
+            }
+            
+            else if player.getPlayerOrientation() == "left"
+            {
+                adjacentEnemyLocation = (row, col-1)
+                targetMinion = findMinionByLocation(location: (row: adjacentEnemyLocation.0, col: adjacentEnemyLocation.1))
+            }
+            
+            else if player.getPlayerOrientation() == "right"
+            {
+                adjacentEnemyLocation = (row, col+1)
+                targetMinion = findMinionByLocation(location: (row: adjacentEnemyLocation.0, col: adjacentEnemyLocation.1))
+            }
         }
         return minionInRange
     }
@@ -1102,24 +1161,24 @@ class ViewController: UIViewController
                 y += (HEIGHT + FLOORHEIGHT) / 2
                 
                 //show wall or player depending on flag value
-                if flag == 1
+                if flag == WALL
                 {
                     location = Position(xCoord: x, yCoord: y, zCoord: z, cRad: c)
                     setupWall(size: dimensions, position: location)
                 }
-                else if flag == 2
+                else if flag == PLAYER
                 {
                     //initial player position
                     playerLocation = Position(xCoord: x, yCoord: y-WIDTH, zCoord: z, cRad: c)
                     player.spawnPlayer(ARCanvas, playerLocation)
                 }
-                else if flag == 3
+                else if flag == BOSS
                 {
                     bossLocation = Position(xCoord: x, yCoord: y-WIDTH, zCoord: z, cRad: c)
                     let boss = Boss(position: bossLocation)
                     bossPool.append(boss.spawnBoss(ARCanvas, bossLocation))
                 }
-				else if flag == 4
+				else if flag == MINION
                 {
                     minionLocation = Position(xCoord: x, yCoord: y-WIDTH, zCoord: z, cRad: c)
                     let minion = Minion()
