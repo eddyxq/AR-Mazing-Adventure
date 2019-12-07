@@ -790,13 +790,18 @@ class ViewController: UIViewController
                 //remove enemy data from maze
                 maze[adjacentEnemyLocation.0][adjacentEnemyLocation.1] = 0
                 //remove from minion pool
-//                for i in 0 ..< minionPool.count
-//                {
-//                    if minionPool[i].arrayLocation == targetMinion.arrayLocation
-//                    {
-//                        minionPool.remove(at: i)
-//                    }
-//                }
+                var removalIndex = -1
+                for i in 0 ..< minionPool.count
+                {
+                    if minionPool[i].arrayLocation.0 == adjacentEnemyLocation.0 && minionPool[i].arrayLocation.1 == adjacentEnemyLocation.1
+                    {
+                        removalIndex = i
+                    }
+                }
+                if removalIndex > -1
+                {
+                    minionPool.remove(at: removalIndex)
+                }
                 //hide hp bars
                 toggleEnemyLabels(mode: "Off")
             }

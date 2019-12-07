@@ -248,7 +248,7 @@ class Solver
             let destination = (move.0, move.1)
 
             //if solution found
-            if destination != (0,0) && maze[destination.0][destination.1] != 2 && maze[destination.0][destination.1] != 4
+            if destination != (0,0) && maze[destination.0][destination.1] != PLAYER && maze[destination.0][destination.1] != MINION
             {
                 //remove minion from current location
                 maze[origin.0][origin.1] = 0
