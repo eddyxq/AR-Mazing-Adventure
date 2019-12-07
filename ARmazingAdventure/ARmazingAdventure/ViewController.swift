@@ -491,8 +491,8 @@ class ViewController: UIViewController
             {
                 toggleEnemyLabels(mode: "Off")
             }
+            enemyHPBar.size.width = CGFloat(targetMinion.getHP()) / CGFloat(targetMinion.getMaxHP()) * 200
         }
-        enemyHPBar.size.width = CGFloat(targetMinion.getHP()) / CGFloat(targetMinion.getMaxHP()) * 200
     }
     //left button logic
     @objc func leftButtonClicked(sender : UIButton)
@@ -545,8 +545,8 @@ class ViewController: UIViewController
             {
                 toggleEnemyLabels(mode: "Off")
             }
+            enemyHPBar.size.width = CGFloat(targetMinion.getHP()) / CGFloat(targetMinion.getMaxHP()) * 200
         }
-        enemyHPBar.size.width = CGFloat(targetMinion.getHP()) / CGFloat(targetMinion.getMaxHP()) * 200
     }
     //up button logic
     @objc func upButtonClicked(sender : UIButton)
@@ -599,8 +599,8 @@ class ViewController: UIViewController
             {
                 toggleEnemyLabels(mode: "Off")
             }
+            enemyHPBar.size.width = CGFloat(targetMinion.getHP()) / CGFloat(targetMinion.getMaxHP()) * 200
         }
-        enemyHPBar.size.width = CGFloat(targetMinion.getHP()) / CGFloat(targetMinion.getMaxHP()) * 200
     }
     //down button logic
     @objc func downButtonClicked(sender : UIButton)
@@ -653,8 +653,8 @@ class ViewController: UIViewController
            {
                 toggleEnemyLabels(mode: "Off")
            }
+            enemyHPBar.size.width = CGFloat(targetMinion.getHP()) / CGFloat(targetMinion.getMaxHP()) * 200
         }
-        enemyHPBar.size.width = CGFloat(targetMinion.getHP()) / CGFloat(targetMinion.getMaxHP()) * 200
     }
     // MARK: Help Button Logic
     @IBAction func helpButtonPressed(_ sender: Any)
@@ -693,7 +693,8 @@ class ViewController: UIViewController
     {
         if (mazePlaced)
         {
-           stateChange()
+            sender.preventRepeatedPresses()
+            stateChange()
         }
     }
     
@@ -917,6 +918,8 @@ class ViewController: UIViewController
     var adjacentEnemyLocation = (9999,9999)
     func enemyInRange(row: Int, col: Int) -> Bool
     {
+        var surroundingEnemyCount = 0
+        
         var minionInRange = false
         //check south of player
         if (row < NUMROW-1)
@@ -925,11 +928,10 @@ class ViewController: UIViewController
             {
                 adjacentEnemyLocation = (row+1, col)
                 minionInRange = true
-                
                 targetMinion = findMinionByLocation(location: (row: adjacentEnemyLocation.0, col: adjacentEnemyLocation.1))
-                
                 turnFace(direction: "north", targetMinion: &targetMinion)
             }
+            surroundingEnemyCount += 1
         }
         //check east of player
         if (col < NUMCOL-1)
@@ -938,11 +940,10 @@ class ViewController: UIViewController
             {
                 adjacentEnemyLocation = (row, col+1)
                 minionInRange = true
-                
                 targetMinion = findMinionByLocation(location: (row: adjacentEnemyLocation.0, col: adjacentEnemyLocation.1))
-                
                 turnFace(direction: "west", targetMinion: &targetMinion)
             }
+            surroundingEnemyCount += 1
         }
         //check west of player
         if (row > 0)
@@ -951,11 +952,10 @@ class ViewController: UIViewController
             {
                 adjacentEnemyLocation = (row, col-1)
                 minionInRange = true
-                
                 targetMinion = findMinionByLocation(location: (row: adjacentEnemyLocation.0, col: adjacentEnemyLocation.1))
-                
                 turnFace(direction: "east", targetMinion: &targetMinion)
             }
+            surroundingEnemyCount += 1
         }
         //check north of player
         if (col > 0)
@@ -964,15 +964,42 @@ class ViewController: UIViewController
             {
                 adjacentEnemyLocation = (row-1, col)
                 minionInRange = true
-                
                 targetMinion = findMinionByLocation(location: (row: adjacentEnemyLocation.0, col: adjacentEnemyLocation.1))
-                
                 turnFace(direction: "south", targetMinion: &targetMinion)
             }
+            surroundingEnemyCount += 1
         }
         if minionInRange
         {
             targetMinion = findMinionByLocation(location: (row: adjacentEnemyLocation.0, col: adjacentEnemyLocation.1))
+        }
+        
+        //if the player is surrounded by multiple enemies then return the one they are facing
+        if surroundingEnemyCount > 1
+        {
+            if player.getPlayerOrientation() == "up"
+            {
+                adjacentEnemyLocation = (row-1, col)
+                targetMinion = findMinionByLocation(location: (row: adjacentEnemyLocation.0, col: adjacentEnemyLocation.1))
+            }
+            
+            else if player.getPlayerOrientation() == "down"
+            {
+                adjacentEnemyLocation = (row+1, col)
+                targetMinion = findMinionByLocation(location: (row: adjacentEnemyLocation.0, col: adjacentEnemyLocation.1))
+            }
+            
+            else if player.getPlayerOrientation() == "left"
+            {
+                adjacentEnemyLocation = (row, col-1)
+                targetMinion = findMinionByLocation(location: (row: adjacentEnemyLocation.0, col: adjacentEnemyLocation.1))
+            }
+            
+            else if player.getPlayerOrientation() == "right"
+            {
+                adjacentEnemyLocation = (row, col+1)
+                targetMinion = findMinionByLocation(location: (row: adjacentEnemyLocation.0, col: adjacentEnemyLocation.1))
+            }
         }
         return minionInRange
     }

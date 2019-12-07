@@ -130,7 +130,8 @@ class Player
     //turns the player 90 degrees clockwise
     func turnRight(direction: String)
     {
-        switch direction{
+        switch direction
+        {
             case "up":
                 currentPlayerDirection = playerDirection.right.direction()
             case "down":
@@ -184,6 +185,11 @@ class Player
     func getHP() -> Int
     {
         return health
+    }
+    
+    func getPlayerOrientation() -> String
+    {
+        return currentPlayerDirection
     }
     
     func setHP(val: Int)
