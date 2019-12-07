@@ -202,6 +202,23 @@ class Player
         apCount = val
     }
     
+    func setPlayerOrientation(orientation: String)
+    {
+        switch orientation
+        {
+            case "up":
+                currentPlayerDirection = playerDirection.right.direction()
+            case "down":
+                currentPlayerDirection = playerDirection.left.direction()
+            case "left":
+                currentPlayerDirection = playerDirection.up.direction()
+            case "right":
+                currentPlayerDirection = playerDirection.down.direction()
+            default:
+                break
+        }
+    }
+    
     // MARK: Combat Functions
     
     //returns a integer in the range of attack power values

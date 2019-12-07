@@ -69,9 +69,9 @@ class Maze
         fillOuterWall()
         setFinishPoint()
         setPlayer()
-        setBoss()
-        //setMinions()
-        setTestMinion()
+        //setBoss()
+        setMinions()
+        //setTestMinion()
         return maze
     }
 

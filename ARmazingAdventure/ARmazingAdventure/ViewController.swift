@@ -51,7 +51,7 @@ class ViewController: UIViewController
     
     var currentGameState = GameState.playerTurn.state()
     
-    let player = Player(name: "noobMaster69", maxHP: 10, health: 10, minAtkVal: 1, maxAtkVal: 3, level: 1)
+    var player = Player(name: "noobMaster69", maxHP: 10, health: 10, minAtkVal: 1, maxAtkVal: 3, level: 1)
     var minionPool = [Minion]()
     var targetMinion = Minion()
     var bossPool = [Boss]()
@@ -445,7 +445,7 @@ class ViewController: UIViewController
     {
         if mazePlaced && currentGameState != "enemyTurn"
         {
-            sender.preventRepeatedPresses()
+            //sender.preventRepeatedPresses()
             
             if player.currentPlayerDirection == "up"
             {
@@ -499,7 +499,7 @@ class ViewController: UIViewController
     {
         if mazePlaced && currentGameState != "enemyTurn"
         {
-            sender.preventRepeatedPresses()
+            //sender.preventRepeatedPresses()
             
             if player.currentPlayerDirection == "up"
             {
@@ -553,7 +553,7 @@ class ViewController: UIViewController
     {
         if mazePlaced && currentGameState != "enemyTurn"
         {
-            sender.preventRepeatedPresses()
+            //sender.preventRepeatedPresses()
             
             if player.currentPlayerDirection == "down"
             {
@@ -607,7 +607,7 @@ class ViewController: UIViewController
     {
         if mazePlaced && currentGameState != "enemyTurn"
         {
-            sender.preventRepeatedPresses()
+            //sender.preventRepeatedPresses()
             
             if player.currentPlayerDirection == "up"
             {
@@ -768,7 +768,7 @@ class ViewController: UIViewController
             //heavy attacks do double damage
             else if type == "heavy"
             {
-                targetMinion.setHP(val: targetMinion.getHP()-player.calcDmg()*2)
+                targetMinion.setHP(val: targetMinion.getHP()-player.calcDmg())
                 targetMinion.playAnimation(ARCanvas, key: "impact")
             }
 
@@ -816,7 +816,7 @@ class ViewController: UIViewController
         var playerRow = Maze().getRow(maze: maze)
         var playerCol = Maze().getCol(maze: maze)
         // remove player from current position
-        maze[playerRow][playerCol] = 0
+        maze[playerRow][playerCol] = FLOOR
         switch (direction)
         {
             case "backward":
@@ -830,10 +830,30 @@ class ViewController: UIViewController
             default:
                 break
         }
-        if maze[playerRow][playerCol] == 0
+        if maze[playerRow][playerCol] == FLOOR
         {
-            maze[playerRow][playerCol] = 2
+            maze[playerRow][playerCol] = PLAYER
             canMove = true
+        }
+        else if maze[playerRow][playerCol] == FINISHPOINT
+        {
+            ARCanvas.scene.rootNode.enumerateChildNodes
+            {
+                (node, stop) in node.removeFromParentNode()
+            }
+            
+            //reset player
+            let hp = player.getHP()
+            player = Player(name: "noobMaster69", maxHP: 10, health: hp, minAtkVal: 1, maxAtkVal: 3, level: 1)
+
+            //reset maze
+            maze = Maze().newStage()
+            setUpMaze(position: location)
+            
+            //reload music and settings
+            setupDungeonMusic()
+            //setupARLight()
+            //setupFog()
         }
         else // player does not move, returns to origin and turns facing the direction he tried to move in
         {
@@ -850,7 +870,7 @@ class ViewController: UIViewController
                 default:
                     break
             }
-            maze[playerRow][playerCol] = 2;
+            maze[playerRow][playerCol] = PLAYER;
         }
         return canMove
     }
