@@ -42,6 +42,8 @@ class ViewController: UIViewController
     @IBOutlet weak var HelpImage: UIImageView!
     @IBOutlet weak var BackButton: UIButton!
     @IBOutlet weak var helpButton: UIButton!
+    @IBOutlet weak var turnIndicator: UILabel!
+    @IBOutlet weak var enemyHPBarLabel: UILabel!
     
     var animations = [String: CAAnimation]()
     var idle: Bool = true
@@ -63,29 +65,9 @@ class ViewController: UIViewController
     var playerAPBorder = SKSpriteNode()
     var playerAPBar = SKSpriteNode(color: .green, size: CGSize(width: 200, height: 20))
     
-    @IBOutlet weak var turnIndicator: UILabel!
-    @IBOutlet weak var enemyHPBarLabel: UILabel!
-    
-    //count of number of maze stages completed
-    var stageLevel = 1
-    
     //true when user has placed the maze on surface
     var mazePlaced = false
     var planeFound = false
-    
-    //tracks the player direction states
-    enum playerDirection: String
-    {
-        case up
-        case down
-        case left
-        case right
-
-        func direction() -> String
-        {
-            return self.rawValue
-        }
-    }
     
     //identifying value in array
     let FLOOR = 0
@@ -106,10 +88,8 @@ class ViewController: UIViewController
         super.viewDidLoad()
         //setting scene to AR
         config = ARWorldTrackingConfiguration()
-        
         //search for horizontal planes
         config.planeDetection = .horizontal
-
         //apply configurations
         ARCanvas.session.run(config)
         //display the detected plane
@@ -118,11 +98,11 @@ class ViewController: UIViewController
         //shows the feature points
         ARCanvas.debugOptions = [ARSCNDebugOptions.showFeaturePoints]
         ARCanvas.scene.rootNode.castsShadow = true
-        
-        turnIndicator.isHidden = true
-        
+        //setup the in game inerface
         setupOverlay()
+        //enable music
         setupDungeonMusic()
+        //turn on lighting and fog
         //setupARLight()
         //setupFog()
         toggleHelp(mode: "off")
@@ -130,6 +110,8 @@ class ViewController: UIViewController
         addTapGestureToSceneView()
         //adds arrow pad to screen
         createGamepad()
+        
+        turnIndicator.isHidden = true
     }
     
     override func viewWillAppear(_ animated: Bool)
@@ -137,6 +119,7 @@ class ViewController: UIViewController
         super.viewWillAppear(animated)
     }
     // MARK: HUD Overlay
+    //creates the ingame HUD
     func setupOverlay()
     {
         let hud = SKScene()
@@ -158,7 +141,7 @@ class ViewController: UIViewController
         playerHPBorder.position = CGPoint(x: centerX, y: 100)
         playerHPBar.anchorPoint = CGPoint(x: 0.0, y: 0.5)
         playerHPBar.position = CGPoint(x: centerX-100, y: 100)
-        
+        // Player AP Bar & Borders
         let playerApBorderImage = UIImage(named: "playerAPBorder")
         let playerApBorderTexture = SKTexture(image: playerApBorderImage!)
         playerAPBorder = SKSpriteNode(texture: playerApBorderTexture)
@@ -177,6 +160,7 @@ class ViewController: UIViewController
         toggleEnemyLabels(mode: "Off")
     }
     
+    //toggle for turning the ingame help menu on and off
     func toggleHelp(mode: String)
     {
         if mode == "on"
@@ -193,6 +177,7 @@ class ViewController: UIViewController
         }
     }
     
+    //toggle for turning the ingame help menu on and off
     func toggleEnemyLabels(mode: String)
     {
         if mode == "On"
@@ -209,13 +194,8 @@ class ViewController: UIViewController
         }
     }
     
-    // MARK: Action Points & Game State Change
-    func maxAP()
-    {
-        let action = SKAction.resize(toWidth: CGFloat(200), duration: 0.25)
-        playerAPBar.run(action)
-    }
-    
+    // MARK: Game State Management
+    //resizes the bar to reflect the current AP value
     func updateAP()
     {
         var action = SKAction()
@@ -266,12 +246,15 @@ class ViewController: UIViewController
         else if currentGameState == "enemyTurn"
         {
             currentGameState = GameState.playerTurn.state()
+            //refills the player's AP bar to full (5)
             player.setAP(val: 5)
-            maxAP()
+            let action = SKAction.resize(toWidth: CGFloat(200), duration: 0.25)
+            playerAPBar.run(action)
         }
-        updateIndicator()
+        //updateIndicator()
     }
     // MARK: Enemy Turn Logics
+    //called on enemies turn allow them to attack the player
     func enemyAction()
     {
         if enemyInRange(row: Maze().getRow(maze: maze), col: Maze().getCol(maze: maze))
@@ -287,8 +270,8 @@ class ViewController: UIViewController
             {
                 action = SKAction.resize(toWidth: CGFloat(newBarWidth), duration: 0.25)
             }
-            //targetMinion.playAnimation(ARCanvas, key: "attack")
-            //player.playAnimation(ARCanvas, key: "impact")
+            targetMinion.playAnimation(ARCanvas, key: "attack")
+            player.playAnimation(ARCanvas, key: "impact")
             playerHPBar.run(action)
         }
         stateChange()
@@ -321,7 +304,7 @@ class ViewController: UIViewController
             
             //flip flag to true so you cannot spawn multiple mazes
             mazePlaced = true
-            updateIndicator()
+            //updateIndicator()
             //disable plane detection by resetting configurations
             config.planeDetection = []
             self.ARCanvas.session.run(config)
@@ -1029,8 +1012,8 @@ class ViewController: UIViewController
         return minionInRange
     }
     
-    
     // MARK: Combat
+    //returns the instance of the minion at a specific index
     func findMinionByLocation(location: (row: Int, col: Int)) -> Minion
     {
         for minion in minionPool
