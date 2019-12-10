@@ -240,14 +240,14 @@ class ViewController: UIViewController
         if currentGameState == "playerTurn"
         {
             currentGameState = GameState.enemyTurn.state()
-            enemyMove()
+            //enemyMove()
             enemyAction()
         }
         else if currentGameState == "enemyTurn"
         {
             currentGameState = GameState.playerTurn.state()
-            //refills the player's AP bar to full (5)
-            player.setAP(val: 5)
+            //refills the player's AP bar to full
+            player.setAP(val: player.getMaxAP())
             let action = SKAction.resize(toWidth: CGFloat(200), duration: 0.25)
             playerAPBar.run(action)
         }
@@ -275,6 +275,12 @@ class ViewController: UIViewController
             playerHPBar.run(action)
         }
         stateChange()
+        
+        //logic for when player dies
+        if player.getHP() < 1
+        {
+            restart()
+        }
     }
     
     // MARK: Add maze on tap
@@ -374,6 +380,7 @@ class ViewController: UIViewController
         endTurnButton.setImage(endButton, for: .normal)
         endTurnButton.addTarget(self, action: #selector(endTurnButtonClicked), for: .touchUpInside)
         self.view.addSubview(endTurnButton)
+        endTurnButton.isHidden = true
         
         //constraints
         for button in [rightButton, upButton, downButton, leftButton, rightButton, heavyAttackButton, lightAttackButton, endTurnButton]
@@ -697,21 +704,25 @@ class ViewController: UIViewController
             {
                 turnFace(direction: "north", targetMinion: &targetMinion)
                 targetMinion.getMinionNode().runAction(player.newMove(direction: "up"))
+                targetMinion.setLocation(location: (row: origin.0-1, col: origin.1))
             }
             else if directionMoved == "down"
             {
                 turnFace(direction: "south", targetMinion: &targetMinion)
                 targetMinion.getMinionNode().runAction(player.newMove(direction: "down"))
+                targetMinion.setLocation(location: (row: origin.0+1, col: origin.1))
             }
             else if directionMoved == "left"
             {
                 turnFace(direction: "west", targetMinion: &targetMinion)
                 targetMinion.getMinionNode().runAction(player.newMove(direction: "left"))
+                targetMinion.setLocation(location: (row: origin.0, col: origin.1-1))
             }
             else if directionMoved == "right"
             {
                 turnFace(direction: "east", targetMinion: &targetMinion)
                 targetMinion.getMinionNode().runAction(player.newMove(direction: "right"))
+                targetMinion.setLocation(location: (row: origin.0, col: origin.1+1))
             }
         }
     }
@@ -821,23 +832,7 @@ class ViewController: UIViewController
         }
         else if maze[playerRow][playerCol] == FINISHPOINT
         {
-            ARCanvas.scene.rootNode.enumerateChildNodes
-            {
-                (node, stop) in node.removeFromParentNode()
-            }
-            
-            //reset player
-            let hp = player.getHP()
-            player = Player(name: "noobMaster69", maxHP: 10, health: hp, minAtkVal: 1, maxAtkVal: 3, level: 1)
-
-            //reset maze
-            maze = Maze().newStage()
-            setUpMaze(position: location)
-            
-            //reload music and settings
-            setupDungeonMusic()
-            //setupARLight()
-            //setupFog()
+            restart()
         }
         else // player does not move, returns to origin and turns facing the direction he tried to move in
         {
@@ -1177,5 +1172,33 @@ class ViewController: UIViewController
             x -= WIDTH * Double(NUMCOL)
             z += LENGTH
         }
+    }
+    
+    //dismisses the maze and returns to menu
+    func restart()
+    {
+          self.dismiss(animated: false)
+    }
+    
+    //continue to the next stage
+    func loadNextLevel()
+    {
+        ARCanvas.scene.rootNode.enumerateChildNodes
+        {
+            (node, stop) in node.removeFromParentNode()
+        }
+        
+        //reset player
+        let hp = player.getHP()
+        player = Player(name: "noobMaster69", maxHP: 10, health: hp, minAtkVal: 1, maxAtkVal: 3, level: 1)
+
+        //reset maze
+        maze = Maze().newStage()
+        setUpMaze(position: location)
+        
+        //reload music and settings
+        setupDungeonMusic()
+        //setupARLight()
+        //setupFog()
     }
 }

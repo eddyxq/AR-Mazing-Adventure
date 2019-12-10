@@ -69,9 +69,8 @@ class Maze
         fillOuterWall()
         setFinishPoint()
         setPlayer()
-        //setBoss()
         setMinions()
-        //setTestMinion()
+        //setBoss()
         return maze
     }
 
@@ -79,27 +78,6 @@ class Maze
     func setPlayer()
     {
         maze[1][2] = PLAYER
-    }
-    
-    //set a minion near player for testing
-    func setTestMinion()
-    {
-        maze[4][2] = MINION
-        maze[2][4] = MINION
-
-        maze[3][2] = FLOOR
-        maze[2][2] = FLOOR
-        maze[2][3] = FLOOR
-        maze[3][3] = FLOOR
-        maze[4][3] = FLOOR
-        maze[4][4] = FLOOR
-        
-        maze[4][6] = MINION
-        maze[3][4] = FLOOR
-        maze[3][5] = FLOOR
-        maze[4][5] = FLOOR
-        maze[2][5] = FLOOR
-        maze[3][6] = FLOOR
     }
 
     //set minion spawn locations
