@@ -356,21 +356,21 @@ class ViewController: UIViewController
         
         //light attack
         let lightAttackButton = UIButton(type: .system)
-        let attack1 = UIImage(named: "attackButton")
+        let attack1 = UIImage(named: "LightAttack")
         lightAttackButton.setImage(attack1, for: .normal)
         lightAttackButton.addTarget(self, action: #selector(lightAttackButtonClicked), for: .touchUpInside)
         self.view.addSubview(lightAttackButton)
         
         //heavy attack
         let heavyAttackButton = UIButton(type: .system)
-        let attack2 = UIImage(named: "attackButton")
+        let attack2 = UIImage(named: "HeavyAttack")
         heavyAttackButton.setImage(attack2, for: .normal)
         heavyAttackButton.addTarget(self, action: #selector(heavyAttackButtonClicked), for: .touchUpInside)
         self.view.addSubview(heavyAttackButton)
         
         //end turn
         let endTurnButton = UIButton(type: .system)
-        let endButton = UIImage(named: "attackButton")
+        let endButton = UIImage(named: "SkipTurn")
         endTurnButton.setImage(endButton, for: .normal)
         endTurnButton.addTarget(self, action: #selector(endTurnButtonClicked), for: .touchUpInside)
         self.view.addSubview(endTurnButton)
@@ -680,6 +680,7 @@ class ViewController: UIViewController
             stateChange()
         }
     }
+    
     
     func enemyMove()
     {
