@@ -13,8 +13,8 @@ class Player
     var maxAtkVal : Int
     var level : Int
     var playerHP = 10
-    var maxAP = 3
-    var apCount = 3
+    var maxAP = 5
+    var apCount = 5
     
     //constructor for initializing the player
     init(name: String, maxHP: Int, health: Int, minAtkVal: Int,maxAtkVal: Int, level: Int)
@@ -190,11 +190,6 @@ class Player
     func getPlayerOrientation() -> String
     {
         return currentPlayerDirection
-    }
-    
-    func getAP() -> Int
-    {
-        return apCount
     }
     
     func setHP(val: Int)
