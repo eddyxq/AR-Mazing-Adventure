@@ -20,6 +20,7 @@
 		4EE314C02395C72C001421AD /* PlayerModeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EE314BF2395C72C001421AD /* PlayerModeViewController.swift */; };
 		4EE314C32395CA56001421AD /* SettingMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EE314C22395CA56001421AD /* SettingMenuViewController.swift */; };
 		4EE314C52395CD30001421AD /* CharacterMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EE314C42395CD30001421AD /* CharacterMenuViewController.swift */; };
+		4EE704B2239F4AF600252AB7 /* TutorialViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EE704B1239F4AF600252AB7 /* TutorialViewController.swift */; };
 		640D28BA239073CC00E5DC24 /* Solver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 640D28B9239073CC00E5DC24 /* Solver.swift */; };
 		DB6B716E235D1F94003276B2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB6B716D235D1F94003276B2 /* AppDelegate.swift */; };
 		DB6B7170235D1F94003276B2 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB6B716F235D1F94003276B2 /* ViewController.swift */; };
@@ -41,6 +42,7 @@
 		4EE314BF2395C72C001421AD /* PlayerModeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerModeViewController.swift; sourceTree = "<group>"; };
 		4EE314C22395CA56001421AD /* SettingMenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingMenuViewController.swift; sourceTree = "<group>"; };
 		4EE314C42395CD30001421AD /* CharacterMenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterMenuViewController.swift; sourceTree = "<group>"; };
+		4EE704B1239F4AF600252AB7 /* TutorialViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorialViewController.swift; sourceTree = "<group>"; };
 		640D28B9239073CC00E5DC24 /* Solver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Solver.swift; sourceTree = "<group>"; };
 		64C20514239B5FA400B3580F /* ARmazingAdventure.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ARmazingAdventure.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DB6B716D235D1F94003276B2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = ARmazingAdventure/AppDelegate.swift; sourceTree = SOURCE_ROOT; };
@@ -86,6 +88,7 @@
 				4EE314BF2395C72C001421AD /* PlayerModeViewController.swift */,
 				4EE314C22395CA56001421AD /* SettingMenuViewController.swift */,
 				4EE314C42395CD30001421AD /* CharacterMenuViewController.swift */,
+				4EE704B1239F4AF600252AB7 /* TutorialViewController.swift */,
 			);
 			path = "Menu ViewControllers";
 			sourceTree = "<group>";
@@ -198,6 +201,7 @@
 				4EAEE621235E5EAC0041EBDF /* MainMenuViewController.swift in Sources */,
 				4E9887BE237B632B002A4F45 /* ARSCNViewDelegate.swift in Sources */,
 				DB6B7170235D1F94003276B2 /* ViewController.swift in Sources */,
+				4EE704B2239F4AF600252AB7 /* TutorialViewController.swift in Sources */,
 				4E9887C5237B6E2B002A4F45 /* Enemy.swift in Sources */,
 				4E9887C2237B638C002A4F45 /* Player.swift in Sources */,
 				4EE314C32395CA56001421AD /* SettingMenuViewController.swift in Sources */,
@@ -350,13 +354,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = YJ6V6DYBD8;
+				DEVELOPMENT_TEAM = GZ35BADVLU;
 				INFOPLIST_FILE = ARmazingAdventure/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "Eddy-Qiang.ARmazingAdventure";
+				PRODUCT_BUNDLE_IDENTIFIER = com.shuji.chen.ARmazingAdventure;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -368,13 +372,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = YJ6V6DYBD8;
+				DEVELOPMENT_TEAM = GZ35BADVLU;
 				INFOPLIST_FILE = ARmazingAdventure/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "Eddy-Qiang.ARmazingAdventure";
+				PRODUCT_BUNDLE_IDENTIFIER = com.shuji.chen.ARmazingAdventure;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

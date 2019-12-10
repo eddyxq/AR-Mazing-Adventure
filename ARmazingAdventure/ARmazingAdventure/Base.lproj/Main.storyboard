@@ -1,25 +1,117 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="piv-Am-WE7">
-    <device id="ipad11_0rounded" orientation="landscape" layout="fullscreen" appearance="light"/>
+    <device id="ipad12_9rounded" orientation="landscape" layout="fullscreen" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15510"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
+        <!--Tutorial View Controller-->
+        <scene sceneID="XZ1-DA-MXo">
+            <objects>
+                <viewController modalPresentationStyle="fullScreen" id="ySb-Vg-kID" customClass="TutorialViewController" customModule="ARmazingAdventure" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="MRv-NX-XPG">
+                        <rect key="frame" x="0.0" y="0.0" width="1366" height="1024"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <arscnView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="eAx-iH-W6I">
+                                <rect key="frame" x="0.0" y="0.0" width="1366" height="1024"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </arscnView>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="background" translatesAutoresizingMaskIntoConstraints="NO" id="KRa-sA-Qpw">
+                                <rect key="frame" x="-71" y="117" width="1508" height="804"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Mm0-UA-TcL">
+                                <rect key="frame" x="-61" y="127" width="72" height="72"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="tintColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <state key="normal" image="nextButton"/>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Mue-3E-ZVJ">
+                                <rect key="frame" x="202" y="219" width="80" height="80"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" image="BackButton"/>
+                                <connections>
+                                    <segue destination="piv-Am-WE7" kind="show" id="nVh-Pp-Aq1"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="How to play" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="d8w-YI-K8V">
+                                <rect key="frame" x="432" y="222" width="503" height="80"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="32"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="tutorial" translatesAutoresizingMaskIntoConstraints="NO" id="6y8-cU-alf">
+                                <rect key="frame" x="331" y="331" width="705" height="376"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="1. Navigate through the maze" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lde-l3-CHW">
+                                <rect key="frame" x="339" y="736" width="697" height="39"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="32"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zPj-9l-EFp">
+                                <rect key="frame" x="1072" y="719" width="72" height="72"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="tintColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <state key="normal" image="nextButton"/>
+                                <connections>
+                                    <action selector="nextButtonPressed:" destination="ySb-Vg-kID" eventType="touchUpInside" id="u8x-8d-qq2"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3Xw-MD-ji2">
+                                <rect key="frame" x="241" y="719" width="72" height="72"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="tintColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <state key="normal" image="previousButton"/>
+                                <connections>
+                                    <action selector="previousButtonPressed:" destination="ySb-Vg-kID" eventType="touchUpInside" id="hmv-oA-uS9"/>
+                                </connections>
+                            </button>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="tutorial2" translatesAutoresizingMaskIntoConstraints="NO" id="4bf-kb-lat">
+                                <rect key="frame" x="306" y="318" width="730" height="389"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="tutorial3" translatesAutoresizingMaskIntoConstraints="NO" id="5kO-Il-Bu9">
+                                <rect key="frame" x="319" y="305" width="756" height="402"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <viewLayoutGuide key="safeArea" id="a3A-ok-mo2"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="pMV-lH-5kv"/>
+                    <connections>
+                        <outlet property="nextButton" destination="zPj-9l-EFp" id="Nxw-7B-ldg"/>
+                        <outlet property="previousButton" destination="3Xw-MD-ji2" id="pSd-BX-qPs"/>
+                        <outlet property="tutoralTextLabel" destination="lde-l3-CHW" id="PX5-Ld-NEy"/>
+                        <outlet property="tutorialImage1" destination="6y8-cU-alf" id="bDK-4e-b15"/>
+                        <outlet property="tutorialImage2" destination="4bf-kb-lat" id="quO-5A-49n"/>
+                        <outlet property="tutorialImage3" destination="5kO-Il-Bu9" id="i4O-cZ-OSe"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="GM6-gx-xMf" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-774.37774524158124" y="-618.1640625"/>
+        </scene>
         <!--Main Menu View Controller-->
         <scene sceneID="IdV-52-uNv">
             <objects>
                 <viewController modalPresentationStyle="fullScreen" id="piv-Am-WE7" customClass="MainMenuViewController" customModule="ARmazingAdventure" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="1wm-eR-ElM">
-                        <rect key="frame" x="0.0" y="0.0" width="1194" height="834"/>
+                        <rect key="frame" x="0.0" y="0.0" width="1366" height="1024"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <arscnView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Nib-Mu-Aij">
-                                <rect key="frame" x="0.0" y="0.0" width="1194" height="834"/>
+                                <rect key="frame" x="0.0" y="0.0" width="1366" height="1024"/>
                             </arscnView>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="2" translatesAutoresizingMaskIntoConstraints="NO" id="dAO-Ou-ldq">
-                                <rect key="frame" x="327" y="249.5" width="540" height="335"/>
+                                <rect key="frame" x="413" y="344.5" width="540" height="335"/>
                                 <subviews>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="title" translatesAutoresizingMaskIntoConstraints="NO" id="4Oc-Wk-JeY">
                                         <rect key="frame" x="0.0" y="0.0" width="540" height="176"/>
@@ -76,6 +168,14 @@
                                     </mask>
                                 </variation>
                             </stackView>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="71D-Wc-UgG">
+                                <rect key="frame" x="620" y="689" width="127" height="51"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" image="HowToPlayButton"/>
+                                <connections>
+                                    <segue destination="ySb-Vg-kID" kind="show" id="mey-zz-ESv"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
@@ -97,6 +197,7 @@
                     <navigationItem key="navigationItem" id="BAz-qX-cGT"/>
                     <connections>
                         <outlet property="ARCanvas" destination="Nib-Mu-Aij" id="ItN-m0-lUy"/>
+                        <outlet property="howToPlayButton" destination="71D-Wc-UgG" id="Llq-8i-s8P"/>
                         <outlet property="playButton" destination="1fk-k8-k6r" id="WPk-5q-RVJ"/>
                     </connections>
                 </viewController>
@@ -109,20 +210,20 @@
             <objects>
                 <viewController modalPresentationStyle="fullScreen" id="Vcp-xe-NSV" customClass="PlayerModeViewController" customModule="ARmazingAdventure" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="1gT-O8-A7M">
-                        <rect key="frame" x="0.0" y="0.0" width="1194" height="834"/>
+                        <rect key="frame" x="0.0" y="0.0" width="1366" height="1024"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <arscnView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zvb-tY-Wo3">
-                                <rect key="frame" x="0.0" y="0.0" width="1194" height="834"/>
+                                <rect key="frame" x="0.0" y="0.0" width="1366" height="1024"/>
                             </arscnView>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="PlayerModeMenu" translatesAutoresizingMaskIntoConstraints="NO" id="lpO-9f-mcH">
-                                <rect key="frame" x="62" y="50" width="1070" height="734"/>
+                                <rect key="frame" x="9.5" y="50" width="1347" height="924"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="lpO-9f-mcH" secondAttribute="height" multiplier="506:347" id="919-jB-JMG"/>
                                 </constraints>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2jM-tC-VFh">
-                                <rect key="frame" x="333" y="227.5" width="259" height="389"/>
+                                <rect key="frame" x="352" y="272" width="326" height="490"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="2jM-tC-VFh" secondAttribute="height" multiplier="259:389" id="B5B-bG-0aV"/>
                                 </constraints>
@@ -134,7 +235,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zQp-zZ-Nlw">
-                                <rect key="frame" x="212" y="125" width="80" height="80"/>
+                                <rect key="frame" x="159.5" y="125" width="100.5" height="100.5"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="zQp-zZ-Nlw" secondAttribute="height" multiplier="1:1" id="HP0-Ru-Bnu"/>
                                 </constraints>
@@ -207,20 +308,20 @@
             <objects>
                 <viewController modalPresentationStyle="fullScreen" id="Vpi-p5-zEh" customClass="CharacterMenuViewController" customModule="ARmazingAdventure" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="YR7-FT-xBZ">
-                        <rect key="frame" x="0.0" y="0.0" width="1194" height="834"/>
+                        <rect key="frame" x="0.0" y="0.0" width="1366" height="1024"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <arscnView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lre-bJ-5EN">
-                                <rect key="frame" x="0.0" y="0.0" width="1194" height="834"/>
+                                <rect key="frame" x="0.0" y="0.0" width="1366" height="1024"/>
                             </arscnView>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="CharacterMenu" translatesAutoresizingMaskIntoConstraints="NO" id="CWf-pI-nA5">
-                                <rect key="frame" x="62" y="50" width="1070" height="734"/>
+                                <rect key="frame" x="9.5" y="50" width="1347" height="924"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="CWf-pI-nA5" secondAttribute="height" multiplier="506:347" id="r6C-6W-Qz0"/>
                                 </constraints>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VuB-c7-aoG">
-                                <rect key="frame" x="212" y="125" width="80" height="80"/>
+                                <rect key="frame" x="159.5" y="125" width="100.5" height="100.5"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="VuB-c7-aoG" secondAttribute="height" multiplier="1:1" id="kCZ-5M-sfd"/>
                                 </constraints>
@@ -304,20 +405,20 @@
             <objects>
                 <viewController modalPresentationStyle="fullScreen" id="SOR-r0-VIp" customClass="SettingMenuViewController" customModule="ARmazingAdventure" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="cn0-8e-FoO">
-                        <rect key="frame" x="0.0" y="0.0" width="1194" height="834"/>
+                        <rect key="frame" x="0.0" y="0.0" width="1366" height="1024"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <arscnView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kV4-rI-H6R">
-                                <rect key="frame" x="0.0" y="0.0" width="1194" height="834"/>
+                                <rect key="frame" x="0.0" y="0.0" width="1366" height="1024"/>
                             </arscnView>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="SettingsMenu" translatesAutoresizingMaskIntoConstraints="NO" id="iyK-2F-WrB">
-                                <rect key="frame" x="62" y="50" width="1070" height="734"/>
+                                <rect key="frame" x="9.5" y="50" width="1347" height="924"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="iyK-2F-WrB" secondAttribute="height" multiplier="506:347" id="qc2-4S-LHh"/>
                                 </constraints>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qLq-yU-KQG">
-                                <rect key="frame" x="212" y="125" width="80" height="80"/>
+                                <rect key="frame" x="159.5" y="125" width="100.5" height="100.5"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="qLq-yU-KQG" secondAttribute="height" multiplier="1:1" id="8ZJ-wS-dN8"/>
                                 </constraints>
@@ -387,11 +488,11 @@
             <objects>
                 <viewController modalPresentationStyle="fullScreen" id="BYZ-38-t0r" userLabel="ARView" customClass="ViewController" customModule="ARmazingAdventure" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Y6D-8r-5nc">
-                        <rect key="frame" x="0.0" y="0.0" width="1194" height="834"/>
+                        <rect key="frame" x="0.0" y="0.0" width="1366" height="1024"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <arscnView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qRL-3N-FWy">
-                                <rect key="frame" x="0.0" y="0.0" width="1194" height="834"/>
+                                <rect key="frame" x="0.0" y="0.0" width="1366" height="1024"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="320" id="q0D-iA-Uz6"/>
                                 </constraints>
@@ -407,13 +508,13 @@
                                 </variation>
                             </arscnView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Enemy Turn!" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1s8-u1-MEj">
-                                <rect key="frame" x="426" y="0.0" width="342.5" height="66"/>
+                                <rect key="frame" x="512" y="0.0" width="342.5" height="66"/>
                                 <fontDescription key="fontDescription" type="system" weight="black" pointSize="55"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Zombie: 10/10" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0Yh-3B-9Km">
-                                <rect key="frame" x="540" y="75" width="114" height="21"/>
+                                <rect key="frame" x="626" y="75" width="114" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
@@ -430,10 +531,10 @@
                                 </connections>
                             </button>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Help" translatesAutoresizingMaskIntoConstraints="NO" id="Gy9-h6-6wh">
-                                <rect key="frame" x="0.0" y="0.0" width="1194" height="834"/>
+                                <rect key="frame" x="0.0" y="0.0" width="1366" height="1024"/>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XGM-Ih-cr9">
-                                <rect key="frame" x="10" y="10" width="108" height="108"/>
+                                <rect key="frame" x="10" y="10" width="123.5" height="123.5"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="XGM-Ih-cr9" secondAttribute="height" multiplier="1:1" id="7vA-lA-cdH"/>
                                 </constraints>
@@ -446,6 +547,10 @@
                                     <action selector="backButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="k0i-57-g9J"/>
                                 </connections>
                             </button>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.65000000000000002" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="movementButtonRing" translatesAutoresizingMaskIntoConstraints="NO" id="1p4-UZ-Mb1">
+                                <rect key="frame" x="14" y="826" width="169" height="184"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
@@ -495,7 +600,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="809.5168374816983" y="124.80468749999999"/>
+            <point key="canvasLocation" x="809.0452261306533" y="124.46043165467627"/>
         </scene>
     </scenes>
     <resources>
@@ -504,18 +609,26 @@
         <image name="FriendsButton" width="135" height="76"/>
         <image name="Help" width="2732" height="1964"/>
         <image name="HelpButton" width="512" height="512"/>
+        <image name="HowToPlayButton" width="127" height="51"/>
         <image name="ItemLogButton" width="135" height="76"/>
         <image name="PlayerModeMenu" width="506" height="347"/>
         <image name="SettingsMenu" width="506" height="347"/>
         <image name="TraitsButton" width="135" height="76"/>
         <image name="arrow.left.circle.fill" catalog="system" width="64" height="60"/>
+        <image name="background" width="506" height="347"/>
         <image name="characterButton" width="127" height="51"/>
+        <image name="movementButtonRing" width="800" height="800"/>
+        <image name="nextButton" width="512" height="512"/>
         <image name="playButton" width="127" height="51"/>
+        <image name="previousButton" width="512" height="512"/>
         <image name="settingsButon" width="127" height="51"/>
         <image name="singleplayerButton" width="259" height="389"/>
         <image name="title" width="540" height="176"/>
+        <image name="tutorial" width="1000" height="1000"/>
+        <image name="tutorial2" width="1000" height="1000"/>
+        <image name="tutorial3" width="1000" height="1000"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="gjt-sZ-kQR"/>
+        <segue reference="nVh-Pp-Aq1"/>
     </inferredMetricsTieBreakers>
 </document>
