@@ -131,9 +131,9 @@ class ViewController: UIViewController
         let hpBorderImage = UIImage(named: "minionHPBorder")
         let hpBorderTexture = SKTexture(image: hpBorderImage!)
         enemyHPBorder = SKSpriteNode(texture: hpBorderTexture)
-        enemyHPBorder.position = CGPoint(x: centerX, y: topY-105)
+        enemyHPBorder.position = CGPoint(x: centerX, y: topY-40)
         enemyHPBar.anchorPoint = CGPoint(x: 0.0, y: 0.5)
-        enemyHPBar.position = CGPoint(x: (centerX)-100, y: topY-105)
+        enemyHPBar.position = CGPoint(x: (centerX)-100, y: topY-40)
         // Player HP Bar & Borders
         let playerHpBorderImage = UIImage(named: "playerHPBorder")
         let playerHpBorderTexture = SKTexture(image: playerHpBorderImage!)
@@ -382,11 +382,17 @@ class ViewController: UIViewController
         self.view.addSubview(endTurnButton)
         endTurnButton.isHidden = true
         
+        let movementRing = UIButton(type: .system)
+        movementRing.setImage(#imageLiteral(resourceName: "movementButtonRing"), for: .normal)
+        movementRing.isUserInteractionEnabled = false
+        self.view.addSubview(movementRing)
+        
         //constraints
-        for button in [rightButton, upButton, downButton, leftButton, rightButton, heavyAttackButton, lightAttackButton, endTurnButton]
+        for button in [rightButton, upButton, downButton, leftButton, rightButton, heavyAttackButton, lightAttackButton, endTurnButton, movementRing]
         {
             button.translatesAutoresizingMaskIntoConstraints = false
             button.heightAnchor.constraint(equalTo: button.widthAnchor, multiplier: 1).isActive = true
+            button.tintColor = .lightGray
         }
 
         rightButton.bottomAnchor.constraint(equalTo: downButton.topAnchor).isActive = true
@@ -412,6 +418,10 @@ class ViewController: UIViewController
         endTurnButton.widthAnchor.constraint(equalToConstant: 75).isActive = true
         endTurnButton.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor, constant: 24).isActive = true
         endTurnButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 64).isActive = true
+        
+        movementRing.widthAnchor.constraint(equalToConstant: 165).isActive = true
+        movementRing.centerYAnchor.constraint(equalTo: leftButton.centerYAnchor).isActive = true
+        movementRing.centerXAnchor.constraint(equalTo: downButton.centerXAnchor).isActive = true
         
         view.bringSubviewToFront(HelpImage) // Keep help above gamepad
         view.bringSubviewToFront(BackButton)
