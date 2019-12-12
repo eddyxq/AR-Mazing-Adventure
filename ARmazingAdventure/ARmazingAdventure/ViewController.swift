@@ -1113,7 +1113,7 @@ class ViewController: UIViewController
     {
         //dimensions of a box
         let WIDTH = 0.04
-        let HEIGHT = 0.08
+        let HEIGHT = 0.04
         let LENGTH = 0.04
         //init dimensions
         let dimensions = Size(width: WIDTH, height: HEIGHT, length: LENGTH)
@@ -1158,18 +1158,18 @@ class ViewController: UIViewController
                 else if flag == PLAYER
                 {
                     //initial player position
-                    playerLocation = Position(xCoord: x, yCoord: y-WIDTH, zCoord: z, cRad: c)
+                    playerLocation = Position(xCoord: x, yCoord: y-(HEIGHT/2), zCoord: z, cRad: c)
                     player.spawnPlayer(ARCanvas, playerLocation)
                 }
                 else if flag == BOSS
                 {
-                    bossLocation = Position(xCoord: x, yCoord: y-WIDTH, zCoord: z, cRad: c)
+                    bossLocation = Position(xCoord: x, yCoord: y-(HEIGHT/2), zCoord: z, cRad: c)
                     let boss = Boss(position: bossLocation)
                     bossPool.append(boss.spawnBoss(ARCanvas, bossLocation))
                 }
 				else if flag == MINION
                 {
-                    minionLocation = Position(xCoord: x, yCoord: y-WIDTH, zCoord: z, cRad: c)
+                    minionLocation = Position(xCoord: x, yCoord: y-(HEIGHT/2), zCoord: z, cRad: c)
                     let minion = Minion()
                     minion.setLocation(location: (row: i, col: j))
                     minionPool.append(minion.spawnMinion(ARCanvas, minionLocation, minionCount))
