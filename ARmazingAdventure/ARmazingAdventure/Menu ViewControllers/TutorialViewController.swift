@@ -22,6 +22,10 @@ class TutorialViewController: UIViewController{
     @IBOutlet weak var previousButton: UIButton!
     
     @IBOutlet weak var nextButton: UIButton!
+   
+    @IBAction func backTap(_ sender: UIButton) {
+        dismiss(animated: true)
+    }
     
     var steps = 1
     

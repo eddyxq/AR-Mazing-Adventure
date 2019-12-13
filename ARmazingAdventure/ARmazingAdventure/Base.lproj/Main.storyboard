@@ -31,7 +31,7 @@
                                 </constraints>
                                 <state key="normal" image="BackButton"/>
                                 <connections>
-                                    <segue destination="piv-Am-WE7" kind="show" id="nVh-Pp-Aq1"/>
+                                    <action selector="backTap:" destination="ySb-Vg-kID" eventType="touchUpInside" id="g5L-aR-Hhv"/>
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="How To Play" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="d8w-YI-K8V">
@@ -178,28 +178,28 @@
                                         <rect key="frame" x="206.5" y="178" width="127" height="51"/>
                                         <state key="normal" image="playButton"/>
                                         <connections>
-                                            <segue destination="Vcp-xe-NSV" kind="show" id="sfw-vj-64E"/>
+                                            <segue destination="Vcp-xe-NSV" kind="presentation" id="sfw-vj-64E"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="b4c-Kr-9ta" userLabel="Character Button">
                                         <rect key="frame" x="206.5" y="231" width="127" height="51"/>
                                         <state key="normal" image="characterButton"/>
                                         <connections>
-                                            <segue destination="Vpi-p5-zEh" kind="show" id="UVQ-Mr-A78"/>
+                                            <segue destination="Vpi-p5-zEh" kind="presentation" id="UVQ-Mr-A78"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1Wt-0D-2fX" userLabel="Settings Button">
                                         <rect key="frame" x="206.5" y="284" width="127" height="51"/>
                                         <state key="normal" image="settingsButon"/>
                                         <connections>
-                                            <segue destination="SOR-r0-VIp" kind="show" id="b99-I4-n3K"/>
+                                            <segue destination="SOR-r0-VIp" kind="presentation" id="b99-I4-n3K"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="71D-Wc-UgG">
                                         <rect key="frame" x="206.5" y="337" width="127" height="51"/>
                                         <state key="normal" image="HowToPlayButton"/>
                                         <connections>
-                                            <segue destination="ySb-Vg-kID" kind="show" id="mey-zz-ESv"/>
+                                            <segue destination="ySb-Vg-kID" kind="presentation" id="mey-zz-ESv"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -258,11 +258,11 @@
                                 </constraints>
                                 <state key="normal" image="BackButton"/>
                                 <connections>
-                                    <segue destination="piv-Am-WE7" kind="show" id="gjt-sZ-kQR"/>
+                                    <action selector="backTap:" destination="Vcp-xe-NSV" eventType="touchUpInside" id="OPm-AX-N33"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2jM-tC-VFh">
-                                <rect key="frame" x="362.5" y="290" width="315.5" height="474"/>
+                                <rect key="frame" x="310.5" y="290" width="315" height="474"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="2jM-tC-VFh" secondAttribute="height" multiplier="259:389" id="B5B-bG-0aV"/>
                                 </constraints>
@@ -270,7 +270,7 @@
                                     <preferredSymbolConfiguration key="preferredSymbolConfiguration" scale="large"/>
                                 </state>
                                 <connections>
-                                    <segue destination="BYZ-38-t0r" kind="show" id="NDu-hc-gUC"/>
+                                    <segue destination="BYZ-38-t0r" kind="presentation" id="NDu-hc-gUC"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -280,25 +280,35 @@
                             <constraint firstItem="zQp-zZ-Nlw" firstAttribute="top" secondItem="lpO-9f-mcH" secondAttribute="top" id="4KY-Qe-LDa">
                                 <variation key="heightClass=compact" constant="35"/>
                             </constraint>
+                            <constraint firstItem="2jM-tC-VFh" firstAttribute="centerY" secondItem="lpO-9f-mcH" secondAttribute="centerY" id="AZG-xN-0c5">
+                                <variation key="heightClass=compact" constant="5"/>
+                            </constraint>
                             <constraint firstItem="zvb-tY-Wo3" firstAttribute="bottom" secondItem="1gT-O8-A7M" secondAttribute="bottom" id="CiP-su-DvS"/>
                             <constraint firstAttribute="trailing" secondItem="zvb-tY-Wo3" secondAttribute="trailing" id="Eal-SL-MlP"/>
+                            <constraint firstItem="2jM-tC-VFh" firstAttribute="centerX" secondItem="lpO-9f-mcH" secondAttribute="centerX" id="IHu-0W-HUz">
+                                <variation key="heightClass=compact" constant="-70"/>
+                            </constraint>
                             <constraint firstItem="lpO-9f-mcH" firstAttribute="top" secondItem="zvb-tY-Wo3" secondAttribute="top" constant="50" id="KpE-4S-KQ6"/>
                             <constraint firstItem="zQp-zZ-Nlw" firstAttribute="top" secondItem="lpO-9f-mcH" secondAttribute="top" id="Mrp-TC-hQm">
                                 <variation key="heightClass=regular" constant="75"/>
                             </constraint>
                             <constraint firstItem="zvb-tY-Wo3" firstAttribute="leading" secondItem="1gT-O8-A7M" secondAttribute="leading" id="Qko-gL-j4c"/>
                             <constraint firstItem="lpO-9f-mcH" firstAttribute="centerX" secondItem="zvb-tY-Wo3" secondAttribute="centerX" id="RCy-1y-mE6"/>
+                            <constraint firstItem="2jM-tC-VFh" firstAttribute="centerY" secondItem="lpO-9f-mcH" secondAttribute="centerY" id="SeO-wn-EFz">
+                                <variation key="heightClass=regular" constant="15"/>
+                            </constraint>
                             <constraint firstItem="zvb-tY-Wo3" firstAttribute="top" secondItem="1gT-O8-A7M" secondAttribute="top" id="TNj-62-Dnh"/>
                             <constraint firstItem="zQp-zZ-Nlw" firstAttribute="leading" secondItem="lpO-9f-mcH" secondAttribute="leading" id="Vmo-6n-sAL">
                                 <variation key="heightClass=compact" constant="35"/>
                             </constraint>
                             <constraint firstItem="zQp-zZ-Nlw" firstAttribute="width" secondItem="lpO-9f-mcH" secondAttribute="width" multiplier="0.0747664" id="XOh-cD-zxf"/>
+                            <constraint firstItem="2jM-tC-VFh" firstAttribute="centerX" secondItem="lpO-9f-mcH" secondAttribute="centerX" id="azO-kT-Fy0">
+                                <variation key="heightClass=regular" constant="-215"/>
+                            </constraint>
                             <constraint firstItem="lpO-9f-mcH" firstAttribute="centerY" secondItem="zvb-tY-Wo3" secondAttribute="centerY" id="gwK-iS-OAf"/>
                             <constraint firstItem="zQp-zZ-Nlw" firstAttribute="leading" secondItem="lpO-9f-mcH" secondAttribute="leading" id="nDf-Mx-rVf">
                                 <variation key="heightClass=regular" constant="150"/>
                             </constraint>
-                            <constraint firstItem="2jM-tC-VFh" firstAttribute="trailing" secondItem="lpO-9f-mcH" secondAttribute="centerX" constant="-5" id="pfT-6D-EBm"/>
-                            <constraint firstItem="2jM-tC-VFh" firstAttribute="centerY" secondItem="lpO-9f-mcH" secondAttribute="centerY" constant="15" id="tMw-0Q-qmQ"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="bzV-67-pD8"/>
                         <variation key="default">
@@ -307,18 +317,26 @@
                                 <exclude reference="Mrp-TC-hQm"/>
                                 <exclude reference="Vmo-6n-sAL"/>
                                 <exclude reference="nDf-Mx-rVf"/>
+                                <exclude reference="AZG-xN-0c5"/>
+                                <exclude reference="IHu-0W-HUz"/>
+                                <exclude reference="SeO-wn-EFz"/>
+                                <exclude reference="azO-kT-Fy0"/>
                             </mask>
                         </variation>
                         <variation key="heightClass=compact">
                             <mask key="constraints">
                                 <include reference="4KY-Qe-LDa"/>
                                 <include reference="Vmo-6n-sAL"/>
+                                <include reference="AZG-xN-0c5"/>
+                                <include reference="IHu-0W-HUz"/>
                             </mask>
                         </variation>
                         <variation key="heightClass=regular">
                             <mask key="constraints">
                                 <include reference="Mrp-TC-hQm"/>
                                 <include reference="nDf-Mx-rVf"/>
+                                <include reference="SeO-wn-EFz"/>
+                                <include reference="azO-kT-Fy0"/>
                             </mask>
                         </variation>
                     </view>
@@ -356,7 +374,7 @@
                                 </constraints>
                                 <state key="normal" image="BackButton"/>
                                 <connections>
-                                    <segue destination="piv-Am-WE7" kind="show" id="ekd-ef-utX"/>
+                                    <action selector="backTap:" destination="Vpi-p5-zEh" eventType="touchUpInside" id="UyY-3n-x1Y"/>
                                 </connections>
                             </button>
                             <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="Oo4-Uo-JpE">
@@ -468,7 +486,7 @@
                                 </constraints>
                                 <state key="normal" image="BackButton"/>
                                 <connections>
-                                    <segue destination="piv-Am-WE7" kind="show" id="h1T-DO-7de"/>
+                                    <action selector="backTap:" destination="SOR-r0-VIp" eventType="touchUpInside" id="eAd-Gw-fPY"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -564,29 +582,34 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZgI-Dm-s2l">
-                                <rect key="frame" x="10" y="10" width="40" height="40"/>
+                                <rect key="frame" x="10" y="10" width="50" height="50"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="ZgI-Dm-s2l" secondAttribute="height" multiplier="1:1" id="Hkc-Yo-Ycw"/>
-                                    <constraint firstAttribute="width" constant="40" id="zOl-ae-DeV"/>
+                                    <constraint firstAttribute="width" constant="50" id="rVT-4b-iwP"/>
                                 </constraints>
+                                <color key="tintColor" red="0.90175680051813467" green="0.89357861763626789" blue="0.89529556896305706" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <state key="normal" image="HelpButton"/>
                                 <connections>
                                     <action selector="helpButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="jUX-t8-ywG"/>
                                 </connections>
                             </button>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Help" translatesAutoresizingMaskIntoConstraints="NO" id="Gy9-h6-6wh">
-                                <rect key="frame" x="26.5" y="20" width="1313" height="984.00000000000045"/>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="helpimg" translatesAutoresizingMaskIntoConstraints="NO" id="Gy9-h6-6wh">
+                                <rect key="frame" x="-10" y="194" width="1386" height="636"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" secondItem="Gy9-h6-6wh" secondAttribute="height" multiplier="683:512" id="tJw-w4-HJG"/>
+                                    <constraint firstAttribute="width" secondItem="Gy9-h6-6wh" secondAttribute="height" multiplier="2224:1020" id="XGZ-CC-vUa"/>
                                 </constraints>
                             </imageView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hE6-qA-Ers">
+                                <rect key="frame" x="0.0" y="199" width="138.5" height="139"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                            </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XGM-Ih-cr9">
-                                <rect key="frame" x="36.5" y="30" width="119" height="118.5"/>
+                                <rect key="frame" x="0.0" y="199" width="138.5" height="139"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="XGM-Ih-cr9" secondAttribute="height" multiplier="1:1" id="7vA-lA-cdH"/>
                                 </constraints>
-                                <color key="tintColor" red="0.98209856250160643" green="0.98657392187620485" blue="1" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                <state key="normal" image="arrow.left.circle.fill" catalog="system">
+                                <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <state key="normal" image="arrow.up.left.square.fill" catalog="system">
                                     <color key="titleShadowColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                     <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="500"/>
                                 </state>
@@ -600,20 +623,24 @@
                             <constraint firstItem="Gy9-h6-6wh" firstAttribute="centerX" secondItem="qRL-3N-FWy" secondAttribute="centerX" id="9LW-Th-BGp"/>
                             <constraint firstItem="1s8-u1-MEj" firstAttribute="centerX" secondItem="qRL-3N-FWy" secondAttribute="centerX" id="DCd-T8-qoq"/>
                             <constraint firstItem="ZgI-Dm-s2l" firstAttribute="top" secondItem="8tF-Gl-g5H" secondAttribute="top" constant="10" id="KhL-m5-sTJ"/>
+                            <constraint firstItem="8tF-Gl-g5H" firstAttribute="leading" secondItem="Gy9-h6-6wh" secondAttribute="leading" constant="10" id="Li6-9X-xWt"/>
                             <constraint firstItem="qRL-3N-FWy" firstAttribute="bottom" secondItem="Y6D-8r-5nc" secondAttribute="bottom" id="QPw-EL-njf"/>
                             <constraint firstItem="0Yh-3B-9Km" firstAttribute="centerX" secondItem="1s8-u1-MEj" secondAttribute="centerX" id="V9P-6s-OEI"/>
+                            <constraint firstItem="hE6-qA-Ers" firstAttribute="bottom" secondItem="XGM-Ih-cr9" secondAttribute="bottom" id="X3Q-uZ-8oi"/>
                             <constraint firstItem="1s8-u1-MEj" firstAttribute="top" secondItem="qRL-3N-FWy" secondAttribute="top" id="bLm-QO-OPE"/>
                             <constraint firstItem="0Yh-3B-9Km" firstAttribute="centerX" secondItem="1s8-u1-MEj" secondAttribute="centerX" id="efx-h0-wzD"/>
                             <constraint firstItem="Gy9-h6-6wh" firstAttribute="centerY" secondItem="qRL-3N-FWy" secondAttribute="centerY" id="h9X-FW-n4L"/>
                             <constraint firstItem="0Yh-3B-9Km" firstAttribute="top" secondItem="1s8-u1-MEj" secondAttribute="bottom" constant="5" id="heG-iv-sxC"/>
+                            <constraint firstItem="hE6-qA-Ers" firstAttribute="top" secondItem="XGM-Ih-cr9" secondAttribute="top" id="i9O-FT-nGn"/>
+                            <constraint firstItem="hE6-qA-Ers" firstAttribute="leading" secondItem="XGM-Ih-cr9" secondAttribute="leading" id="jvk-o0-EpF"/>
                             <constraint firstItem="qRL-3N-FWy" firstAttribute="leading" secondItem="Y6D-8r-5nc" secondAttribute="leading" id="mdy-e1-LA6"/>
                             <constraint firstItem="qRL-3N-FWy" firstAttribute="top" secondItem="Y6D-8r-5nc" secondAttribute="top" id="mgw-o5-K4K"/>
-                            <constraint firstItem="XGM-Ih-cr9" firstAttribute="width" secondItem="Gy9-h6-6wh" secondAttribute="width" multiplier="0.0903846" id="o0F-dU-HQu"/>
+                            <constraint firstItem="XGM-Ih-cr9" firstAttribute="width" secondItem="Gy9-h6-6wh" secondAttribute="width" multiplier="0.1" id="o0F-dU-HQu"/>
                             <constraint firstItem="XGM-Ih-cr9" firstAttribute="leading" secondItem="Gy9-h6-6wh" secondAttribute="leading" constant="10" id="qgJ-aX-Apm"/>
                             <constraint firstItem="0Yh-3B-9Km" firstAttribute="top" secondItem="qRL-3N-FWy" secondAttribute="top" constant="10" id="sGM-So-phW"/>
-                            <constraint firstItem="XGM-Ih-cr9" firstAttribute="top" secondItem="Gy9-h6-6wh" secondAttribute="top" constant="10" id="tO5-SP-aZw"/>
+                            <constraint firstItem="XGM-Ih-cr9" firstAttribute="top" secondItem="Gy9-h6-6wh" secondAttribute="top" constant="5" id="tO5-SP-aZw"/>
                             <constraint firstItem="ZgI-Dm-s2l" firstAttribute="leading" secondItem="8tF-Gl-g5H" secondAttribute="leading" constant="10" id="tbb-Cb-WCD"/>
-                            <constraint firstItem="Gy9-h6-6wh" firstAttribute="bottom" secondItem="8tF-Gl-g5H" secondAttribute="bottom" id="tgX-Vb-qOw"/>
+                            <constraint firstItem="hE6-qA-Ers" firstAttribute="trailing" secondItem="XGM-Ih-cr9" secondAttribute="trailing" id="tfM-CT-v5v"/>
                             <constraint firstItem="qRL-3N-FWy" firstAttribute="trailing" secondItem="Y6D-8r-5nc" secondAttribute="trailing" id="xLj-Ag-1xn"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="8tF-Gl-g5H"/>
@@ -635,6 +662,7 @@
                         <outlet property="ARCanvas" destination="qRL-3N-FWy" id="RKZ-3D-Sch"/>
                         <outlet property="BackButton" destination="XGM-Ih-cr9" id="tRE-Ty-12C"/>
                         <outlet property="HelpImage" destination="Gy9-h6-6wh" id="Va7-ml-Ij8"/>
+                        <outlet property="backView" destination="hE6-qA-Ers" id="CwG-MH-QR3"/>
                         <outlet property="enemyHPBarLabel" destination="0Yh-3B-9Km" id="CQp-Yt-pPb"/>
                         <outlet property="helpButton" destination="ZgI-Dm-s2l" id="brF-Ar-LiN"/>
                         <outlet property="turnIndicator" destination="1s8-u1-MEj" id="3cU-Gw-McY"/>
@@ -649,16 +677,16 @@
         <image name="BackButton" width="80" height="80"/>
         <image name="CharacterMenu" width="506" height="347"/>
         <image name="FriendsButton" width="135" height="76"/>
-        <image name="Help" width="2732" height="1964"/>
         <image name="HelpButton" width="512" height="512"/>
         <image name="HowToPlayButton" width="127" height="51"/>
         <image name="ItemLogButton" width="135" height="76"/>
         <image name="PlayerModeMenu" width="506" height="347"/>
         <image name="SettingsMenu" width="506" height="347"/>
         <image name="TraitsButton" width="135" height="76"/>
-        <image name="arrow.left.circle.fill" catalog="system" width="64" height="60"/>
+        <image name="arrow.up.left.square.fill" catalog="system" width="64" height="56"/>
         <image name="background" width="506" height="347"/>
         <image name="characterButton" width="127" height="51"/>
+        <image name="helpimg" width="2224" height="1020"/>
         <image name="nextButton" width="512" height="512"/>
         <image name="playButton" width="127" height="51"/>
         <image name="previousButton" width="512" height="512"/>
@@ -669,7 +697,4 @@
         <image name="tutorial2" width="1000" height="1000"/>
         <image name="tutorial3" width="1000" height="1000"/>
     </resources>
-    <inferredMetricsTieBreakers>
-        <segue reference="ekd-ef-utX"/>
-    </inferredMetricsTieBreakers>
 </document>

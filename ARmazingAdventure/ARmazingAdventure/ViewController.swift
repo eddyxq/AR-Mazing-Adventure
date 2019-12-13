@@ -44,6 +44,7 @@ class ViewController: UIViewController
     @IBOutlet weak var helpButton: UIButton!
     @IBOutlet weak var turnIndicator: UILabel!
     @IBOutlet weak var enemyHPBarLabel: UILabel!
+    @IBOutlet var backView: UIView!
     
     var animations = [String: CAAnimation]()
     var idle: Bool = true
@@ -53,17 +54,17 @@ class ViewController: UIViewController
     
     var currentGameState = GameState.playerTurn.state()
     
-    var player = Player(name: "noobMaster69", maxHP: 10, health: 10, minAtkVal: 1, maxAtkVal: 3, level: 1)
+    var player = Player(name: "Player 1", maxHP: 10, health: 10, minAtkVal: 1, maxAtkVal: 3, level: 1)
     var minionPool = [Minion]()
     var targetMinion = Minion()
     var bossPool = [Boss]()
     
     var enemyHPBorder = SKSpriteNode()
-    var enemyHPBar = SKSpriteNode(color: .red, size: CGSize(width: 200, height: 20))
+    var enemyHPBar = SKSpriteNode(color: #colorLiteral(red: 0.4709299803, green: 0, blue: 0.04640627652, alpha: 1), size: CGSize(width: 200, height: 20))
     var playerHPBorder = SKSpriteNode()
-    var playerHPBar = SKSpriteNode(color: .red, size: CGSize(width: 200, height: 40))
+    var playerHPBar = SKSpriteNode(color: #colorLiteral(red: 0.4709299803, green: 0, blue: 0.04640627652, alpha: 1), size: CGSize(width: 200, height: 40))
     var playerAPBorder = SKSpriteNode()
-    var playerAPBar = SKSpriteNode(color: .green, size: CGSize(width: 200, height: 20))
+    var playerAPBar = SKSpriteNode(color: #colorLiteral(red: 0.4136915207, green: 0.2687294185, blue: 0.04161217064, alpha: 1) , size: CGSize(width: 200, height: 20))
     
     //true when user has placed the maze on surface
     var mazePlaced = false
@@ -167,12 +168,14 @@ class ViewController: UIViewController
         {
             BackButton.isHidden = false
             HelpImage.isHidden = false
+            backView.isHidden = false
             ARCanvas.overlaySKScene!.isHidden = true
         }
         else
         {
             HelpImage.isHidden = true
             BackButton.isHidden = true
+            backView.isHidden = true
             ARCanvas.overlaySKScene!.isHidden = false
         }
     }
@@ -279,7 +282,14 @@ class ViewController: UIViewController
         //logic for when player dies
         if player.getHP() < 1
         {
-            restart()
+            //Doesn't let user move or do anything when dead
+            view.isUserInteractionEnabled = false
+            let audio = SCNAudioSource(named: "art.scnassets/audios/Laugh.wav")
+            let audioAction = SCNAction.playAudio(audio!, waitForCompletion: true)
+            player.getPlayerNode().runAction(audioAction)
+            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 5) {
+                        self.restart()
+                    }
         }
     }
     
@@ -424,6 +434,7 @@ class ViewController: UIViewController
         movementRing.centerXAnchor.constraint(equalTo: downButton.centerXAnchor).isActive = true
         
         view.bringSubviewToFront(HelpImage) // Keep help above gamepad
+        view.bringSubviewToFront(backView)
         view.bringSubviewToFront(BackButton)
     }
     // MARK: Arrow Button Logics
@@ -842,7 +853,13 @@ class ViewController: UIViewController
         }
         else if maze[playerRow][playerCol] == FINISHPOINT
         {
-            restart()
+            view.isUserInteractionEnabled = false
+            let audio = SCNAudioSource(named: "art.scnassets/audios/TaDa.wav")
+            let audioAction = SCNAction.playAudio(audio!, waitForCompletion: true)
+            player.getPlayerNode().runAction(audioAction)
+            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 2) {
+                self.restart()
+            }
         }
         else // player does not move, returns to origin and turns facing the direction he tried to move in
         {
@@ -1187,7 +1204,7 @@ class ViewController: UIViewController
     //dismisses the maze and returns to menu
     func restart()
     {
-          self.dismiss(animated: false)
+        presentingViewController?.presentingViewController?.dismiss(animated: true)
     }
     
     //continue to the next stage
