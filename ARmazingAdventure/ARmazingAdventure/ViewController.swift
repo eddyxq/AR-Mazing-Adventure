@@ -46,6 +46,8 @@ class ViewController: UIViewController
     @IBOutlet weak var enemyHPBarLabel: UILabel!
     @IBOutlet var backView: UIView!
     
+    @IBOutlet var blackView: UIView!
+    
     var animations = [String: CAAnimation]()
     var idle: Bool = true
     var mazeWallNode = SCNNode()
@@ -169,6 +171,7 @@ class ViewController: UIViewController
             BackButton.isHidden = false
             HelpImage.isHidden = false
             backView.isHidden = false
+            blackView.isHidden = false
             ARCanvas.overlaySKScene!.isHidden = true
         }
         else
@@ -176,6 +179,7 @@ class ViewController: UIViewController
             HelpImage.isHidden = true
             BackButton.isHidden = true
             backView.isHidden = true
+            blackView.isHidden = true
             ARCanvas.overlaySKScene!.isHidden = false
         }
     }
@@ -433,6 +437,7 @@ class ViewController: UIViewController
         movementRing.centerYAnchor.constraint(equalTo: leftButton.centerYAnchor).isActive = true
         movementRing.centerXAnchor.constraint(equalTo: downButton.centerXAnchor).isActive = true
         
+        view.bringSubviewToFront(blackView)
         view.bringSubviewToFront(HelpImage) // Keep help above gamepad
         view.bringSubviewToFront(backView)
         view.bringSubviewToFront(BackButton)

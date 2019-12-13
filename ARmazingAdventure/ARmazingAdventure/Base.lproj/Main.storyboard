@@ -593,6 +593,10 @@
                                     <action selector="helpButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="jUX-t8-ywG"/>
                                 </connections>
                             </button>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pAP-RZ-Psm">
+                                <rect key="frame" x="0.0" y="0.0" width="1366" height="1024"/>
+                                <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                            </view>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="helpimg" translatesAutoresizingMaskIntoConstraints="NO" id="Gy9-h6-6wh">
                                 <rect key="frame" x="-10" y="194" width="1386" height="636"/>
                                 <constraints>
@@ -620,6 +624,9 @@
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
+                            <constraint firstItem="pAP-RZ-Psm" firstAttribute="bottom" secondItem="qRL-3N-FWy" secondAttribute="bottom" id="1NB-vQ-bts"/>
+                            <constraint firstItem="pAP-RZ-Psm" firstAttribute="trailing" secondItem="qRL-3N-FWy" secondAttribute="trailing" id="2st-uy-bhy"/>
+                            <constraint firstItem="pAP-RZ-Psm" firstAttribute="top" secondItem="qRL-3N-FWy" secondAttribute="top" id="4Uv-PH-ydA"/>
                             <constraint firstItem="Gy9-h6-6wh" firstAttribute="centerX" secondItem="qRL-3N-FWy" secondAttribute="centerX" id="9LW-Th-BGp"/>
                             <constraint firstItem="1s8-u1-MEj" firstAttribute="centerX" secondItem="qRL-3N-FWy" secondAttribute="centerX" id="DCd-T8-qoq"/>
                             <constraint firstItem="ZgI-Dm-s2l" firstAttribute="top" secondItem="8tF-Gl-g5H" secondAttribute="top" constant="10" id="KhL-m5-sTJ"/>
@@ -642,6 +649,7 @@
                             <constraint firstItem="ZgI-Dm-s2l" firstAttribute="leading" secondItem="8tF-Gl-g5H" secondAttribute="leading" constant="10" id="tbb-Cb-WCD"/>
                             <constraint firstItem="hE6-qA-Ers" firstAttribute="trailing" secondItem="XGM-Ih-cr9" secondAttribute="trailing" id="tfM-CT-v5v"/>
                             <constraint firstItem="qRL-3N-FWy" firstAttribute="trailing" secondItem="Y6D-8r-5nc" secondAttribute="trailing" id="xLj-Ag-1xn"/>
+                            <constraint firstItem="pAP-RZ-Psm" firstAttribute="leading" secondItem="qRL-3N-FWy" secondAttribute="leading" id="yAj-nq-BBe"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="8tF-Gl-g5H"/>
                         <variation key="default">
@@ -663,6 +671,7 @@
                         <outlet property="BackButton" destination="XGM-Ih-cr9" id="tRE-Ty-12C"/>
                         <outlet property="HelpImage" destination="Gy9-h6-6wh" id="Va7-ml-Ij8"/>
                         <outlet property="backView" destination="hE6-qA-Ers" id="CwG-MH-QR3"/>
+                        <outlet property="blackView" destination="pAP-RZ-Psm" id="aVo-K6-iqG"/>
                         <outlet property="enemyHPBarLabel" destination="0Yh-3B-9Km" id="CQp-Yt-pPb"/>
                         <outlet property="helpButton" destination="ZgI-Dm-s2l" id="brF-Ar-LiN"/>
                         <outlet property="turnIndicator" destination="1s8-u1-MEj" id="3cU-Gw-McY"/>
