@@ -106,8 +106,8 @@ class ViewController: UIViewController
         //enable music
         setupDungeonMusic()
         //turn on lighting and fog
-        //setupARLight()
-        //setupFog()
+        setupARLight()
+        setupFog()
         toggleHelp(mode: "off")
         //enables user to tap detected plane for maze placement
         addTapGestureToSceneView()
@@ -1070,7 +1070,7 @@ class ViewController: UIViewController
     {
         let charLight = SCNLight()
         charLight.type = .spot
-        charLight.spotOuterAngle = CGFloat(15)
+        charLight.spotOuterAngle = CGFloat(25)
         charLight.zFar = CGFloat(100)
         charLight.zNear = CGFloat(0.01)
         charLight.castsShadow = true
